@@ -242,16 +242,22 @@
     max-width: 900px; margin: 0 auto 32px;
   }
   .persona-card {
-    background: white; padding: 24px; border-radius: var(--radius-lg);
+    background: white; border-radius: var(--radius-lg);
     border: 2px solid var(--mc-border); cursor: pointer;
-    transition: all 0.2s; text-align: left;
+    transition: all 0.2s; text-align: left; overflow: hidden;
+    display: flex; flex-direction: column;
   }
   .persona-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
   .persona-card.active {
     border-color: var(--mc-cta);
-    box-shadow: 0 0 0 3px rgba(0, 105, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(0,124,137,0.12);
   }
-  .persona-emoji { font-size: 32px; margin-bottom: 8px; }
+  .persona-photo {
+    width: 100%; aspect-ratio: 16/10;
+    background-size: cover; background-position: center;
+    border-bottom: 1px solid var(--mc-border);
+  }
+  .persona-body { padding: 18px 22px 22px; }
   .persona-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
   .persona-card .role { font-size: 13px; color: var(--mc-text-muted); margin-bottom: 8px; }
   .persona-card .meta { font-size: 12px; color: var(--mc-text-secondary); }
@@ -435,11 +441,26 @@
   .feature-row a { color: var(--mc-cta); font-weight: 600; text-decoration: none; }
   .feature-row a:hover { text-decoration: underline; }
   .feature-img {
-    background: linear-gradient(135deg, var(--mc-bg-soft) 0%, white 100%);
-    border-radius: var(--radius-lg); padding: 32px;
-    border: 1px solid var(--mc-border); min-height: 260px;
-    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-lg);
+    background-size: cover; background-position: center;
+    aspect-ratio: 4/3;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
   }
+  .feature-img-overlay {
+    position: absolute; bottom: 16px; left: 16px;
+    background: white; border-radius: var(--radius-md);
+    padding: 14px 18px; box-shadow: var(--shadow-md);
+    max-width: 70%;
+  }
+  .feature-img-overlay .ai-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--mc-cta); margin-bottom: 6px;
+  }
+  .feature-img-overlay .ai-tag::before { content: '✦'; font-size: 12px; color: var(--mc-yellow); -webkit-text-stroke: 0.5px var(--mc-text); }
+  .feature-img-overlay .insight-line { font-size: 13px; font-weight: 600; color: var(--mc-text); line-height: 1.4; }
 
   /* ---------- Testimonial ---------- */
   .testimonial-section { background: var(--mc-bg-soft); padding: 100px 32px; }
@@ -451,17 +472,31 @@
   .testimonial-attr { font-size: 14px; color: var(--mc-text-secondary); margin-bottom: 24px; }
   .testimonial-attr strong { color: var(--mc-text); display: block; font-size: 16px; margin-bottom: 2px; }
   .testimonial-video {
-    background: linear-gradient(135deg, var(--mc-navy) 0%, var(--mc-cta) 100%);
-    border-radius: var(--radius-lg); aspect-ratio: 16/9;
-    display: flex; align-items: center; justify-content: center;
-    color: white; cursor: pointer; box-shadow: var(--shadow-md);
+    position: relative;
+    border-radius: var(--radius-lg); aspect-ratio: 4/5;
+    overflow: hidden; cursor: pointer; box-shadow: var(--shadow-lg);
+    background-size: cover; background-position: center;
+  }
+  .testimonial-video::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45) 100%);
   }
   .play-btn {
-    width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
-    border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 84px; height: 84px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--mc-text); font-size: 26px;
+    transition: all 0.2s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   }
-  .testimonial-video:hover .play-btn { transform: scale(1.1); }
+  .testimonial-video:hover .play-btn { transform: translate(-50%, -50%) scale(1.08); background: white; }
+  .testimonial-caption {
+    position: absolute; bottom: 20px; left: 24px; right: 24px;
+    z-index: 2; color: white; font-size: 14px; font-weight: 600;
+  }
+  .testimonial-caption .duration { font-size: 12px; opacity: 0.85; font-weight: 500; }
 
   /* ---------- Integrations ---------- */
   .integrations-section { background: white; padding: 80px 32px; }
@@ -474,10 +509,21 @@
   .integration-logo {
     aspect-ratio: 1; background: white; border: 1px solid var(--mc-border);
     border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 13px; color: var(--mc-text); transition: all 0.2s;
-    text-align: center; padding: 8px;
+    transition: all 0.2s; padding: 22px;
+    color: var(--mc-text);
   }
-  .integration-logo:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+  .integration-logo:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--mc-text); }
+  .integration-logo img { width: 100%; height: 100%; object-fit: contain; }
+  .integration-logo.more {
+    flex-direction: column; padding: 12px;
+    color: var(--mc-cta); font-weight: 700; font-size: 13px;
+    background: var(--mc-bg-soft);
+    text-align: center;
+  }
+  .integration-logo.more::before {
+    content: '300+'; font-family: 'Cooper Light', 'Georgia', serif; font-size: 26px; font-weight: 300;
+    line-height: 1; margin-bottom: 4px; color: var(--mc-text);
+  }
 
   /* ---------- FAQ ---------- */
   .faq-section { background: var(--mc-bg-alt); padding: 100px 32px; }
@@ -920,22 +966,28 @@
 
   <div class="persona-picker">
     <div class="persona-card active" data-persona="ecommerce">
-      <div class="persona-emoji">🛍️</div>
-      <h3>Ecommerce Founder</h3>
-      <div class="role">Oat Lord · Shopify + SMS</div>
-      <div class="meta">12K customers · 6 months data</div>
+      <div class="persona-photo" style="background-image: url('assets/persona-ecommerce.jpg');"></div>
+      <div class="persona-body">
+        <h3>Ecommerce Founder</h3>
+        <div class="role">Oat Lord · Shopify + SMS</div>
+        <div class="meta">12K customers · 6 months data</div>
+      </div>
     </div>
     <div class="persona-card" data-persona="agency">
-      <div class="persona-emoji">🎨</div>
-      <h3>Agency Owner</h3>
-      <div class="role">Pixel Co. · 5 client accounts</div>
-      <div class="meta">Cross-client analytics</div>
+      <div class="persona-photo" style="background-image: url('assets/persona-agency.jpg');"></div>
+      <div class="persona-body">
+        <h3>Agency Owner</h3>
+        <div class="role">Pixel Co. · 5 client accounts</div>
+        <div class="meta">Cross-client analytics</div>
+      </div>
     </div>
     <div class="persona-card" data-persona="nonprofit">
-      <div class="persona-emoji">💝</div>
-      <h3>Nonprofit Director</h3>
-      <div class="role">Reach Out · 5K donors</div>
-      <div class="meta">Campaign + donation data</div>
+      <div class="persona-photo" style="background-image: url('assets/persona-nonprofit.jpg');"></div>
+      <div class="persona-body">
+        <h3>Nonprofit Director</h3>
+        <div class="role">Reach Out · 5K donors</div>
+        <div class="meta">Campaign + donation data</div>
+      </div>
     </div>
   </div>
 
@@ -1057,18 +1109,11 @@
       <p>Identify high-intent customers, forecast revenue, and surface segments most likely to convert—without a data team.</p>
       <a href="#playground">Try predictive AI →</a>
     </div>
-    <div class="feature-img">
-      <svg viewBox="0 0 320 200" width="100%">
-        <rect x="20" y="20" width="280" height="160" rx="8" fill="white" stroke="#e8edf5"/>
-        <text x="40" y="50" font-size="13" font-weight="700" fill="#1a1f36">Revenue forecast</text>
-        <text x="40" y="68" font-size="11" fill="#6b7c93">Next 30 days</text>
-        <path d="M40,140 L100,128 L160,118 L220,100 L280,80" stroke="#0069ff" stroke-width="2.5" fill="none"/>
-        <path d="M220,100 L280,80" stroke="#00b9a6" stroke-width="2.5" stroke-dasharray="4,4" fill="none"/>
-        <circle cx="220" cy="100" r="4" fill="#0069ff"/>
-        <circle cx="280" cy="80" r="4" fill="#00b9a6"/>
-        <text x="240" y="170" font-size="10" fill="#6b7c93">Today</text>
-        <text x="270" y="170" font-size="10" fill="#00b9a6" font-weight="700">+$12K</text>
-      </svg>
+    <div class="feature-img" style="background-image: url('assets/feature-predictive.jpg');">
+      <div class="feature-img-overlay">
+        <div class="ai-tag">Analytics AI</div>
+        <div class="insight-line">Forecast: $94K next month (+8% MoM, ±$6K)</div>
+      </div>
     </div>
   </div>
 
@@ -1078,19 +1123,11 @@
       <p>Compare acquisition channels, see which segments respond best, and reroute spend to what's working—in real time.</p>
       <a href="#playground">Explore audience analytics →</a>
     </div>
-    <div class="feature-img">
-      <svg viewBox="0 0 320 200" width="100%">
-        <rect x="20" y="20" width="280" height="160" rx="8" fill="white" stroke="#e8edf5"/>
-        <text x="40" y="50" font-size="13" font-weight="700" fill="#1a1f36">Acquisition by source</text>
-        <rect x="40" y="80" width="180" height="14" rx="3" fill="#1e3a6e"/>
-        <rect x="40" y="105" width="120" height="14" rx="3" fill="#4472c4"/>
-        <rect x="40" y="130" width="80" height="14" rx="3" fill="#00b9a6"/>
-        <rect x="40" y="155" width="50" height="14" rx="3" fill="#f4809b"/>
-        <text x="225" y="92" font-size="11" fill="#6b7c93">Email · 42%</text>
-        <text x="165" y="117" font-size="11" fill="#6b7c93">Social · 28%</text>
-        <text x="125" y="142" font-size="11" fill="#6b7c93">SEO · 19%</text>
-        <text x="95" y="167" font-size="11" fill="#6b7c93">Paid · 11%</text>
-      </svg>
+    <div class="feature-img" style="background-image: url('assets/feature-acquisition.jpg');">
+      <div class="feature-img-overlay">
+        <div class="ai-tag">Analytics AI</div>
+        <div class="insight-line">Email drives 42% of acquisition. Reroute paid to top-performing segments.</div>
+      </div>
     </div>
   </div>
 
@@ -1100,22 +1137,11 @@
       <p>Analytics AI runs the test, picks the winner, and explains why. So you stop guessing which subject line works.</p>
       <a href="#playground">See A/B testing →</a>
     </div>
-    <div class="feature-img">
-      <svg viewBox="0 0 320 200" width="100%">
-        <rect x="20" y="20" width="280" height="160" rx="8" fill="white" stroke="#e8edf5"/>
-        <text x="40" y="50" font-size="13" font-weight="700" fill="#1a1f36">Subject line A/B</text>
-        <rect x="40" y="70" width="115" height="80" rx="6" fill="#f0f4f8"/>
-        <text x="50" y="90" font-size="11" font-weight="700" fill="#1a1f36">Variant A</text>
-        <text x="50" y="108" font-size="22" font-weight="700" fill="#6b7c93">22%</text>
-        <text x="50" y="128" font-size="10" fill="#6b7c93">Open rate</text>
-
-        <rect x="165" y="70" width="115" height="80" rx="6" fill="rgba(26,171,104,0.08)" stroke="#1aab68" stroke-width="2"/>
-        <text x="175" y="90" font-size="11" font-weight="700" fill="#1aab68">Variant B · Winner</text>
-        <text x="175" y="108" font-size="22" font-weight="700" fill="#1aab68">38%</text>
-        <text x="175" y="128" font-size="10" fill="#1aab68">+73% lift</text>
-
-        <text x="40" y="172" font-size="10" fill="#00b9a6" font-weight="700">✦ AI: "B's emoji drove higher mobile opens"</text>
-      </svg>
+    <div class="feature-img" style="background-image: url('assets/feature-abtest.jpg');">
+      <div class="feature-img-overlay">
+        <div class="ai-tag">Winner declared</div>
+        <div class="insight-line">Variant B drove +73% open lift. Emoji boosted mobile opens.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1132,8 +1158,12 @@
       </p>
       <a href="#" style="color: var(--mc-cta); font-weight: 600; text-decoration: none;">Read the case study →</a>
     </div>
-    <div class="testimonial-video">
+    <div class="testimonial-video" style="background-image: url('assets/testimonial-person.jpg');">
       <div class="play-btn">▶</div>
+      <div class="testimonial-caption">
+        Lauren Korus, Vacation Races
+        <div class="duration">▶ Watch the 2-min story</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1143,18 +1173,18 @@
   <h2>Works with your stack</h2>
   <p class="sub">Connect Mailchimp Analytics AI to 300+ tools.</p>
   <div class="integration-grid">
-    <div class="integration-logo">Shopify</div>
-    <div class="integration-logo">Stripe</div>
-    <div class="integration-logo">Salesforce</div>
-    <div class="integration-logo">Google Analytics</div>
-    <div class="integration-logo">Meta</div>
-    <div class="integration-logo">WooCommerce</div>
-    <div class="integration-logo">Square</div>
-    <div class="integration-logo">QuickBooks</div>
-    <div class="integration-logo">Slack</div>
-    <div class="integration-logo">HubSpot</div>
-    <div class="integration-logo">Canva</div>
-    <div class="integration-logo">+ 290 more</div>
+    <div class="integration-logo" title="Shopify"><img src="assets/logos/shopify.svg" alt="Shopify"/></div>
+    <div class="integration-logo" title="Stripe"><img src="assets/logos/stripe.svg" alt="Stripe"/></div>
+    <div class="integration-logo" title="Salesforce"><img src="assets/logos/salesforce.svg" alt="Salesforce"/></div>
+    <div class="integration-logo" title="Google Analytics"><img src="assets/logos/googleanalytics.svg" alt="Google Analytics"/></div>
+    <div class="integration-logo" title="Meta"><img src="assets/logos/meta.svg" alt="Meta"/></div>
+    <div class="integration-logo" title="WooCommerce"><img src="assets/logos/woocommerce.svg" alt="WooCommerce"/></div>
+    <div class="integration-logo" title="Square"><img src="assets/logos/square.svg" alt="Square"/></div>
+    <div class="integration-logo" title="QuickBooks"><img src="assets/logos/quickbooks.svg" alt="QuickBooks"/></div>
+    <div class="integration-logo" title="Slack"><img src="assets/logos/slack.svg" alt="Slack"/></div>
+    <div class="integration-logo" title="HubSpot"><img src="assets/logos/hubspot.svg" alt="HubSpot"/></div>
+    <div class="integration-logo" title="Canva"><img src="assets/logos/canva.svg" alt="Canva"/></div>
+    <div class="integration-logo more">integrations</div>
   </div>
 </section>
 
