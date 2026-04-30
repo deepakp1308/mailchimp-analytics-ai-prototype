@@ -221,20 +221,55 @@
   }
   .trust-stat .label { font-size: 14px; color: var(--mc-text); font-weight: 500; }
 
+  /* ---------- Intuit Assist sparkle (multi-pointed star) ---------- */
+  .ia-spark {
+    display: inline-block; flex-shrink: 0;
+    background-image: linear-gradient(135deg, #7B61FF 0%, #FF61C7 50%, #00B9A6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+  }
+  .ia-spark-svg {
+    width: 1em; height: 1em; flex-shrink: 0;
+    display: inline-block; vertical-align: middle;
+  }
+
   /* ---------- Playground ---------- */
   .playground {
-    background: var(--mc-bg-soft);
-    padding: 100px 32px;
+    background: #0d0a08;
+    padding: 120px 32px 100px;
     position: relative;
+    color: white;
+    overflow: hidden;
   }
-  .playground-header { text-align: center; margin-bottom: 48px; }
+  .playground::before {
+    content: ''; position: absolute; top: -200px; left: 10%;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,97,255,0.35) 0%, transparent 70%);
+    filter: blur(80px); pointer-events: none;
+  }
+  .playground::after {
+    content: ''; position: absolute; bottom: -150px; right: 5%;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,185,166,0.3) 0%, transparent 70%);
+    filter: blur(80px); pointer-events: none;
+  }
+  .playground > * { position: relative; z-index: 1; }
+  .playground .eyebrow { color: #a89aff; }
+  .playground-header { text-align: center; margin-bottom: 56px; }
   .playground-header h2 {
     font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
-    font-size: 52px; letter-spacing: -0.01em; margin: 16px 0 12px; color: var(--mc-text);
+    font-size: 56px; letter-spacing: -0.01em; margin: 16px 0 16px; color: white;
     line-height: 1.05;
   }
+  .playground-header h2 .accent {
+    background: linear-gradient(135deg, #c4b5ff 0%, #ff9ed4 50%, #5fe5d3 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
   .playground-header p {
-    font-size: 18px; color: var(--mc-text-secondary); max-width: 600px; margin: 0 auto;
+    font-size: 19px; color: rgba(255,255,255,0.65); max-width: 620px; margin: 0 auto;
+    line-height: 1.55;
   }
 
   .persona-picker {
@@ -242,126 +277,258 @@
     max-width: 900px; margin: 0 auto 32px;
   }
   .persona-card {
-    background: white; border-radius: var(--radius-lg);
-    border: 2px solid var(--mc-border); cursor: pointer;
+    background: rgba(255,255,255,0.04); border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
     transition: all 0.2s; text-align: left; overflow: hidden;
     display: flex; flex-direction: column;
+    backdrop-filter: blur(10px);
   }
-  .persona-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .persona-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); transform: translateY(-2px); }
   .persona-card.active {
-    border-color: var(--mc-cta);
-    box-shadow: 0 0 0 3px rgba(0,124,137,0.12);
+    border-color: rgba(167,139,250,0.6);
+    box-shadow: 0 0 0 1px rgba(167,139,250,0.4), 0 12px 32px rgba(123,97,255,0.25);
+    background: rgba(255,255,255,0.07);
   }
   .persona-photo {
     width: 100%; aspect-ratio: 16/10;
     background-size: cover; background-position: center;
-    border-bottom: 1px solid var(--mc-border);
   }
   .persona-body { padding: 18px 22px 22px; }
-  .persona-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .persona-card .role { font-size: 13px; color: var(--mc-text-muted); margin-bottom: 8px; }
-  .persona-card .meta { font-size: 12px; color: var(--mc-text-secondary); }
+  .persona-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: white; }
+  .persona-card .role { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+  .persona-card .meta { font-size: 12px; color: rgba(255,255,255,0.45); }
 
+  /* Premium gradient frame around the playground app */
+  .playground-frame-wrap {
+    max-width: 1180px; margin: 0 auto;
+    padding: 1px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(123,97,255,0.6), rgba(255,97,199,0.4) 40%, rgba(0,185,166,0.5));
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.05),
+      0 60px 140px rgba(123,97,255,0.18);
+  }
   .playground-app {
-    background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
-    overflow: hidden; max-width: 1100px; margin: 0 auto;
-    border: 1px solid var(--mc-border);
+    background: #161310;
+    border-radius: 19px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.04);
   }
   .playground-toolbar {
-    display: flex; align-items: center; gap: 8px; padding: 14px 20px;
-    background: var(--mc-bg-alt); border-bottom: 1px solid var(--mc-border);
+    display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
+  .toolbar-dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .toolbar-dots span { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+  .toolbar-dots span:nth-child(1) { background: #ff5f57; }
+  .toolbar-dots span:nth-child(2) { background: #ffbd2e; }
+  .toolbar-dots span:nth-child(3) { background: #28c840; }
   .playground-title {
-    display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7);
+    flex: 1; justify-content: center;
   }
-  .ai-badge {
-    background: linear-gradient(135deg, var(--mc-teal) 0%, var(--mc-cta) 100%);
-    color: white; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
-    display: inline-flex; align-items: center; gap: 4px;
+  .ia-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(123,97,255,0.18), rgba(0,185,166,0.18));
+    border: 1px solid rgba(167,139,250,0.3);
+    font-size: 11px; font-weight: 700;
+    color: white;
+    letter-spacing: 0.02em;
   }
 
   .playground-body {
-    display: grid; grid-template-columns: 1fr 1fr; min-height: 480px;
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 540px;
   }
   .chat-pane {
-    padding: 24px; border-right: 1px solid var(--mc-border);
+    padding: 32px 28px 24px;
+    border-right: 1px solid rgba(255,255,255,0.06);
     display: flex; flex-direction: column;
+    background: #161310;
   }
   .chat-messages {
-    flex: 1; overflow-y: auto; max-height: 380px; margin-bottom: 16px;
+    flex: 1; overflow-y: auto; max-height: 440px; padding-right: 4px;
+    margin-bottom: 20px;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent;
   }
+  .chat-messages::-webkit-scrollbar { width: 6px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
   .message {
-    display: flex; gap: 10px; margin-bottom: 16px; animation: fadeIn 0.3s;
+    margin-bottom: 28px; animation: fadeIn 0.35s ease-out;
   }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .message.user {
+    display: flex; justify-content: flex-end;
+  }
   .message.user .bubble {
-    background: var(--mc-bg-soft); padding: 10px 14px; border-radius: var(--radius-md);
-    font-size: 14px; max-width: 85%;
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.95);
+    padding: 12px 18px;
+    border-radius: 18px 18px 4px 18px;
+    font-size: 15px;
+    max-width: 85%;
+    border: 1px solid rgba(255,255,255,0.08);
   }
-  .message.user { justify-content: flex-end; }
+
+  .message.ai {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .message.ai .ai-avatar {
+    width: 30px; height: 30px; flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #7B61FF 0%, #FF61C7 50%, #00B9A6 100%);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(123,97,255,0.3);
+  }
+  .message.ai .ai-avatar svg { width: 18px; height: 18px; }
   .message.ai .bubble {
-    background: white; padding: 10px 0; font-size: 14px; line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+    font-size: 15px;
+    line-height: 1.65;
+    flex: 1;
+    padding-top: 4px;
   }
-  .message.ai .bubble strong { color: var(--mc-cta); }
-  .message.ai .bubble .insight {
-    background: rgba(0, 185, 166, 0.08); border-left: 3px solid var(--mc-teal);
-    padding: 10px 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    margin-top: 8px; font-size: 13px;
-  }
+  .message.ai .bubble strong { color: white; font-weight: 600; }
+  .message.ai .bubble .ai-link { color: #a89aff; text-decoration: none; border-bottom: 1px dotted rgba(167,139,250,0.5); }
+  .message.ai .bubble p { margin-bottom: 10px; }
+  .message.ai .bubble p:last-child { margin-bottom: 0; }
+
   .message.ai .bubble .action-btn {
-    margin-top: 10px; background: var(--mc-cta); color: white;
-    padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
-    border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 14px;
+    background: white;
+    color: #161310;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    border: none; cursor: pointer;
+    transition: all 0.15s;
   }
-  .message.ai .bubble .action-btn:hover { background: var(--mc-cta-hover); }
+  .message.ai .bubble .action-btn:hover { background: rgba(255,255,255,0.92); transform: translateY(-1px); }
+  .message.ai .bubble .action-btn::before { content: '→'; }
+
+  .typing-cursor {
+    display: inline-block; width: 8px; height: 16px;
+    background: rgba(167,139,250,0.9);
+    margin-left: 2px; vertical-align: text-bottom;
+    animation: blink 0.9s infinite;
+    border-radius: 1px;
+  }
 
   .suggested {
     display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;
   }
-  .suggested .label { font-size: 12px; color: var(--mc-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-  .chip {
-    background: white; border: 1px solid var(--mc-border);
-    padding: 10px 14px; border-radius: var(--radius-md); cursor: pointer;
-    font-size: 13px; text-align: left; transition: all 0.15s;
-    color: var(--mc-text);
+  .suggested .label {
+    font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 4px;
   }
-  .chip:hover { border-color: var(--mc-cta); background: rgba(0, 105, 255, 0.04); }
+  .chip {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 11px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px; text-align: left;
+    transition: all 0.15s;
+    color: rgba(255,255,255,0.85);
+    font-family: inherit;
+  }
+  .chip:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(167,139,250,0.4);
+    color: white;
+  }
 
   .chat-input {
-    display: flex; gap: 8px; padding-top: 16px; border-top: 1px solid var(--mc-border);
+    display: flex; gap: 8px; align-items: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 6px 6px 6px 18px;
+    transition: border-color 0.15s;
   }
+  .chat-input:focus-within { border-color: rgba(167,139,250,0.5); background: rgba(255,255,255,0.07); }
   .chat-input input {
-    flex: 1; padding: 10px 14px; border-radius: var(--radius-md);
-    border: 1px solid var(--mc-border); font-size: 14px; font-family: inherit;
+    flex: 1; padding: 10px 0;
+    border: none; background: transparent;
+    font-size: 15px; font-family: inherit;
+    color: white;
+    outline: none;
   }
-  .chat-input input:focus { outline: none; border-color: var(--mc-cta); }
+  .chat-input input::placeholder { color: rgba(255,255,255,0.4); }
   .chat-input button {
-    background: var(--mc-cta); color: white; border: none;
-    padding: 10px 16px; border-radius: var(--radius-md); cursor: pointer; font-weight: 600;
+    background: white;
+    color: #161310;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.15s;
   }
+  .chat-input button:hover { background: rgba(255,255,255,0.92); }
 
+  /* ----- Live visualization (right pane) ----- */
   .chart-pane {
-    padding: 24px; background: linear-gradient(180deg, #fafbff 0%, white 100%);
+    padding: 32px 28px 24px;
+    background: #1a1714;
   }
-  .chart-pane h4 { font-size: 13px; font-weight: 600; color: var(--mc-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .chart-pane .chart-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--mc-text); }
-  .metric-row { display: flex; gap: 16px; margin-bottom: 20px; }
+  .chart-pane h4 {
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4);
+    margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .chart-pane .chart-title {
+    font-size: 22px; font-weight: 600; margin-bottom: 24px; color: white;
+    letter-spacing: -0.01em;
+  }
+  .metric-row { display: flex; gap: 12px; margin-bottom: 20px; }
   .metric {
-    flex: 1; background: white; padding: 14px; border-radius: var(--radius-md);
-    border: 1px solid var(--mc-border);
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 16px 18px;
+    border-radius: 12px;
   }
-  .metric .val { font-size: 24px; font-weight: 700; color: var(--mc-text); letter-spacing: -0.02em; }
-  .metric .lbl { font-size: 11px; color: var(--mc-text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .metric .delta { font-size: 12px; font-weight: 600; margin-top: 4px; }
-  .delta.up { color: var(--mc-green); }
-  .delta.down { color: var(--mc-red); }
+  .metric .val {
+    font-size: 26px; font-weight: 700; color: white; letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .metric .lbl {
+    font-size: 10px; color: rgba(255,255,255,0.45);
+    margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .metric .delta { font-size: 12px; font-weight: 600; margin-top: 6px; }
+  .delta.up { color: #5fe5b8; }
+  .delta.down { color: #ff6b8a; }
 
   .chart-canvas {
-    background: white; border-radius: var(--radius-md); border: 1px solid var(--mc-border);
-    padding: 16px; min-height: 220px; display: flex; flex-direction: column;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 240px;
+    display: flex; flex-direction: column;
   }
   .chart-canvas svg { width: 100%; flex: 1; }
-  .chart-empty { display: flex; align-items: center; justify-content: center; color: var(--mc-text-muted); font-size: 14px; flex: 1; }
+  .chart-empty {
+    display: flex; flex-direction: column; gap: 8px;
+    align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.35); font-size: 13px; flex: 1;
+  }
+  .chart-empty .small-spark {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, rgba(123,97,255,0.3), rgba(0,185,166,0.3));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
 
   /* ---------- Engagement-triggered CTA ---------- */
   .playground-conversion {
@@ -959,9 +1126,9 @@
 <!-- ===== PLAYGROUND ===== -->
 <section class="playground" id="playground">
   <div class="playground-header">
-    <span class="eyebrow">✦ Try Analytics AI — no signup required</span>
-    <h2>Ask your data anything.</h2>
-    <p>Pick a sample business, then ask a question. See how Analytics AI answers in seconds.</p>
+    <span class="eyebrow">Try Analytics AI · No signup required</span>
+    <h2>Ask your data <span class="accent">anything.</span></h2>
+    <p>Pick a sample business, then ask a question. Analytics AI delivers a real answer with a live chart in seconds — same experience as ChatGPT, but grounded in your marketing data.</p>
   </div>
 
   <div class="persona-picker">
@@ -991,40 +1158,64 @@
     </div>
   </div>
 
-  <div class="playground-app">
-    <div class="playground-toolbar">
-      <span class="ai-badge">✦ Analytics AI</span>
-      <div class="playground-title" id="playgroundTitle">Oat Lord · Live demo</div>
-    </div>
-    <div class="playground-body">
-      <div class="chat-pane">
-        <div class="chat-messages" id="chatMessages">
-          <div class="message ai">
-            <div class="ai-icon">✦</div>
-            <div class="bubble">
-              Hi! I'm Analytics AI. I have access to <strong id="datasetName">Oat Lord's</strong> last 6 months of data.<br><br>
-              Ask me anything — or pick a question below to get started.
+  <div class="playground-frame-wrap">
+    <div class="playground-app">
+      <div class="playground-toolbar">
+        <div class="toolbar-dots"><span></span><span></span><span></span></div>
+        <div class="playground-title">
+          <span class="ia-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/>
+              <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.9"/>
+            </svg>
+            Analytics AI
+          </span>
+          <span id="playgroundTitle">Oat Lord · Live demo</span>
+        </div>
+        <div style="width: 60px;"></div>
+      </div>
+      <div class="playground-body">
+        <div class="chat-pane">
+          <div class="chat-messages" id="chatMessages">
+            <div class="message ai">
+              <div class="ai-avatar">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/>
+                  <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/>
+                </svg>
+              </div>
+              <div class="bubble">
+                <p>I'm Analytics AI. I have access to <strong id="datasetName">Oat Lord's</strong> last 6 months of marketing data — campaigns, audience segments, revenue, automations.</p>
+                <p style="color: rgba(255,255,255,0.6);">Pick a question below or type your own to get started.</p>
+              </div>
             </div>
           </div>
+          <div class="suggested" id="suggestedQuestions">
+            <span class="label">Try a sample question</span>
+            <!-- populated by JS based on persona -->
+          </div>
+          <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask Analytics AI anything…" />
+            <button id="sendBtn">Send</button>
+          </div>
         </div>
-        <div class="suggested" id="suggestedQuestions">
-          <span class="label">Suggested questions</span>
-          <!-- populated by JS based on persona -->
-        </div>
-        <div class="chat-input">
-          <input type="text" id="userInput" placeholder="Type your question…" />
-          <button id="sendBtn">Ask</button>
-        </div>
-      </div>
-      <div class="chart-pane">
-        <h4>Live visualization</h4>
-        <div class="chart-title" id="chartTitle">Pick a question to see your chart</div>
-        <div class="metric-row" id="metricRow" style="display:none;">
-          <div class="metric"><div class="val" id="m1Val">—</div><div class="lbl" id="m1Lbl">Metric</div><div class="delta" id="m1Delta"></div></div>
-          <div class="metric"><div class="val" id="m2Val">—</div><div class="lbl" id="m2Lbl">Metric</div><div class="delta" id="m2Delta"></div></div>
-        </div>
-        <div class="chart-canvas" id="chartCanvas">
-          <div class="chart-empty">Your chart will appear here →</div>
+        <div class="chart-pane">
+          <h4>Live Visualization</h4>
+          <div class="chart-title" id="chartTitle">Your chart will appear here</div>
+          <div class="metric-row" id="metricRow" style="display:none;">
+            <div class="metric"><div class="val" id="m1Val">—</div><div class="lbl" id="m1Lbl">Metric</div><div class="delta" id="m1Delta"></div></div>
+            <div class="metric"><div class="val" id="m2Val">—</div><div class="lbl" id="m2Lbl">Metric</div><div class="delta" id="m2Delta"></div></div>
+          </div>
+          <div class="chart-canvas" id="chartCanvas">
+            <div class="chart-empty">
+              <div class="small-spark">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/>
+                </svg>
+              </div>
+              <span>Ask a question to see live data</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1420,22 +1611,22 @@
       questions: [
         { q: "Why did revenue drop last week?", chartTitle: "Weekly Revenue", chartType: "line",
           metrics: [{val:"$18.4K", lbl:"This week", delta:"-18%", dir:"down"},{val:"$22.5K", lbl:"Last week", delta:"baseline", dir:"up"}],
-          answer: "Revenue dropped <strong>18% week-over-week</strong>. The decline tracks closely with the abandoned-cart automation pausing on Tuesday. <span class='insight'>✦ Insight: Restarting that automation should recover ~$4,200/wk based on prior performance.</span>",
-          action: "Restart automation"
+          answer: "<p>Revenue dropped <strong>18% week-over-week</strong>, falling from $22.5K to $18.4K. The decline tracks closely with your <strong>abandoned-cart automation</strong>, which paused on Tuesday after a template error.</p><p>Looking at historical data, that single automation accounts for roughly <strong>$4,200/week</strong> in recovered revenue. Restarting it should close most of the gap within 7–10 days.</p>",
+          action: "Restart abandoned-cart automation"
         },
-        { q: "Top 3 products this month?", chartTitle: "Top Products by Revenue", chartType: "bars",
+        { q: "What are my top 3 products this month?", chartTitle: "Top Products by Revenue", chartType: "bars",
           metrics: [{val:"$8.2K", lbl:"Top product", delta:"+12%", dir:"up"},{val:"43%", lbl:"% of revenue", delta:"3 SKUs", dir:"up"}],
-          answer: "Your top 3 products this month: <strong>Oat Bowl Bundle ($8.2K)</strong>, Strawberry Smoothie Mix ($5.4K), and Recovery Granola ($4.1K). Together they drive <strong>43% of revenue</strong> from just 3 SKUs. <span class='insight'>✦ Insight: Repeat buyers of the Oat Bowl Bundle are 3x more likely to convert on a smoothie upsell.</span>",
-          action: "Build upsell automation"
+          answer: "<p>Your top 3 products this month: <strong>Oat Bowl Bundle ($8.2K)</strong>, Strawberry Smoothie Mix ($5.4K), and Recovery Granola ($4.1K). Together they drive <strong>43% of revenue from just 3 SKUs</strong>.</p><p>Worth noting: customers who buy the Oat Bowl Bundle are <strong>3.1x more likely</strong> to convert on a smoothie upsell within 30 days. There's a clear post-purchase opportunity here.</p>",
+          action: "Build post-purchase upsell"
         },
-        { q: "What's the best send time?", chartTitle: "Open rate by hour", chartType: "heatmap",
+        { q: "What's the best send time for my audience?", chartTitle: "Open rate by hour", chartType: "heatmap",
           metrics: [{val:"Tue 9am", lbl:"Best slot", delta:"42% open", dir:"up"},{val:"Sun 8pm", lbl:"Worst slot", delta:"11% open", dir:"down"}],
-          answer: "Your audience opens most reliably <strong>Tuesday 9am ET (42% open)</strong> and Thursday 11am (38%). Sunday evenings underperform — skip them. <span class='insight'>✦ Insight: Switching your weekly send from Friday 4pm to Tuesday 9am should lift opens ~22%.</span>",
+          answer: "<p>Your audience opens most reliably on <strong>Tuesday 9am ET (42% open rate)</strong> and Thursday 11am (38%). Sunday evenings consistently underperform — skip them.</p><p>You're currently sending most campaigns Friday 4pm. Switching to Tuesday 9am should lift opens by approximately <strong>22%</strong>, based on the engagement patterns I see across the last 90 days.</p>",
           action: "Reschedule next campaign"
         },
         { q: "Forecast next month's revenue", chartTitle: "Revenue Forecast", chartType: "forecast",
           metrics: [{val:"$94K", lbl:"Forecast (May)", delta:"+8% MoM", dir:"up"},{val:"±$6K", lbl:"Confidence range", delta:"86% conf.", dir:"up"}],
-          answer: "Forecast: <strong>$94K in May</strong> (±$6K), an 8% lift over April. Driven by Mother's Day campaign + 2 new product launches. <span class='insight'>✦ Insight: Adding a 2nd Mother's Day reminder send could add ~$5K based on similar campaigns.</span>",
+          answer: "<p>May forecast: <strong>$94K (±$6K), 86% confidence</strong> — an 8% lift over April. The model attributes the lift to your scheduled Mother's Day campaign plus two new product launches.</p><p>One signal worth acting on: campaigns with a second reminder send 3 days post-launch have averaged <strong>~$5K incremental revenue</strong>. Adding one for Mother's Day would push the forecast toward $99K.</p>",
           action: "Schedule reminder send"
         },
       ]
@@ -1446,17 +1637,17 @@
       questions: [
         { q: "Which client had the worst week?", chartTitle: "Client performance", chartType: "bars",
           metrics: [{val:"Riverbed", lbl:"Underperformer", delta:"-31%", dir:"down"},{val:"$2.4K", lbl:"Lost revenue", delta:"vs forecast", dir:"down"}],
-          answer: "<strong>Riverbed Coffee</strong> dropped 31% week-over-week. Their last 3 campaigns hit a spam folder pattern. <span class='insight'>✦ Insight: Their sender reputation score fell from 92 → 71 after the bulk send. Pause and warm up domain.</span>",
+          answer: "<p><strong>Riverbed Coffee</strong> dropped 31% week-over-week — the worst performance across your 5 client accounts. Their last 3 campaigns landed in spam at unusually high rates.</p><p>The root cause: their sender reputation score fell from <strong>92 to 71</strong> after a bulk send to an unverified list on Monday. I'd pause sends for 48 hours and run a domain warm-up sequence before resuming.</p>",
           action: "Pause Riverbed sends"
         },
         { q: "Which client should I upsell first?", chartTitle: "Upsell scoring", chartType: "bars",
           metrics: [{val:"Sundial", lbl:"Top score", delta:"94/100", dir:"up"},{val:"+$8K/mo", lbl:"Est. upsell value", delta:"4 clients", dir:"up"}],
-          answer: "<strong>Sundial Apparel</strong> scores 94/100 for upsell. They've maxed Standard's audiences (5/5), revenue is up 38% QoQ, and they've asked support twice about Premium features. <span class='insight'>✦ Insight: Bundle Premium + 4 onboarding sessions for Sundial — 87% likely to close.</span>",
+          answer: "<p><strong>Sundial Apparel</strong> is your strongest upsell candidate, scoring 94/100. They've maxed out Standard's 5-audience limit, revenue is up <strong>38% QoQ</strong>, and they've asked support about Premium features twice in the last month.</p><p>Bundle Premium with 4 onboarding sessions and your win probability is <strong>87%</strong>. Total estimated value across all 4 upsell-ready clients: ~$8K MRR.</p>",
           action: "Draft Sundial pitch"
         },
         { q: "Compare client open rates", chartTitle: "Client open rates", chartType: "bars",
           metrics: [{val:"Sundial", lbl:"Best", delta:"42% open", dir:"up"},{val:"Riverbed", lbl:"Worst", delta:"14% open", dir:"down"}],
-          answer: "Sundial leads at <strong>42% open</strong>; Mavenly (38%), Vela (35%), Glow (28%), Riverbed (14%). <span class='insight'>✦ Insight: Vertical matters more than tactic — apparel clients average 39% vs CPG at 22%.</span>",
+          answer: "<p>Across your portfolio: <strong>Sundial 42%</strong>, Mavenly 38%, Vela 35%, Glow 28%, Riverbed 14%. The 28-point spread is wider than I'd expect.</p><p>The pattern is more about vertical than tactics — apparel clients average <strong>39% open</strong> while your two CPG clients average just 22%. Worth considering different cadence or content strategy by category.</p>",
           action: "Export client report"
         },
       ]
@@ -1467,17 +1658,17 @@
       questions: [
         { q: "Which campaign drove the most donations?", chartTitle: "Donations by campaign", chartType: "bars",
           metrics: [{val:"$14.2K", lbl:"Holiday Drive", delta:"+62%", dir:"up"},{val:"68%", lbl:"% of Q4 revenue", delta:"single campaign", dir:"up"}],
-          answer: "<strong>Holiday Drive</strong> raised <strong>$14.2K</strong> — 62% above target and 68% of Q4 revenue. Subject line A/B winner: 'A meal for a neighbor' (+47% lift). <span class='insight'>✦ Insight: Stories with named beneficiaries outperform generic appeals 2.3x in your audience.</span>",
+          answer: "<p>Your <strong>Holiday Drive</strong> raised <strong>$14.2K</strong> — 62% above target and 68% of all Q4 revenue. The winning subject line was <em>'A meal for a neighbor'</em>, which beat the control by 47%.</p><p>The pattern across your top 5 campaigns: stories with <strong>named beneficiaries outperform generic appeals 2.3x</strong>. Consider building Spring Drive around 3-4 specific recipient stories.</p>",
           action: "Replicate for Spring Drive"
         },
         { q: "Who are my major donor candidates?", chartTitle: "Donor scoring", chartType: "bars",
           metrics: [{val:"42 donors", lbl:"Major candidates", delta:"$50K potential", dir:"up"},{val:"7", lbl:"Top tier (>$500)", delta:"3 new", dir:"up"}],
-          answer: "<strong>42 donors</strong> score high for major-gift potential — gave 3+ times in 2 years and engaged with 5+ emails. Estimated <strong>$50K potential</strong> annual upgrade. <span class='insight'>✦ Insight: 7 donors are top tier (lifetime gifts &gt; $500). 3 are new this quarter — outreach now while warm.</span>",
+          answer: "<p>I've identified <strong>42 donors</strong> with high major-gift potential — they've given 3+ times over 2 years and engaged with 5+ emails this year. Estimated annual upgrade potential: <strong>~$50K</strong>.</p><p>Of those, 7 are top tier (lifetime gifts above $500), and <strong>3 are brand new this quarter</strong>. Those 3 are your highest-priority outreach — engagement is hottest right after the first major gift.</p>",
           action: "Export major donor list"
         },
         { q: "How is donor retention trending?", chartTitle: "Donor retention", chartType: "line",
           metrics: [{val:"68%", lbl:"YoY retention", delta:"+4 pp", dir:"up"},{val:"22%", lbl:"Lapsed", delta:"-3 pp", dir:"up"}],
-          answer: "Retention is at <strong>68%</strong>, up 4 points YoY. Lapsed donors fell to 22%. Your re-engagement series is working. <span class='insight'>✦ Insight: Donors who got 2+ thank-you emails retain at 81% vs 54% for those who got just 1.</span>",
+          answer: "<p>Retention is trending up: <strong>68% YoY</strong>, a 4-point improvement, with lapsed donors falling to 22%. Your re-engagement series is the likely driver.</p><p>One specific signal worth scaling: donors who received <strong>2+ thank-you emails</strong> retain at 81% vs 54% for those who got just one. Doubling the thank-you sequence for new donors could add 8–10 retention points.</p>",
           action: "Expand thank-you series"
         },
       ]
@@ -1514,12 +1705,28 @@
     datasetName.textContent = personas[p].dataset;
     chatMessages.innerHTML = `
       <div class="message ai">
-        <div class="ai-icon">✦</div>
-        <div class="bubble">Hi! I'm Analytics AI. I have access to <strong>${personas[p].dataset}</strong> data.<br><br>Ask me anything — or pick a question below to get started.</div>
+        <div class="ai-avatar">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/>
+            <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/>
+          </svg>
+        </div>
+        <div class="bubble">
+          <p>I'm Analytics AI. I have access to <strong>${personas[p].dataset}</strong> last 6 months of marketing data — campaigns, audience segments, revenue, automations.</p>
+          <p style="color: rgba(255,255,255,0.6);">Pick a question below or type your own to get started.</p>
+        </div>
       </div>`;
-    chartTitle.textContent = "Pick a question to see your chart";
+    chartTitle.textContent = "Your chart will appear here";
     metricRow.style.display = 'none';
-    chartCanvas.innerHTML = '<div class="chart-empty">Your chart will appear here →</div>';
+    chartCanvas.innerHTML = `
+      <div class="chart-empty">
+        <div class="small-spark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/>
+          </svg>
+        </div>
+        <span>Ask a question to see live data</span>
+      </div>`;
     renderSuggested();
   }
 
@@ -1540,13 +1747,20 @@
     // Add AI typing
     const aiMsg = document.createElement('div');
     aiMsg.className = 'message ai';
-    aiMsg.innerHTML = `<div class="ai-icon">✦</div><div class="bubble"><span class="typing-cursor"></span></div>`;
+    aiMsg.innerHTML = `
+      <div class="ai-avatar">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/>
+          <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/>
+        </svg>
+      </div>
+      <div class="bubble"><span class="typing-cursor"></span></div>`;
     chatMessages.appendChild(aiMsg);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Stream answer
+    // Stream answer (Claude-style — answer first, then a separate insight paragraph, then action button)
     setTimeout(() => {
-      aiMsg.querySelector('.bubble').innerHTML = qa.answer + `<br><button class="action-btn">▶ ${qa.action}</button>`;
+      aiMsg.querySelector('.bubble').innerHTML = qa.answer + `<button class="action-btn">${qa.action}</button>`;
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }, 700);
 
@@ -1577,42 +1791,58 @@
     let svg = '';
     if (type === 'line') {
       svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
-        <defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0069ff" stop-opacity="0.25"/><stop offset="100%" stop-color="#0069ff" stop-opacity="0"/></linearGradient></defs>
-        <path d="M0,40 L60,32 L120,28 L180,40 L240,110 L300,140 L360,130" stroke="#0069ff" stroke-width="2.5" fill="none"/>
+        <defs>
+          <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#a89aff" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#a89aff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,40 L60,32 L120,28 L180,40 L240,110 L300,140 L360,130" stroke="#a89aff" stroke-width="2.5" fill="none"/>
         <path d="M0,40 L60,32 L120,28 L180,40 L240,110 L300,140 L360,130 L360,180 L0,180 Z" fill="url(#g1)"/>
-        <circle cx="240" cy="110" r="5" fill="#d13438"/><text x="248" y="103" font-size="11" fill="#d13438" font-weight="700">-18%</text>
+        <circle cx="240" cy="110" r="5" fill="#ff6b8a"/>
+        <text x="248" y="103" font-size="11" fill="#ff6b8a" font-weight="700">-18%</text>
       </svg>`;
     } else if (type === 'bars') {
       svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
-        <rect x="20" y="40" width="60" height="130" rx="3" fill="#1e3a6e"/>
-        <rect x="100" y="60" width="60" height="110" rx="3" fill="#4472c4"/>
-        <rect x="180" y="80" width="60" height="90" rx="3" fill="#00b9a6"/>
-        <rect x="260" y="120" width="60" height="50" rx="3" fill="#f4809b"/>
-        <text x="50" y="35" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$8.2K</text>
-        <text x="130" y="55" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$5.4K</text>
-        <text x="210" y="75" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$4.1K</text>
-        <text x="290" y="115" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$2.8K</text>
+        <defs>
+          <linearGradient id="bargrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#a89aff"/><stop offset="100%" stop-color="#7B61FF"/>
+          </linearGradient>
+        </defs>
+        <rect x="20" y="40" width="60" height="130" rx="6" fill="url(#bargrad)"/>
+        <rect x="100" y="60" width="60" height="110" rx="6" fill="#5fb8e5"/>
+        <rect x="180" y="80" width="60" height="90" rx="6" fill="#5fe5d3"/>
+        <rect x="260" y="120" width="60" height="50" rx="6" fill="#ff9ed4"/>
+        <text x="50" y="35" font-size="12" fill="white" text-anchor="middle" font-weight="700">$8.2K</text>
+        <text x="130" y="55" font-size="12" fill="white" text-anchor="middle" font-weight="700">$5.4K</text>
+        <text x="210" y="75" font-size="12" fill="white" text-anchor="middle" font-weight="700">$4.1K</text>
+        <text x="290" y="115" font-size="12" fill="white" text-anchor="middle" font-weight="700">$2.8K</text>
       </svg>`;
     } else if (type === 'heatmap') {
       svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
         ${[0,1,2,3,4,5,6].map(d => [0,1,2,3,4,5,6,7].map(h => {
           const intensity = Math.random();
-          const fill = intensity > 0.7 ? '#1e3a6e' : intensity > 0.4 ? '#4472c4' : intensity > 0.2 ? '#a3c2eb' : '#e8edf5';
-          return `<rect x="${20 + h*40}" y="${20 + d*22}" width="36" height="18" rx="2" fill="${fill}"/>`;
+          const fill = intensity > 0.7 ? '#7B61FF' : intensity > 0.4 ? '#5fb8e5' : intensity > 0.2 ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.06)';
+          return `<rect x="${20 + h*40}" y="${20 + d*22}" width="36" height="18" rx="3" fill="${fill}"/>`;
         }).join('')).join('')}
-        <rect x="60" y="42" width="36" height="18" rx="2" fill="#1aab68" stroke="#1aab68" stroke-width="2"/>
-        <text x="78" y="55" font-size="9" fill="white" text-anchor="middle" font-weight="700">42%</text>
+        <rect x="60" y="42" width="36" height="18" rx="3" fill="#5fe5d3" stroke="white" stroke-width="1.5"/>
+        <text x="78" y="55" font-size="10" fill="#161310" text-anchor="middle" font-weight="700">42%</text>
       </svg>`;
     } else if (type === 'forecast') {
       svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
-        <defs><linearGradient id="g2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#00b9a6" stop-opacity="0.25"/><stop offset="100%" stop-color="#00b9a6" stop-opacity="0"/></linearGradient></defs>
-        <path d="M0,120 L60,110 L120,100 L180,90 L240,80" stroke="#0069ff" stroke-width="2.5" fill="none"/>
-        <path d="M240,80 L300,65 L360,52" stroke="#00b9a6" stroke-width="2.5" stroke-dasharray="5,4" fill="none"/>
+        <defs>
+          <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#5fe5d3" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#5fe5d3" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,120 L60,110 L120,100 L180,90 L240,80" stroke="#a89aff" stroke-width="2.5" fill="none"/>
+        <path d="M240,80 L300,65 L360,52" stroke="#5fe5d3" stroke-width="2.5" stroke-dasharray="5,4" fill="none"/>
         <path d="M240,72 L300,55 L360,40 L360,68 L300,75 L240,88 Z" fill="url(#g2)"/>
-        <circle cx="240" cy="80" r="5" fill="#0069ff"/>
-        <circle cx="360" cy="52" r="5" fill="#00b9a6"/>
-        <text x="240" y="160" font-size="11" fill="#6b7c93" text-anchor="middle">Today</text>
-        <text x="360" y="40" font-size="11" fill="#00b9a6" font-weight="700" text-anchor="end">$94K</text>
+        <circle cx="240" cy="80" r="5" fill="#a89aff"/>
+        <circle cx="360" cy="52" r="5" fill="#5fe5d3"/>
+        <text x="240" y="160" font-size="11" fill="rgba(255,255,255,0.5)" text-anchor="middle">Today</text>
+        <text x="350" y="40" font-size="12" fill="#5fe5d3" font-weight="700" text-anchor="end">$94K</text>
       </svg>`;
     }
     chartCanvas.innerHTML = svg;
