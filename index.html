@@ -7,32 +7,33 @@
 <style>
   /* ---------- Mailchimp Design System (Analytics page palette) ---------- */
   :root {
-    --mc-text: #1a1f36;
-    --mc-text-secondary: #535353;
-    --mc-text-muted: #6b7c93;
+    --mc-text: #241c15;          /* Peppercorn — official Mailchimp text */
+    --mc-text-secondary: #595959;
+    --mc-text-muted: #767676;
     --mc-bg: #ffffff;
-    --mc-bg-alt: #f5f5f5;
-    --mc-bg-soft: #f0f4f8;
-    --mc-border: #e8edf5;
-    --mc-cta: #0069ff;
-    --mc-cta-hover: #0055cc;
+    --mc-bg-alt: #f6f6f4;
+    --mc-bg-soft: #fafaf7;       /* Mailchimp off-white */
+    --mc-border: #ebe9e1;
+    --mc-cta: #007c89;            /* Mailchimp teal (live site uses ~#007c89/00b9a6) */
+    --mc-cta-hover: #006670;
     --mc-teal: #00b9a6;
-    --mc-teal-dark: #009085;
-    --mc-yellow: #ffe01b;        /* Cavendish */
+    --mc-teal-dark: #007c89;
+    --mc-yellow: #FFE01B;        /* Cavendish — Mailchimp official */
+    --mc-yellow-dim: #FFF1A8;
     --mc-orange: #ff9500;
     --mc-green: #1aab68;
-    --mc-red: #d13438;
-    --mc-navy: #162251;
-    --mc-chart-navy: #1e3a6e;
+    --mc-red: #e01563;            /* Mailchimp magenta-red */
+    --mc-navy: #241c15;           /* Peppercorn used as navy */
+    --mc-chart-navy: #007c89;
     --mc-chart-blue: #4472c4;
     --mc-chart-pink: #f4809b;
-    --shadow-sm: 0 1px 4px rgba(26,40,96,0.08);
-    --shadow-md: 0 4px 16px rgba(26,40,96,0.12);
-    --shadow-lg: 0 12px 40px rgba(26,40,96,0.18);
-    --radius-sm: 6px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+    --radius-xl: 14px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,11 +41,16 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, 'Inter', Arial, sans-serif;
     color: var(--mc-text);
     line-height: 1.5;
     background: var(--mc-bg);
     -webkit-font-smoothing: antialiased;
+  }
+  /* Mailchimp uses Cooper Light for hero/display headings */
+  h1, .display-serif {
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif;
+    font-weight: 300;
   }
 
   /* ---------- Header ---------- */
@@ -52,34 +58,58 @@
     position: sticky; top: 0; z-index: 100;
     background: white;
     border-bottom: 1px solid var(--mc-border);
-    height: 64px;
+    height: 60px;
   }
   .nav {
-    max-width: 1280px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 100%; padding: 0 32px;
+    max-width: 1380px; margin: 0 auto;
+    display: flex; align-items: center;
+    height: 100%; padding: 0 24px;
+    gap: 24px;
   }
-  .logo {
-    font-weight: 800; font-size: 22px; letter-spacing: -0.02em;
-    display: flex; align-items: center; gap: 8px;
+  .logo-link { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .freddie-illust { width: 44px; height: 44px; flex-shrink: 0; }
+  .mc-lockup { display: flex; flex-direction: column; gap: 0; line-height: 1; }
+  .mc-lockup .intuit-line {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--mc-text);
+    text-transform: uppercase;
+    margin-bottom: 2px;
   }
-  .logo-mark {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--mc-yellow);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+  .mc-lockup .mc-line {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 22px; font-weight: 800; color: var(--mc-text); letter-spacing: -0.025em;
+    line-height: 0.9;
   }
   .nav-links {
-    display: flex; gap: 28px; list-style: none;
+    display: flex; gap: 22px; list-style: none; flex: 1;
+    margin-left: 16px;
   }
   .nav-links a {
     color: var(--mc-text); text-decoration: none; font-size: 14px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 6px 0;
   }
   .nav-links a:hover { color: var(--mc-cta); }
+  .nav-links a::after { content: '▾'; font-size: 9px; opacity: 0.6; }
+  .nav-links a.no-arrow::after { display: none; }
+  .nav-right { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+  .nav-right .icon-btn {
+    background: none; border: none; cursor: pointer; padding: 4px;
+    color: var(--mc-text); display: flex; align-items: center;
+  }
+  .nav-right .lang { font-size: 13px; color: var(--mc-text); display: flex; align-items: center; gap: 4px; cursor: pointer; }
+  .nav-right .phone {
+    font-size: 13px; color: var(--mc-text); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-right .phone .phone-icon { font-size: 14px; }
+  .nav-right .login {
+    font-size: 14px; color: var(--mc-text); text-decoration: none; font-weight: 600;
+  }
   .nav-cta {
-    background: var(--mc-cta); color: white; padding: 10px 20px;
+    background: var(--mc-cta); color: white; padding: 9px 20px;
     border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 14px;
-    transition: background 0.2s;
+    transition: background 0.2s; white-space: nowrap;
   }
   .nav-cta:hover { background: var(--mc-cta-hover); }
 
@@ -89,46 +119,55 @@
 
   /* ---------- Hero ---------- */
   .hero {
-    padding: 64px 32px 80px;
-    background: linear-gradient(180deg, #ffffff 0%, var(--mc-bg-soft) 100%);
+    padding: 56px 24px 88px;
+    background: white;
   }
   .eyebrow {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--mc-teal-dark);
-    background: rgba(0, 185, 166, 0.1);
-    padding: 6px 12px; border-radius: 999px;
+    display: inline-block;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--mc-text);
+    margin-bottom: 16px;
   }
   .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 80px; align-items: center;
+    max-width: 1280px; margin: 0 auto;
   }
   h1 {
-    font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em;
-    margin: 16px 0 20px;
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif;
+    font-size: 64px; font-weight: 300; line-height: 1.05; letter-spacing: -0.01em;
+    color: var(--mc-text);
+    margin: 0 0 24px;
   }
   .hero p.lead {
-    font-size: 20px; color: var(--mc-text-secondary); line-height: 1.55; margin-bottom: 32px;
+    font-size: 18px; color: var(--mc-text-secondary); line-height: 1.55; margin-bottom: 28px;
     max-width: 540px;
   }
-  .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
   .btn-primary {
     background: var(--mc-cta); color: white;
-    padding: 14px 26px; border-radius: var(--radius-sm); border: none;
-    font-weight: 600; font-size: 16px; cursor: pointer; text-decoration: none;
+    padding: 14px 28px; border-radius: var(--radius-sm); border: none;
+    font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none;
     display: inline-flex; align-items: center; gap: 8px;
-    transition: all 0.2s;
+    transition: all 0.15s;
   }
-  .btn-primary:hover { background: var(--mc-cta-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-primary:hover { background: var(--mc-cta-hover); }
   .btn-secondary {
     background: white; color: var(--mc-text);
-    padding: 14px 26px; border-radius: var(--radius-sm); border: 1.5px solid var(--mc-text);
-    font-weight: 600; font-size: 16px; cursor: pointer; text-decoration: none;
+    padding: 14px 28px; border-radius: var(--radius-sm); border: 1.5px solid var(--mc-text);
+    font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none;
     display: inline-flex; align-items: center; gap: 6px;
-    transition: all 0.2s;
+    transition: all 0.15s;
   }
   .btn-secondary:hover { background: var(--mc-text); color: white; }
-  .hero-meta { font-size: 14px; color: var(--mc-text-muted); display: flex; align-items: center; gap: 12px; }
-  .hero-meta .dot { width: 4px; height: 4px; background: var(--mc-text-muted); border-radius: 50%; }
+  .hero-meta { font-size: 13px; color: var(--mc-text-muted); display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+  .hero-meta .dot { width: 3px; height: 3px; background: var(--mc-text-muted); border-radius: 50%; }
+  .gdpr-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--mc-bg-alt); padding: 8px 14px; border-radius: 4px;
+    font-size: 12px; font-weight: 600; color: var(--mc-text);
+    margin-top: 16px;
+  }
+  .gdpr-badge::before { content: '🛡️'; font-size: 14px; }
 
   /* ---------- Hero animated demo ---------- */
   .hero-demo {
@@ -180,20 +219,19 @@
 
   /* ---------- Trust bar ---------- */
   .trust-bar {
-    background: var(--mc-bg);
+    background: var(--mc-yellow);
     padding: 48px 32px;
-    border-top: 1px solid var(--mc-border);
-    border-bottom: 1px solid var(--mc-border);
   }
   .trust-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
-    max-width: 1200px; margin: 0 auto; text-align: center;
+    max-width: 1280px; margin: 0 auto; text-align: center;
   }
   .trust-stat .num {
-    font-size: 36px; font-weight: 700; color: var(--mc-teal-dark); letter-spacing: -0.02em;
-    margin-bottom: 4px;
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
+    font-size: 44px; color: var(--mc-text); letter-spacing: -0.02em;
+    margin-bottom: 4px; line-height: 1;
   }
-  .trust-stat .label { font-size: 14px; color: var(--mc-text-secondary); }
+  .trust-stat .label { font-size: 14px; color: var(--mc-text); font-weight: 500; }
 
   /* ---------- Playground ---------- */
   .playground {
@@ -203,7 +241,9 @@
   }
   .playground-header { text-align: center; margin-bottom: 48px; }
   .playground-header h2 {
-    font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 16px 0 12px;
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
+    font-size: 52px; letter-spacing: -0.01em; margin: 16px 0 12px; color: var(--mc-text);
+    line-height: 1.05;
   }
   .playground-header p {
     font-size: 18px; color: var(--mc-text-secondary); max-width: 600px; margin: 0 auto;
@@ -332,20 +372,27 @@
   /* ---------- Engagement-triggered CTA ---------- */
   .playground-conversion {
     max-width: 1100px; margin: 24px auto 0;
-    background: linear-gradient(135deg, var(--mc-cta) 0%, var(--mc-teal) 100%);
+    background: var(--mc-text);
     color: white; padding: 24px 32px; border-radius: var(--radius-xl);
     display: none; align-items: center; justify-content: space-between; gap: 24px;
     box-shadow: var(--shadow-lg);
     animation: slideUp 0.4s;
+    position: relative; overflow: hidden;
   }
+  .playground-conversion::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 140px; height: 140px; border-radius: 50%;
+    background: var(--mc-yellow); opacity: 0.95;
+  }
+  .playground-conversion > * { position: relative; z-index: 1; }
   .playground-conversion.visible { display: flex; }
   @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   .playground-conversion h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
   .playground-conversion p { font-size: 14px; opacity: 0.9; }
   .playground-conversion .cta-group { display: flex; gap: 8px; flex-shrink: 0; }
   .playground-conversion .btn-white {
-    background: white; color: var(--mc-cta); padding: 12px 22px; border-radius: var(--radius-sm);
-    font-weight: 600; text-decoration: none; font-size: 15px; display: inline-flex; gap: 6px; align-items: center;
+    background: var(--mc-yellow); color: var(--mc-text); padding: 12px 22px; border-radius: var(--radius-sm);
+    font-weight: 700; text-decoration: none; font-size: 15px; display: inline-flex; gap: 6px; align-items: center;
   }
   .playground-conversion .btn-outline-white {
     background: transparent; color: white; border: 1.5px solid white; padding: 12px 22px;
@@ -354,7 +401,7 @@
 
   /* ---------- How it works ---------- */
   .how-section { background: white; padding: 100px 32px; }
-  .how-section h2 { font-size: 40px; text-align: center; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 56px; }
+  .how-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; font-size: 48px; text-align: center; letter-spacing: -0.01em; margin-bottom: 56px; line-height: 1.05; }
   .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
   .how-step {
     background: var(--mc-bg-soft); padding: 32px; border-radius: var(--radius-lg); text-align: center;
@@ -370,7 +417,7 @@
   /* ---------- Trust & privacy ---------- */
   .trust-section { background: var(--mc-bg-alt); padding: 80px 32px; }
   .trust-section .container { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: center; }
-  .trust-section h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .trust-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; font-size: 40px; letter-spacing: -0.01em; margin-bottom: 12px; line-height: 1.1; }
   .trust-section p.sub { color: var(--mc-text-secondary); font-size: 16px; }
   .trust-points { display: grid; gap: 16px; }
   .trust-point {
@@ -388,14 +435,14 @@
 
   /* ---------- Features ---------- */
   .features-section { background: white; padding: 100px 32px; }
-  .features-section h2 { text-align: center; font-size: 40px; margin-bottom: 56px; font-weight: 700; letter-spacing: -0.02em; }
+  .features-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; text-align: center; font-size: 48px; margin-bottom: 56px; letter-spacing: -0.01em; line-height: 1.05; }
   .feature-row {
     display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
     max-width: 1100px; margin: 0 auto 80px;
   }
   .feature-row:nth-child(odd) .feature-img { order: 2; }
   .feature-row:last-child { margin-bottom: 0; }
-  .feature-row h3 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .feature-row h3 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; font-size: 36px; letter-spacing: -0.01em; margin-bottom: 16px; line-height: 1.1; }
   .feature-row p { color: var(--mc-text-secondary); font-size: 17px; line-height: 1.6; margin-bottom: 16px; }
   .feature-row a { color: var(--mc-cta); font-weight: 600; text-decoration: none; }
   .feature-row a:hover { text-decoration: underline; }
@@ -430,7 +477,7 @@
 
   /* ---------- Integrations ---------- */
   .integrations-section { background: white; padding: 80px 32px; }
-  .integrations-section h2 { text-align: center; font-size: 32px; margin-bottom: 8px; font-weight: 700; }
+  .integrations-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; text-align: center; font-size: 40px; margin-bottom: 8px; line-height: 1.1; letter-spacing: -0.01em; }
   .integrations-section p.sub { text-align: center; color: var(--mc-text-secondary); margin-bottom: 48px; }
   .integration-grid {
     display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
@@ -446,7 +493,7 @@
 
   /* ---------- FAQ ---------- */
   .faq-section { background: var(--mc-bg-alt); padding: 100px 32px; }
-  .faq-section h2 { text-align: center; font-size: 36px; margin-bottom: 48px; font-weight: 700; letter-spacing: -0.02em; }
+  .faq-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; text-align: center; font-size: 44px; margin-bottom: 48px; letter-spacing: -0.01em; line-height: 1.1; }
   .faq-list { max-width: 800px; margin: 0 auto; }
   .faq-item {
     background: white; border-radius: var(--radius-md); margin-bottom: 8px;
@@ -479,8 +526,9 @@
     scroll-margin-top: 80px;
   }
   .pricing-section h2 {
-    text-align: center; font-size: 44px; font-weight: 700; letter-spacing: -0.02em;
-    margin-bottom: 12px;
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
+    text-align: center; font-size: 56px; letter-spacing: -0.01em;
+    margin-bottom: 12px; line-height: 1.05;
   }
   .pricing-section .sub {
     text-align: center; color: var(--mc-text-secondary); font-size: 18px; margin-bottom: 32px;
@@ -518,14 +566,14 @@
   }
   .price-card:hover { box-shadow: var(--shadow-md); }
   .price-card.recommended {
-    background: linear-gradient(180deg, rgba(0,105,255,0.04) 0%, white 100%);
-    border-color: var(--mc-cta);
-    box-shadow: 0 0 0 3px rgba(0,105,255,0.08), var(--shadow-md);
+    background: white;
+    border-color: var(--mc-yellow); border-width: 2px;
+    box-shadow: 0 0 0 4px var(--mc-yellow-dim), var(--shadow-md);
     transform: translateY(-8px);
   }
   .recommend-badge {
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--mc-cta); color: white; padding: 4px 12px; border-radius: 999px;
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--mc-yellow); color: var(--mc-text); padding: 5px 14px; border-radius: 999px;
     font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
     display: inline-flex; align-items: center; gap: 4px;
     white-space: nowrap;
@@ -626,16 +674,23 @@
 
   /* ---------- Final CTA ---------- */
   .final-cta {
-    background: linear-gradient(135deg, var(--mc-navy) 0%, var(--mc-cta) 100%);
+    background: var(--mc-text);
     color: white; padding: 100px 32px; text-align: center;
+    position: relative; overflow: hidden;
   }
-  .final-cta h2 { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .final-cta::before {
+    content: ''; position: absolute; top: -80px; right: -80px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: var(--mc-yellow); opacity: 0.95;
+  }
+  .final-cta > * { position: relative; z-index: 1; }
+  .final-cta h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; font-size: 56px; letter-spacing: -0.01em; margin-bottom: 16px; line-height: 1.05; }
   .final-cta p { font-size: 18px; opacity: 0.85; margin-bottom: 32px; }
   .final-cta .cta-row { justify-content: center; }
-  .final-cta .btn-primary { background: white; color: var(--mc-cta); }
-  .final-cta .btn-primary:hover { background: var(--mc-bg-soft); }
+  .final-cta .btn-primary { background: var(--mc-yellow); color: var(--mc-text); }
+  .final-cta .btn-primary:hover { background: #ffec5b; }
   .final-cta .btn-secondary { background: transparent; border-color: white; color: white; }
-  .final-cta .btn-secondary:hover { background: white; color: var(--mc-cta); }
+  .final-cta .btn-secondary:hover { background: white; color: var(--mc-text); }
 
   /* ---------- Footer ---------- */
   footer {
@@ -697,63 +752,188 @@
 <!-- ===== HEADER ===== -->
 <header>
   <nav class="nav">
-    <div class="logo"><span class="logo-mark">😉</span> Mailchimp</div>
+    <a href="#" class="logo-link" aria-label="Intuit Mailchimp home">
+      <!-- Freddie monkey in beret (Intuit Mailchimp lockup) -->
+      <svg class="freddie-illust" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Beret -->
+        <ellipse cx="22" cy="11" rx="13" ry="3.5" fill="#241c15"/>
+        <path d="M9.5 11c0-3 5-5.5 12.5-5.5S34.5 8 34.5 11c0 1.5-1 2.5-2.5 3 .5-1 .5-2 0-3" fill="#241c15"/>
+        <!-- Beret stem -->
+        <circle cx="32" cy="6.5" r="2" fill="#241c15"/>
+        <!-- Face circle -->
+        <ellipse cx="22" cy="25" rx="13" ry="13.5" fill="#241c15"/>
+        <!-- Inner face (lighter to suggest fur shading) -->
+        <ellipse cx="22" cy="27" rx="9" ry="9" fill="#241c15"/>
+        <!-- Ears -->
+        <circle cx="9" cy="22" r="3" fill="#241c15"/>
+        <circle cx="35" cy="22" r="3" fill="#241c15"/>
+        <!-- Eyes (white dots, winking right eye) -->
+        <circle cx="17" cy="24" r="1.6" fill="#fff"/>
+        <path d="M25 23.5c1.5 0 2.5 0.8 3 1.2" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <!-- Smile -->
+        <path d="M17.5 30 Q22 33 26.5 30" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+      <span class="mc-lockup">
+        <span class="intuit-line">Intuit</span>
+        <span class="mc-line">mailchimp</span>
+      </span>
+    </a>
     <ul class="nav-links">
-      <li><a href="#">Solutions</a></li>
+      <li><a href="#">Industries and Solutions</a></li>
       <li><a href="#">Integrations</a></li>
       <li><a href="#">Resources</a></li>
-      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#" class="no-arrow">Switch to Mailchimp</a></li>
+      <li><a href="#pricing" class="no-arrow">Pricing</a></li>
     </ul>
-    <a href="#pricing" class="nav-cta">Start Free Trial</a>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <span class="lang">EN <svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span>
+      <a href="tel:18003155939" class="phone">
+        <span class="phone-icon">📞</span>
+        <span>+1 (800) 315-5939</span>
+      </a>
+      <a href="#" class="login">Log In</a>
+      <a href="#pricing" class="nav-cta">Start Free Trial</a>
+    </div>
   </nav>
 </header>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <div class="container hero-grid">
+  <div class="hero-grid">
     <div>
-      <span class="eyebrow">✦ Analytics & Reporting Tools</span>
-      <h1>Stop building reports.<br>Start asking questions.</h1>
-      <p class="lead">Mailchimp Analytics AI turns your marketing data into answers in plain English—charts, insights, and what to do next.</p>
+      <div class="eyebrow">Analytics &amp; Reporting Tools</div>
+      <h1>Optimize your marketing strategy with Analytics AI.</h1>
+      <p class="lead">Go from high-level trends to granular insights. Ask in plain English—Analytics AI delivers charts, insights, and what to do next, in seconds.</p>
       <div class="cta-row">
-        <a href="#playground" class="btn-primary">▶ Try Analytics AI free</a>
+        <a href="#playground" class="btn-primary">Get Started</a>
         <a href="#pricing" class="btn-secondary">See plans &amp; pricing ↓</a>
       </div>
+      <div class="gdpr-badge">GDPR Friendly</div>
       <div class="hero-meta">
-        <span>✦ Live demo</span><span class="dot"></span>
+        <span>✨ Live AI demo below</span><span class="dot"></span>
         <span>30M+ questions answered</span><span class="dot"></span>
-        <span>GDPR ✓</span>
+        <span>SOC 2 · HIPAA</span>
       </div>
     </div>
-    <div class="hero-demo">
-      <div class="demo-header">
-        <div class="demo-dots"><span></span><span></span><span></span></div>
-        <span class="demo-url">analytics.mailchimp.com</span>
-      </div>
-      <div class="demo-question">"Why did revenue dip last week?"</div>
-      <div class="demo-answer">
-        <div class="ai-icon">✦</div>
-        <div class="demo-answer-text">
-          Revenue dropped <strong>18% week-over-week</strong> after the abandoned-cart automation paused. Restarting it should recover ~$4,200<span class="typing-cursor"></span>
+    <div class="hero-mockup">
+      <!-- Desktop monitor mockup showing Mailchimp Marketing dashboard with AI insight -->
+      <div class="monitor-frame">
+        <div class="monitor-screen">
+          <div class="dash-toolbar">
+            <div class="dash-dots"><span></span><span></span><span></span></div>
+            <div class="dash-tabs"><span class="tab active">Dashboard</span><span class="tab">Audience</span><span class="tab">Campaigns</span></div>
+          </div>
+          <div class="dash-body">
+            <div class="dash-header-row">
+              <div>
+                <div class="dash-title">Campaign performance</div>
+                <div class="dash-sub">Last 30 days</div>
+              </div>
+              <div class="dash-ai-pill">✨ Analytics AI</div>
+            </div>
+            <div class="dash-kpis">
+              <div class="kpi"><div class="kpi-val">$84.2K</div><div class="kpi-lbl">Revenue</div><div class="kpi-delta up">▲ 18%</div></div>
+              <div class="kpi"><div class="kpi-val">38%</div><div class="kpi-lbl">Open rate</div><div class="kpi-delta up">▲ 4 pp</div></div>
+              <div class="kpi"><div class="kpi-val">2.4%</div><div class="kpi-lbl">Conv rate</div><div class="kpi-delta down">▼ 0.3 pp</div></div>
+            </div>
+            <div class="dash-chart">
+              <svg viewBox="0 0 380 130" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="hgrad" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#007c89" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#007c89" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,80 L40,72 L80,68 L120,55 L160,60 L200,45 L240,38 L280,30 L320,28 L380,18" stroke="#007c89" stroke-width="2.5" fill="none"/>
+                <path d="M0,80 L40,72 L80,68 L120,55 L160,60 L200,45 L240,38 L280,30 L320,28 L380,18 L380,130 L0,130 Z" fill="url(#hgrad)"/>
+                <circle cx="280" cy="30" r="4" fill="#007c89"/>
+              </svg>
+            </div>
+            <div class="dash-ai-card">
+              <div class="ai-spark">✨</div>
+              <div class="ai-card-text"><strong>AI insight:</strong> Tuesday 9am sends drove 3.2x revenue last week. Schedule next campaign for Tuesday to repeat.</div>
+            </div>
+          </div>
         </div>
+        <div class="monitor-stand"></div>
       </div>
-      <div class="demo-chart">
-        <svg viewBox="0 0 360 110" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#0069ff" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#0069ff" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <path d="M0,40 L60,32 L120,28 L180,40 L240,75 L300,82 L360,72" stroke="#0069ff" stroke-width="2.5" fill="none"/>
-          <path d="M0,40 L60,32 L120,28 L180,40 L240,75 L300,82 L360,72 L360,110 L0,110 Z" fill="url(#grad1)"/>
-          <circle cx="240" cy="75" r="5" fill="#d13438"/>
-          <text x="248" y="68" font-size="10" fill="#d13438" font-weight="700">-18%</text>
-        </svg>
-      </div>
+      <!-- Cavendish-yellow accent dot -->
+      <div class="hero-yellow-dot"></div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Hero monitor mockup styles */
+  .hero-mockup { position: relative; }
+  .hero-yellow-dot {
+    position: absolute; top: -28px; right: -16px;
+    width: 96px; height: 96px; border-radius: 50%;
+    background: var(--mc-yellow);
+    z-index: -1;
+  }
+  .monitor-frame {
+    position: relative;
+    background: #1a1a1a;
+    border-radius: 14px 14px 0 0;
+    padding: 8px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  }
+  .monitor-frame::after {
+    content: ''; display: block;
+    width: 60%; height: 14px; margin: 8px auto -22px;
+    background: #d4d4d4; border-radius: 0 0 18px 18px;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1);
+  }
+  .monitor-screen {
+    background: white; border-radius: 8px; overflow: hidden;
+  }
+  .dash-toolbar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 10px 14px; background: #f6f6f4; border-bottom: 1px solid var(--mc-border);
+  }
+  .dash-dots { display: flex; gap: 5px; }
+  .dash-dots span { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+  .dash-dots span:nth-child(1) { background: #ff5f57; }
+  .dash-dots span:nth-child(2) { background: #ffbd2e; }
+  .dash-dots span:nth-child(3) { background: #28c840; }
+  .dash-tabs { display: flex; gap: 16px; font-size: 11px; }
+  .dash-tabs .tab { color: var(--mc-text-muted); }
+  .dash-tabs .tab.active { color: var(--mc-text); font-weight: 700; }
+  .dash-body { padding: 18px 20px 20px; }
+  .dash-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .dash-title { font-size: 16px; font-weight: 700; color: var(--mc-text); }
+  .dash-sub { font-size: 12px; color: var(--mc-text-muted); margin-top: 2px; }
+  .dash-ai-pill {
+    background: linear-gradient(135deg, #FFE01B 0%, #00b9a6 100%);
+    color: var(--mc-text); padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .dash-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .kpi {
+    background: var(--mc-bg-soft); padding: 10px; border-radius: 6px;
+    border: 1px solid var(--mc-border);
+  }
+  .kpi-val { font-size: 18px; font-weight: 700; color: var(--mc-text); }
+  .kpi-lbl { font-size: 10px; color: var(--mc-text-muted); margin-top: 1px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .kpi-delta { font-size: 10px; font-weight: 700; margin-top: 3px; }
+  .kpi-delta.up { color: #1aab68; }
+  .kpi-delta.down { color: #e01563; }
+  .dash-chart { background: white; height: 90px; margin-bottom: 12px; padding: 4px; }
+  .dash-chart svg { width: 100%; height: 100%; }
+  .dash-ai-card {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: linear-gradient(135deg, #fffbe6 0%, #f0f9f8 100%);
+    padding: 10px 12px; border-radius: 6px;
+    border-left: 3px solid var(--mc-yellow);
+    font-size: 12px; line-height: 1.5;
+  }
+  .ai-spark { font-size: 16px; flex-shrink: 0; }
+  .ai-card-text strong { color: var(--mc-cta); }
+</style>
 
 <!-- ===== TRUST BAR ===== -->
 <section class="trust-bar">
