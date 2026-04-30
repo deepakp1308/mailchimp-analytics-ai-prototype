@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analytics & Reporting Tools | Mailchimp</title>
+<style>
+  /* ---------- Mailchimp Design System (Analytics page palette) ---------- */
+  :root {
+    --mc-text: #1a1f36;
+    --mc-text-secondary: #535353;
+    --mc-text-muted: #6b7c93;
+    --mc-bg: #ffffff;
+    --mc-bg-alt: #f5f5f5;
+    --mc-bg-soft: #f0f4f8;
+    --mc-border: #e8edf5;
+    --mc-cta: #0069ff;
+    --mc-cta-hover: #0055cc;
+    --mc-teal: #00b9a6;
+    --mc-teal-dark: #009085;
+    --mc-yellow: #ffe01b;        /* Cavendish */
+    --mc-orange: #ff9500;
+    --mc-green: #1aab68;
+    --mc-red: #d13438;
+    --mc-navy: #162251;
+    --mc-chart-navy: #1e3a6e;
+    --mc-chart-blue: #4472c4;
+    --mc-chart-pink: #f4809b;
+    --shadow-sm: 0 1px 4px rgba(26,40,96,0.08);
+    --shadow-md: 0 4px 16px rgba(26,40,96,0.12);
+    --shadow-lg: 0 12px 40px rgba(26,40,96,0.18);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--mc-text);
+    line-height: 1.5;
+    background: var(--mc-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: white;
+    border-bottom: 1px solid var(--mc-border);
+    height: 64px;
+  }
+  .nav {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 100%; padding: 0 32px;
+  }
+  .logo {
+    font-weight: 800; font-size: 22px; letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--mc-yellow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .nav-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+  .nav-links a {
+    color: var(--mc-text); text-decoration: none; font-size: 14px; font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--mc-cta); }
+  .nav-cta {
+    background: var(--mc-cta); color: white; padding: 10px 20px;
+    border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 14px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--mc-cta-hover); }
+
+  /* ---------- Layout ---------- */
+  section { padding: 80px 32px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 64px 32px 80px;
+    background: linear-gradient(180deg, #ffffff 0%, var(--mc-bg-soft) 100%);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--mc-teal-dark);
+    background: rgba(0, 185, 166, 0.1);
+    padding: 6px 12px; border-radius: 999px;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  h1 {
+    font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em;
+    margin: 16px 0 20px;
+  }
+  .hero p.lead {
+    font-size: 20px; color: var(--mc-text-secondary); line-height: 1.55; margin-bottom: 32px;
+    max-width: 540px;
+  }
+  .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .btn-primary {
+    background: var(--mc-cta); color: white;
+    padding: 14px 26px; border-radius: var(--radius-sm); border: none;
+    font-weight: 600; font-size: 16px; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--mc-cta-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-secondary {
+    background: white; color: var(--mc-text);
+    padding: 14px 26px; border-radius: var(--radius-sm); border: 1.5px solid var(--mc-text);
+    font-weight: 600; font-size: 16px; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--mc-text); color: white; }
+  .hero-meta { font-size: 14px; color: var(--mc-text-muted); display: flex; align-items: center; gap: 12px; }
+  .hero-meta .dot { width: 4px; height: 4px; background: var(--mc-text-muted); border-radius: 50%; }
+
+  /* ---------- Hero animated demo ---------- */
+  .hero-demo {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+    border: 1px solid var(--mc-border);
+    overflow: hidden;
+  }
+  .demo-header {
+    display: flex; align-items: center; gap: 8px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--mc-border); margin-bottom: 16px;
+  }
+  .demo-dots { display: flex; gap: 6px; }
+  .demo-dots span { width: 10px; height: 10px; border-radius: 50%; background: #e0e0e0; }
+  .demo-dots span:nth-child(1) { background: #ff5f57; }
+  .demo-dots span:nth-child(2) { background: #ffbd2e; }
+  .demo-dots span:nth-child(3) { background: #28c840; }
+  .demo-url { font-size: 12px; color: var(--mc-text-muted); margin-left: 8px; }
+
+  .demo-question {
+    background: var(--mc-bg-soft); padding: 14px 18px; border-radius: var(--radius-md);
+    font-size: 15px; color: var(--mc-text); margin-bottom: 16px;
+    border-left: 3px solid var(--mc-cta);
+  }
+  .demo-answer {
+    display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px;
+  }
+  .ai-icon {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--mc-teal) 0%, var(--mc-cta) 100%);
+    display: flex; align-items: center; justify-content: center; color: white; font-size: 16px;
+  }
+  .demo-answer-text {
+    font-size: 14px; color: var(--mc-text); line-height: 1.6;
+  }
+  .demo-answer-text strong { color: var(--mc-cta); }
+  .demo-chart {
+    height: 140px; background: var(--mc-bg-soft); border-radius: var(--radius-md);
+    padding: 16px; position: relative; overflow: hidden;
+  }
+  .demo-chart svg { width: 100%; height: 100%; }
+  .typing-cursor {
+    display: inline-block; width: 2px; height: 14px; background: var(--mc-cta);
+    margin-left: 2px; animation: blink 1s infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---------- Trust bar ---------- */
+  .trust-bar {
+    background: var(--mc-bg);
+    padding: 48px 32px;
+    border-top: 1px solid var(--mc-border);
+    border-bottom: 1px solid var(--mc-border);
+  }
+  .trust-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    max-width: 1200px; margin: 0 auto; text-align: center;
+  }
+  .trust-stat .num {
+    font-size: 36px; font-weight: 700; color: var(--mc-teal-dark); letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .trust-stat .label { font-size: 14px; color: var(--mc-text-secondary); }
+
+  /* ---------- Playground ---------- */
+  .playground {
+    background: var(--mc-bg-soft);
+    padding: 100px 32px;
+    position: relative;
+  }
+  .playground-header { text-align: center; margin-bottom: 48px; }
+  .playground-header h2 {
+    font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 16px 0 12px;
+  }
+  .playground-header p {
+    font-size: 18px; color: var(--mc-text-secondary); max-width: 600px; margin: 0 auto;
+  }
+
+  .persona-picker {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    max-width: 900px; margin: 0 auto 32px;
+  }
+  .persona-card {
+    background: white; padding: 24px; border-radius: var(--radius-lg);
+    border: 2px solid var(--mc-border); cursor: pointer;
+    transition: all 0.2s; text-align: left;
+  }
+  .persona-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .persona-card.active {
+    border-color: var(--mc-cta);
+    box-shadow: 0 0 0 3px rgba(0, 105, 255, 0.1);
+  }
+  .persona-emoji { font-size: 32px; margin-bottom: 8px; }
+  .persona-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .persona-card .role { font-size: 13px; color: var(--mc-text-muted); margin-bottom: 8px; }
+  .persona-card .meta { font-size: 12px; color: var(--mc-text-secondary); }
+
+  .playground-app {
+    background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+    overflow: hidden; max-width: 1100px; margin: 0 auto;
+    border: 1px solid var(--mc-border);
+  }
+  .playground-toolbar {
+    display: flex; align-items: center; gap: 8px; padding: 14px 20px;
+    background: var(--mc-bg-alt); border-bottom: 1px solid var(--mc-border);
+  }
+  .playground-title {
+    display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+  }
+  .ai-badge {
+    background: linear-gradient(135deg, var(--mc-teal) 0%, var(--mc-cta) 100%);
+    color: white; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  .playground-body {
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 480px;
+  }
+  .chat-pane {
+    padding: 24px; border-right: 1px solid var(--mc-border);
+    display: flex; flex-direction: column;
+  }
+  .chat-messages {
+    flex: 1; overflow-y: auto; max-height: 380px; margin-bottom: 16px;
+  }
+  .message {
+    display: flex; gap: 10px; margin-bottom: 16px; animation: fadeIn 0.3s;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .message.user .bubble {
+    background: var(--mc-bg-soft); padding: 10px 14px; border-radius: var(--radius-md);
+    font-size: 14px; max-width: 85%;
+  }
+  .message.user { justify-content: flex-end; }
+  .message.ai .bubble {
+    background: white; padding: 10px 0; font-size: 14px; line-height: 1.6;
+  }
+  .message.ai .bubble strong { color: var(--mc-cta); }
+  .message.ai .bubble .insight {
+    background: rgba(0, 185, 166, 0.08); border-left: 3px solid var(--mc-teal);
+    padding: 10px 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-top: 8px; font-size: 13px;
+  }
+  .message.ai .bubble .action-btn {
+    margin-top: 10px; background: var(--mc-cta); color: white;
+    padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+    border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .message.ai .bubble .action-btn:hover { background: var(--mc-cta-hover); }
+
+  .suggested {
+    display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;
+  }
+  .suggested .label { font-size: 12px; color: var(--mc-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .chip {
+    background: white; border: 1px solid var(--mc-border);
+    padding: 10px 14px; border-radius: var(--radius-md); cursor: pointer;
+    font-size: 13px; text-align: left; transition: all 0.15s;
+    color: var(--mc-text);
+  }
+  .chip:hover { border-color: var(--mc-cta); background: rgba(0, 105, 255, 0.04); }
+
+  .chat-input {
+    display: flex; gap: 8px; padding-top: 16px; border-top: 1px solid var(--mc-border);
+  }
+  .chat-input input {
+    flex: 1; padding: 10px 14px; border-radius: var(--radius-md);
+    border: 1px solid var(--mc-border); font-size: 14px; font-family: inherit;
+  }
+  .chat-input input:focus { outline: none; border-color: var(--mc-cta); }
+  .chat-input button {
+    background: var(--mc-cta); color: white; border: none;
+    padding: 10px 16px; border-radius: var(--radius-md); cursor: pointer; font-weight: 600;
+  }
+
+  .chart-pane {
+    padding: 24px; background: linear-gradient(180deg, #fafbff 0%, white 100%);
+  }
+  .chart-pane h4 { font-size: 13px; font-weight: 600; color: var(--mc-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .chart-pane .chart-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--mc-text); }
+  .metric-row { display: flex; gap: 16px; margin-bottom: 20px; }
+  .metric {
+    flex: 1; background: white; padding: 14px; border-radius: var(--radius-md);
+    border: 1px solid var(--mc-border);
+  }
+  .metric .val { font-size: 24px; font-weight: 700; color: var(--mc-text); letter-spacing: -0.02em; }
+  .metric .lbl { font-size: 11px; color: var(--mc-text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .metric .delta { font-size: 12px; font-weight: 600; margin-top: 4px; }
+  .delta.up { color: var(--mc-green); }
+  .delta.down { color: var(--mc-red); }
+
+  .chart-canvas {
+    background: white; border-radius: var(--radius-md); border: 1px solid var(--mc-border);
+    padding: 16px; min-height: 220px; display: flex; flex-direction: column;
+  }
+  .chart-canvas svg { width: 100%; flex: 1; }
+  .chart-empty { display: flex; align-items: center; justify-content: center; color: var(--mc-text-muted); font-size: 14px; flex: 1; }
+
+  /* ---------- Engagement-triggered CTA ---------- */
+  .playground-conversion {
+    max-width: 1100px; margin: 24px auto 0;
+    background: linear-gradient(135deg, var(--mc-cta) 0%, var(--mc-teal) 100%);
+    color: white; padding: 24px 32px; border-radius: var(--radius-xl);
+    display: none; align-items: center; justify-content: space-between; gap: 24px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.4s;
+  }
+  .playground-conversion.visible { display: flex; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .playground-conversion h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .playground-conversion p { font-size: 14px; opacity: 0.9; }
+  .playground-conversion .cta-group { display: flex; gap: 8px; flex-shrink: 0; }
+  .playground-conversion .btn-white {
+    background: white; color: var(--mc-cta); padding: 12px 22px; border-radius: var(--radius-sm);
+    font-weight: 600; text-decoration: none; font-size: 15px; display: inline-flex; gap: 6px; align-items: center;
+  }
+  .playground-conversion .btn-outline-white {
+    background: transparent; color: white; border: 1.5px solid white; padding: 12px 22px;
+    border-radius: var(--radius-sm); font-weight: 600; text-decoration: none; font-size: 15px;
+  }
+
+  /* ---------- How it works ---------- */
+  .how-section { background: white; padding: 100px 32px; }
+  .how-section h2 { font-size: 40px; text-align: center; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 56px; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
+  .how-step {
+    background: var(--mc-bg-soft); padding: 32px; border-radius: var(--radius-lg); text-align: center;
+  }
+  .how-step .num {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--mc-cta); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; margin: 0 auto 16px; font-size: 16px;
+  }
+  .how-step h3 { font-size: 20px; margin-bottom: 8px; }
+  .how-step p { color: var(--mc-text-secondary); font-size: 15px; }
+
+  /* ---------- Trust & privacy ---------- */
+  .trust-section { background: var(--mc-bg-alt); padding: 80px 32px; }
+  .trust-section .container { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: center; }
+  .trust-section h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .trust-section p.sub { color: var(--mc-text-secondary); font-size: 16px; }
+  .trust-points { display: grid; gap: 16px; }
+  .trust-point {
+    background: white; padding: 20px 24px; border-radius: var(--radius-md);
+    display: flex; gap: 16px; align-items: flex-start; box-shadow: var(--shadow-sm);
+  }
+  .trust-point .ico {
+    width: 36px; height: 36px; border-radius: 50%; background: rgba(26,171,104,0.1);
+    color: var(--mc-green);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 18px;
+  }
+  .trust-point h4 { font-size: 16px; margin-bottom: 4px; }
+  .trust-point p { font-size: 14px; color: var(--mc-text-secondary); line-height: 1.5; }
+
+  /* ---------- Features ---------- */
+  .features-section { background: white; padding: 100px 32px; }
+  .features-section h2 { text-align: center; font-size: 40px; margin-bottom: 56px; font-weight: 700; letter-spacing: -0.02em; }
+  .feature-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    max-width: 1100px; margin: 0 auto 80px;
+  }
+  .feature-row:nth-child(odd) .feature-img { order: 2; }
+  .feature-row:last-child { margin-bottom: 0; }
+  .feature-row h3 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .feature-row p { color: var(--mc-text-secondary); font-size: 17px; line-height: 1.6; margin-bottom: 16px; }
+  .feature-row a { color: var(--mc-cta); font-weight: 600; text-decoration: none; }
+  .feature-row a:hover { text-decoration: underline; }
+  .feature-img {
+    background: linear-gradient(135deg, var(--mc-bg-soft) 0%, white 100%);
+    border-radius: var(--radius-lg); padding: 32px;
+    border: 1px solid var(--mc-border); min-height: 260px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ---------- Testimonial ---------- */
+  .testimonial-section { background: var(--mc-bg-soft); padding: 100px 32px; }
+  .testimonial-section .container { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .testimonial-quote {
+    font-size: 26px; font-weight: 600; line-height: 1.4; letter-spacing: -0.01em;
+    color: var(--mc-text); margin-bottom: 24px;
+  }
+  .testimonial-attr { font-size: 14px; color: var(--mc-text-secondary); margin-bottom: 24px; }
+  .testimonial-attr strong { color: var(--mc-text); display: block; font-size: 16px; margin-bottom: 2px; }
+  .testimonial-video {
+    background: linear-gradient(135deg, var(--mc-navy) 0%, var(--mc-cta) 100%);
+    border-radius: var(--radius-lg); aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    color: white; cursor: pointer; box-shadow: var(--shadow-md);
+  }
+  .play-btn {
+    width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+    border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s;
+  }
+  .testimonial-video:hover .play-btn { transform: scale(1.1); }
+
+  /* ---------- Integrations ---------- */
+  .integrations-section { background: white; padding: 80px 32px; }
+  .integrations-section h2 { text-align: center; font-size: 32px; margin-bottom: 8px; font-weight: 700; }
+  .integrations-section p.sub { text-align: center; color: var(--mc-text-secondary); margin-bottom: 48px; }
+  .integration-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+    max-width: 900px; margin: 0 auto;
+  }
+  .integration-logo {
+    aspect-ratio: 1; background: white; border: 1px solid var(--mc-border);
+    border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; color: var(--mc-text); transition: all 0.2s;
+    text-align: center; padding: 8px;
+  }
+  .integration-logo:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+
+  /* ---------- FAQ ---------- */
+  .faq-section { background: var(--mc-bg-alt); padding: 100px 32px; }
+  .faq-section h2 { text-align: center; font-size: 36px; margin-bottom: 48px; font-weight: 700; letter-spacing: -0.02em; }
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item {
+    background: white; border-radius: var(--radius-md); margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .faq-question {
+    padding: 20px 24px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    font-weight: 600; font-size: 16px;
+  }
+  .faq-question:hover { background: rgba(0,105,255,0.02); }
+  .faq-toggle {
+    width: 24px; height: 24px; border-radius: 50%; background: var(--mc-bg-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+    transition: transform 0.2s;
+  }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); }
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s;
+    padding: 0 24px;
+    color: var(--mc-text-secondary); font-size: 15px; line-height: 1.6;
+  }
+  .faq-item.open .faq-answer { max-height: 300px; padding: 0 24px 20px; }
+
+  /* ---------- IN-PAGE PRICING MODULE (QBO pattern) ---------- */
+  .pricing-section {
+    background: linear-gradient(180deg, var(--mc-bg-soft) 0%, white 100%);
+    padding: 100px 32px;
+    scroll-margin-top: 80px;
+  }
+  .pricing-section h2 {
+    text-align: center; font-size: 44px; font-weight: 700; letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .pricing-section .sub {
+    text-align: center; color: var(--mc-text-secondary); font-size: 18px; margin-bottom: 32px;
+  }
+
+  .billing-toggle {
+    display: flex; justify-content: center; gap: 4px; margin-bottom: 48px;
+    background: white; padding: 4px; border-radius: 999px;
+    width: fit-content; margin-left: auto; margin-right: auto;
+    border: 1px solid var(--mc-border);
+  }
+  .billing-toggle button {
+    border: none; background: transparent; padding: 10px 20px; border-radius: 999px;
+    font-weight: 600; font-size: 14px; cursor: pointer; color: var(--mc-text-secondary);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .billing-toggle button.active {
+    background: var(--mc-text); color: white;
+  }
+  .save-badge {
+    background: var(--mc-orange); color: white; padding: 2px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .billing-toggle button.active .save-badge { background: white; color: var(--mc-orange); }
+
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    max-width: 1200px; margin: 0 auto 32px;
+  }
+  .price-card {
+    background: white; padding: 32px 24px; border-radius: var(--radius-lg);
+    border: 1px solid var(--mc-border); display: flex; flex-direction: column;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .price-card:hover { box-shadow: var(--shadow-md); }
+  .price-card.recommended {
+    background: linear-gradient(180deg, rgba(0,105,255,0.04) 0%, white 100%);
+    border-color: var(--mc-cta);
+    box-shadow: 0 0 0 3px rgba(0,105,255,0.08), var(--shadow-md);
+    transform: translateY(-8px);
+  }
+  .recommend-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--mc-cta); color: white; padding: 4px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 4px;
+    white-space: nowrap;
+  }
+  .price-card .tier-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .price-card .tier-desc { font-size: 13px; color: var(--mc-text-muted); margin-bottom: 20px; min-height: 32px; }
+  .price-card .price-row { margin-bottom: 8px; }
+  .price-card .price {
+    font-size: 44px; font-weight: 700; color: var(--mc-text); letter-spacing: -0.025em;
+    line-height: 1;
+  }
+  .price-card .price-period { font-size: 14px; color: var(--mc-text-muted); }
+  .price-card .price-strike {
+    font-size: 14px; color: var(--mc-text-muted); text-decoration: line-through; margin-right: 6px;
+  }
+  .price-card .save-tag {
+    display: inline-block; background: rgba(255,149,0,0.12); color: var(--mc-orange);
+    padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 16px;
+  }
+  .price-card .contact-select {
+    width: 100%; padding: 8px 12px; border: 1px solid var(--mc-border);
+    border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 16px;
+    background: white; font-family: inherit;
+  }
+  .price-card .features {
+    list-style: none; flex: 1; margin-bottom: 20px;
+  }
+  .price-card .features li {
+    padding: 6px 0; font-size: 13px; display: flex; gap: 8px; align-items: flex-start;
+  }
+  .price-card .features li::before {
+    content: '✓'; color: var(--mc-green); font-weight: 700; flex-shrink: 0;
+  }
+  .price-card .features li.ai-feat::before { content: '✦'; color: var(--mc-teal-dark); }
+  .price-card .features li.ai-feat strong { color: var(--mc-teal-dark); }
+  .price-card .btn-card {
+    width: 100%; padding: 12px; border-radius: var(--radius-sm);
+    font-weight: 600; font-size: 14px; cursor: pointer; border: none;
+    text-decoration: none; text-align: center; display: block;
+    transition: all 0.2s;
+  }
+  .price-card .btn-card.primary { background: var(--mc-cta); color: white; }
+  .price-card .btn-card.primary:hover { background: var(--mc-cta-hover); }
+  .price-card .btn-card.outline {
+    background: white; color: var(--mc-text); border: 1.5px solid var(--mc-text);
+  }
+  .price-card .btn-card.outline:hover { background: var(--mc-text); color: white; }
+  .price-card .btn-secondary-link {
+    text-align: center; margin-top: 8px; font-size: 13px; color: var(--mc-text-muted);
+  }
+  .price-card .btn-secondary-link a { color: var(--mc-cta); text-decoration: none; }
+
+  .ai-addon-card {
+    max-width: 1200px; margin: 0 auto 32px;
+    background: linear-gradient(135deg, #f8fbff 0%, #effbf9 100%);
+    border: 2px solid var(--mc-teal); border-radius: var(--radius-lg);
+    padding: 32px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+  }
+  .ai-addon-card .info h3 { font-size: 22px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .ai-addon-card .info p { color: var(--mc-text-secondary); font-size: 15px; margin-bottom: 12px; }
+  .ai-addon-card .pricing-line {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .ai-addon-card .strike-old { font-size: 16px; color: var(--mc-text-muted); text-decoration: line-through; }
+  .ai-addon-card .new-price { font-size: 28px; font-weight: 700; color: var(--mc-teal-dark); letter-spacing: -0.02em; }
+  .ai-addon-card .arrow { font-size: 16px; color: var(--mc-text-muted); }
+  .ai-addon-card .save-tag {
+    background: var(--mc-orange); color: white; padding: 4px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+  }
+  .ai-addon-card .actions { display: flex; flex-direction: column; gap: 8px; }
+
+  .pricing-footer { text-align: center; margin-top: 16px; }
+  .pricing-footer p { color: var(--mc-text-muted); font-size: 14px; margin-bottom: 12px; }
+  .compare-toggle {
+    background: transparent; border: none; color: var(--mc-cta); font-weight: 600; font-size: 15px;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .compare-table-wrap {
+    max-width: 1200px; margin: 32px auto 0; max-height: 0; overflow: hidden;
+    transition: max-height 0.5s;
+  }
+  .compare-table-wrap.open { max-height: 1500px; }
+  .compare-table {
+    width: 100%; background: white; border-radius: var(--radius-lg);
+    border: 1px solid var(--mc-border); border-collapse: collapse; overflow: hidden;
+  }
+  .compare-table th, .compare-table td {
+    padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--mc-border); font-size: 14px;
+  }
+  .compare-table th { background: var(--mc-bg-alt); font-weight: 700; }
+  .compare-table tr.section-row td {
+    background: var(--mc-bg-soft); font-weight: 700; color: var(--mc-text-muted);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .compare-table .check { color: var(--mc-green); font-weight: 700; text-align: center; }
+  .compare-table .no { color: var(--mc-text-muted); text-align: center; }
+
+  /* ---------- Final CTA ---------- */
+  .final-cta {
+    background: linear-gradient(135deg, var(--mc-navy) 0%, var(--mc-cta) 100%);
+    color: white; padding: 100px 32px; text-align: center;
+  }
+  .final-cta h2 { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .final-cta p { font-size: 18px; opacity: 0.85; margin-bottom: 32px; }
+  .final-cta .cta-row { justify-content: center; }
+  .final-cta .btn-primary { background: white; color: var(--mc-cta); }
+  .final-cta .btn-primary:hover { background: var(--mc-bg-soft); }
+  .final-cta .btn-secondary { background: transparent; border-color: white; color: white; }
+  .final-cta .btn-secondary:hover { background: white; color: var(--mc-cta); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--mc-text); color: white; padding: 64px 32px 32px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px;
+    max-width: 1200px; margin: 0 auto 48px;
+  }
+  .footer-col h5 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; opacity: 0.8; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 8px; font-size: 14px; }
+  .footer-col a { color: white; opacity: 0.8; text-decoration: none; }
+  .footer-col a:hover { opacity: 1; }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px; opacity: 0.6;
+  }
+
+  /* ---------- Sticky pill ---------- */
+  .sticky-pill {
+    position: fixed; bottom: 24px; right: 24px; z-index: 50;
+    background: var(--mc-text); color: white; padding: 14px 22px;
+    border-radius: 999px; box-shadow: var(--shadow-lg);
+    text-decoration: none; font-weight: 600; font-size: 14px;
+    display: none; align-items: center; gap: 8px;
+    transition: all 0.2s;
+  }
+  .sticky-pill:hover { transform: translateY(-2px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+  .sticky-pill.visible { display: inline-flex; animation: slideUp 0.4s; }
+  .sticky-pill .ai-snowflake { color: var(--mc-yellow); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .hero-grid, .testimonial-section .container, .trust-section .container, .feature-row { grid-template-columns: 1fr; gap: 32px; }
+    .feature-row:nth-child(odd) .feature-img { order: 0; }
+    h1 { font-size: 36px; }
+    .playground-body { grid-template-columns: 1fr; }
+    .chat-pane { border-right: none; border-bottom: 1px solid var(--mc-border); }
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .price-card.recommended { transform: none; }
+    .nav-links { display: none; }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .how-grid, .integration-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .ai-addon-card { grid-template-columns: 1fr; }
+    .playground-conversion { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .pricing-grid, .integration-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 30px; }
+    .persona-picker { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <nav class="nav">
+    <div class="logo"><span class="logo-mark">😉</span> Mailchimp</div>
+    <ul class="nav-links">
+      <li><a href="#">Solutions</a></li>
+      <li><a href="#">Integrations</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a href="#pricing" class="nav-cta">Start Free Trial</a>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">✦ Analytics & Reporting Tools</span>
+      <h1>Stop building reports.<br>Start asking questions.</h1>
+      <p class="lead">Mailchimp Analytics AI turns your marketing data into answers in plain English—charts, insights, and what to do next.</p>
+      <div class="cta-row">
+        <a href="#playground" class="btn-primary">▶ Try Analytics AI free</a>
+        <a href="#pricing" class="btn-secondary">See plans &amp; pricing ↓</a>
+      </div>
+      <div class="hero-meta">
+        <span>✦ Live demo</span><span class="dot"></span>
+        <span>30M+ questions answered</span><span class="dot"></span>
+        <span>GDPR ✓</span>
+      </div>
+    </div>
+    <div class="hero-demo">
+      <div class="demo-header">
+        <div class="demo-dots"><span></span><span></span><span></span></div>
+        <span class="demo-url">analytics.mailchimp.com</span>
+      </div>
+      <div class="demo-question">"Why did revenue dip last week?"</div>
+      <div class="demo-answer">
+        <div class="ai-icon">✦</div>
+        <div class="demo-answer-text">
+          Revenue dropped <strong>18% week-over-week</strong> after the abandoned-cart automation paused. Restarting it should recover ~$4,200<span class="typing-cursor"></span>
+        </div>
+      </div>
+      <div class="demo-chart">
+        <svg viewBox="0 0 360 110" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#0069ff" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0069ff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,40 L60,32 L120,28 L180,40 L240,75 L300,82 L360,72" stroke="#0069ff" stroke-width="2.5" fill="none"/>
+          <path d="M0,40 L60,32 L120,28 L180,40 L240,75 L300,82 L360,72 L360,110 L0,110 Z" fill="url(#grad1)"/>
+          <circle cx="240" cy="75" r="5" fill="#d13438"/>
+          <text x="248" y="68" font-size="10" fill="#d13438" font-weight="700">-18%</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST BAR ===== -->
+<section class="trust-bar">
+  <div class="trust-grid">
+    <div class="trust-stat"><div class="num">30x</div><div class="label">ROI seen by Mailchimp users</div></div>
+    <div class="trust-stat"><div class="num">&gt;99%</div><div class="label">Email deliverability rate</div></div>
+    <div class="trust-stat"><div class="num">11M+</div><div class="label">Users globally</div></div>
+    <div class="trust-stat"><div class="num">50+</div><div class="label">Behavior-based triggers</div></div>
+  </div>
+</section>
+
+<!-- ===== PLAYGROUND ===== -->
+<section class="playground" id="playground">
+  <div class="playground-header">
+    <span class="eyebrow">✦ Try Analytics AI — no signup required</span>
+    <h2>Ask your data anything.</h2>
+    <p>Pick a sample business, then ask a question. See how Analytics AI answers in seconds.</p>
+  </div>
+
+  <div class="persona-picker">
+    <div class="persona-card active" data-persona="ecommerce">
+      <div class="persona-emoji">🛍️</div>
+      <h3>Ecommerce Founder</h3>
+      <div class="role">Oat Lord · Shopify + SMS</div>
+      <div class="meta">12K customers · 6 months data</div>
+    </div>
+    <div class="persona-card" data-persona="agency">
+      <div class="persona-emoji">🎨</div>
+      <h3>Agency Owner</h3>
+      <div class="role">Pixel Co. · 5 client accounts</div>
+      <div class="meta">Cross-client analytics</div>
+    </div>
+    <div class="persona-card" data-persona="nonprofit">
+      <div class="persona-emoji">💝</div>
+      <h3>Nonprofit Director</h3>
+      <div class="role">Reach Out · 5K donors</div>
+      <div class="meta">Campaign + donation data</div>
+    </div>
+  </div>
+
+  <div class="playground-app">
+    <div class="playground-toolbar">
+      <span class="ai-badge">✦ Analytics AI</span>
+      <div class="playground-title" id="playgroundTitle">Oat Lord · Live demo</div>
+    </div>
+    <div class="playground-body">
+      <div class="chat-pane">
+        <div class="chat-messages" id="chatMessages">
+          <div class="message ai">
+            <div class="ai-icon">✦</div>
+            <div class="bubble">
+              Hi! I'm Analytics AI. I have access to <strong id="datasetName">Oat Lord's</strong> last 6 months of data.<br><br>
+              Ask me anything — or pick a question below to get started.
+            </div>
+          </div>
+        </div>
+        <div class="suggested" id="suggestedQuestions">
+          <span class="label">Suggested questions</span>
+          <!-- populated by JS based on persona -->
+        </div>
+        <div class="chat-input">
+          <input type="text" id="userInput" placeholder="Type your question…" />
+          <button id="sendBtn">Ask</button>
+        </div>
+      </div>
+      <div class="chart-pane">
+        <h4>Live visualization</h4>
+        <div class="chart-title" id="chartTitle">Pick a question to see your chart</div>
+        <div class="metric-row" id="metricRow" style="display:none;">
+          <div class="metric"><div class="val" id="m1Val">—</div><div class="lbl" id="m1Lbl">Metric</div><div class="delta" id="m1Delta"></div></div>
+          <div class="metric"><div class="val" id="m2Val">—</div><div class="lbl" id="m2Lbl">Metric</div><div class="delta" id="m2Delta"></div></div>
+        </div>
+        <div class="chart-canvas" id="chartCanvas">
+          <div class="chart-empty">Your chart will appear here →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engagement-triggered conversion CTA -->
+  <div class="playground-conversion" id="playgroundConversion">
+    <div>
+      <h3>✦ Ready to use this on your data?</h3>
+      <p>Save 70% on Analytics AI for your first 3 months. No credit card required.</p>
+    </div>
+    <div class="cta-group">
+      <a href="#pricing" class="btn-white">See plans &amp; pricing ↓</a>
+      <a href="#pricing" class="btn-outline-white">Start Free Trial</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-section">
+  <h2>3 steps. 60 seconds. Real answers.</h2>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="num">1</div>
+      <h3>Connect your data</h3>
+      <p>One-click integrations with Shopify, Stripe, Salesforce, and 300+ more. Or upload a CSV.</p>
+    </div>
+    <div class="how-step">
+      <div class="num">2</div>
+      <h3>Ask in plain English</h3>
+      <p>"Why did open rates drop?" "Which segment converts best?" Just type. No SQL, no dashboards.</p>
+    </div>
+    <div class="how-step">
+      <div class="num">3</div>
+      <h3>Get the answer</h3>
+      <p>Charts, insights, and a recommended next step. Click to act on it directly in Mailchimp.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST & PRIVACY ===== -->
+<section class="trust-section">
+  <div class="container">
+    <div>
+      <span class="eyebrow">Privacy &amp; Trust</span>
+      <h2>Built for marketers. Audited for security.</h2>
+      <p class="sub">Your data stays yours. Period.</p>
+    </div>
+    <div class="trust-points">
+      <div class="trust-point">
+        <div class="ico">🔒</div>
+        <div>
+          <h4>Your data isn't used to train models</h4>
+          <p>Analytics AI uses your data only to answer your questions. It is never used for training, fine-tuning, or shared with third parties.</p>
+        </div>
+      </div>
+      <div class="trust-point">
+        <div class="ico">📋</div>
+        <div>
+          <h4>Every answer cites its sources</h4>
+          <p>Hover any number or insight to see the exact rows the AI used. Full audit trail, every time.</p>
+        </div>
+      </div>
+      <div class="trust-point">
+        <div class="ico">✅</div>
+        <div>
+          <h4>SOC 2, GDPR, HIPAA-ready</h4>
+          <p>Enterprise-grade security and compliance, the same trust framework powering 11M+ Mailchimp users.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features-section">
+  <h2>Everything analytics, made conversational.</h2>
+
+  <div class="feature-row">
+    <div>
+      <h3>Predictive analytics that find your next sale</h3>
+      <p>Identify high-intent customers, forecast revenue, and surface segments most likely to convert—without a data team.</p>
+      <a href="#playground">Try predictive AI →</a>
+    </div>
+    <div class="feature-img">
+      <svg viewBox="0 0 320 200" width="100%">
+        <rect x="20" y="20" width="280" height="160" rx="8" fill="white" stroke="#e8edf5"/>
+        <text x="40" y="50" font-size="13" font-weight="700" fill="#1a1f36">Revenue forecast</text>
+        <text x="40" y="68" font-size="11" fill="#6b7c93">Next 30 days</text>
+        <path d="M40,140 L100,128 L160,118 L220,100 L280,80" stroke="#0069ff" stroke-width="2.5" fill="none"/>
+        <path d="M220,100 L280,80" stroke="#00b9a6" stroke-width="2.5" stroke-dasharray="4,4" fill="none"/>
+        <circle cx="220" cy="100" r="4" fill="#0069ff"/>
+        <circle cx="280" cy="80" r="4" fill="#00b9a6"/>
+        <text x="240" y="170" font-size="10" fill="#6b7c93">Today</text>
+        <text x="270" y="170" font-size="10" fill="#00b9a6" font-weight="700">+$12K</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <h3>Refine acquisition with deep audience insight</h3>
+      <p>Compare acquisition channels, see which segments respond best, and reroute spend to what's working—in real time.</p>
+      <a href="#playground">Explore audience analytics →</a>
+    </div>
+    <div class="feature-img">
+      <svg viewBox="0 0 320 200" width="100%">
+        <rect x="20" y="20" width="280" height="160" rx="8" fill="white" stroke="#e8edf5"/>
+        <text x="40" y="50" font-size="13" font-weight="700" fill="#1a1f36">Acquisition by source</text>
+        <rect x="40" y="80" width="180" height="14" rx="3" fill="#1e3a6e"/>
+        <rect x="40" y="105" width="120" height="14" rx="3" fill="#4472c4"/>
+        <rect x="40" y="130" width="80" height="14" rx="3" fill="#00b9a6"/>
+        <rect x="40" y="155" width="50" height="14" rx="3" fill="#f4809b"/>
+        <text x="225" y="92" font-size="11" fill="#6b7c93">Email · 42%</text>
+        <text x="165" y="117" font-size="11" fill="#6b7c93">Social · 28%</text>
+        <text x="125" y="142" font-size="11" fill="#6b7c93">SEO · 19%</text>
+        <text x="95" y="167" font-size="11" fill="#6b7c93">Paid · 11%</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div>
+      <h3>A/B testing on autopilot</h3>
+      <p>Analytics AI runs the test, picks the winner, and explains why. So you stop guessing which subject line works.</p>
+      <a href="#playground">See A/B testing →</a>
+    </div>
+    <div class="feature-img">
+      <svg viewBox="0 0 320 200" width="100%">
+        <rect x="20" y="20" width="280" height="160" rx="8" fill="white" stroke="#e8edf5"/>
+        <text x="40" y="50" font-size="13" font-weight="700" fill="#1a1f36">Subject line A/B</text>
+        <rect x="40" y="70" width="115" height="80" rx="6" fill="#f0f4f8"/>
+        <text x="50" y="90" font-size="11" font-weight="700" fill="#1a1f36">Variant A</text>
+        <text x="50" y="108" font-size="22" font-weight="700" fill="#6b7c93">22%</text>
+        <text x="50" y="128" font-size="10" fill="#6b7c93">Open rate</text>
+
+        <rect x="165" y="70" width="115" height="80" rx="6" fill="rgba(26,171,104,0.08)" stroke="#1aab68" stroke-width="2"/>
+        <text x="175" y="90" font-size="11" font-weight="700" fill="#1aab68">Variant B · Winner</text>
+        <text x="175" y="108" font-size="22" font-weight="700" fill="#1aab68">38%</text>
+        <text x="175" y="128" font-size="10" fill="#1aab68">+73% lift</text>
+
+        <text x="40" y="172" font-size="10" fill="#00b9a6" font-weight="700">✦ AI: "B's emoji drove higher mobile opens"</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIAL ===== -->
+<section class="testimonial-section">
+  <div class="container">
+    <div>
+      <span class="eyebrow">Customer Story</span>
+      <p class="testimonial-quote">"Mailchimp's reporting tools were a big part of what motivated me to change our email strategy. It made it easier to see our performance and act on it."</p>
+      <p class="testimonial-attr">
+        <strong>Lauren Korus</strong>
+        Content Manager, Vacation Races
+      </p>
+      <a href="#" style="color: var(--mc-cta); font-weight: 600; text-decoration: none;">Read the case study →</a>
+    </div>
+    <div class="testimonial-video">
+      <div class="play-btn">▶</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTEGRATIONS ===== -->
+<section class="integrations-section">
+  <h2>Works with your stack</h2>
+  <p class="sub">Connect Mailchimp Analytics AI to 300+ tools.</p>
+  <div class="integration-grid">
+    <div class="integration-logo">Shopify</div>
+    <div class="integration-logo">Stripe</div>
+    <div class="integration-logo">Salesforce</div>
+    <div class="integration-logo">Google Analytics</div>
+    <div class="integration-logo">Meta</div>
+    <div class="integration-logo">WooCommerce</div>
+    <div class="integration-logo">Square</div>
+    <div class="integration-logo">QuickBooks</div>
+    <div class="integration-logo">Slack</div>
+    <div class="integration-logo">HubSpot</div>
+    <div class="integration-logo">Canva</div>
+    <div class="integration-logo">+ 290 more</div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section">
+  <h2>Common questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question">How does Analytics AI access my data? <span class="faq-toggle">+</span></div>
+      <div class="faq-answer">Analytics AI reads only the data you connect — your Mailchimp account plus any integrations you authorize. It uses read-only access by default and shows you exactly which records it queries for each answer.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Will my data be used to train someone else's model? <span class="faq-toggle">+</span></div>
+      <div class="faq-answer">No. Your data is never used to train Analytics AI or any third-party model. It's used only to answer your questions in your account. Full details in our AI security brief.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What happens if Analytics AI is wrong? <span class="faq-toggle">+</span></div>
+      <div class="faq-answer">Every answer cites the rows and metrics it used — hover any number to verify. We also publish accuracy benchmarks quarterly. If you find an error, flag it and our team will investigate.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How long is the free trial? <span class="faq-toggle">+</span></div>
+      <div class="faq-answer">14 days, full access to Analytics AI features on the Standard plan. No credit card required to start. Cancel or downgrade any time.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Can I use Analytics AI with non-Mailchimp data? <span class="faq-toggle">+</span></div>
+      <div class="faq-answer">Yes. Connect Shopify, Stripe, Salesforce, your warehouse, or upload a CSV. Analytics AI works across whatever data you bring in.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What's the 70% intro discount? <span class="faq-toggle">+</span></div>
+      <div class="faq-answer">For new Standard plan customers, Analytics AI is 70% off for your first 3 months. After that, standard add-on pricing applies. Cancel anytime.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IN-PAGE PRICING MODULE (QBO pattern) ===== -->
+<section class="pricing-section" id="pricing">
+  <h2>Find the right plan</h2>
+  <p class="sub">Try Analytics AI free for 14 days. Cancel or downgrade anytime.</p>
+
+  <div class="billing-toggle">
+    <button class="active" data-billing="annual">Annual <span class="save-badge">Save 20%</span></button>
+    <button data-billing="monthly">Monthly</button>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Free -->
+    <div class="price-card">
+      <div class="tier-name">Free</div>
+      <div class="tier-desc">Get started with the basics</div>
+      <div class="price-row"><span class="price">$0</span> <span class="price-period">/mo</span></div>
+      <select class="contact-select"><option>Up to 500 contacts</option></select>
+      <ul class="features">
+        <li>Email Marketing &amp; SMS</li>
+        <li>Basic reports</li>
+        <li>Pre-built templates</li>
+        <li>1 audience</li>
+      </ul>
+      <a href="#" class="btn-card outline">Sign up free</a>
+      <div class="btn-secondary-link">No credit card required</div>
+    </div>
+
+    <!-- Essentials -->
+    <div class="price-card">
+      <div class="tier-name">Essentials</div>
+      <div class="tier-desc">Email essentials for growing teams</div>
+      <div class="price-row">
+        <span class="price-strike">$13</span>
+        <span class="price">$10.40</span> <span class="price-period">/mo</span>
+      </div>
+      <span class="save-tag">Save 20% with annual</span>
+      <select class="contact-select"><option>500 contacts</option><option>1,500 contacts</option><option>2,500 contacts</option></select>
+      <ul class="features">
+        <li>All Free features</li>
+        <li>3 audiences</li>
+        <li>Email scheduling</li>
+        <li>Custom branding</li>
+      </ul>
+      <a href="#" class="btn-card primary">Start Free Trial</a>
+      <div class="btn-secondary-link">Risk-free · No card required</div>
+    </div>
+
+    <!-- Standard (RECOMMENDED) -->
+    <div class="price-card recommended">
+      <div class="recommend-badge">✦ Recommended · AI included</div>
+      <div class="tier-name">Standard</div>
+      <div class="tier-desc">Smart marketing with AI built-in</div>
+      <div class="price-row">
+        <span class="price-strike">$20</span>
+        <span class="price">$16</span> <span class="price-period">/mo</span>
+      </div>
+      <span class="save-tag">Save 20% with annual</span>
+      <select class="contact-select"><option>500 contacts</option><option>1,500 contacts</option><option>5,000 contacts</option></select>
+      <ul class="features">
+        <li>All Essentials features</li>
+        <li class="ai-feat"><strong>Analytics AI</strong> (conversational Q&amp;A)</li>
+        <li class="ai-feat"><strong>Predictive insights</strong> &amp; forecasting</li>
+        <li>5 audiences · Custom reports</li>
+        <li>Dynamic content</li>
+      </ul>
+      <a href="#" class="btn-card primary">Start Free Trial</a>
+      <div class="btn-secondary-link">14-day trial · No card required</div>
+    </div>
+
+    <!-- Premium -->
+    <div class="price-card">
+      <div class="tier-name">Premium</div>
+      <div class="tier-desc">Advanced controls for scale</div>
+      <div class="price-row">
+        <span class="price-strike">$350</span>
+        <span class="price">$280</span> <span class="price-period">/mo</span>
+      </div>
+      <span class="save-tag">Save 20% with annual</span>
+      <select class="contact-select"><option>10,000 contacts</option><option>50,000 contacts</option><option>100,000+ contacts</option></select>
+      <ul class="features">
+        <li>All Standard features</li>
+        <li class="ai-feat"><strong>Analytics AI Premium</strong> (free)</li>
+        <li>Unlimited audiences</li>
+        <li>Premium migration services</li>
+        <li>4 onboarding sessions</li>
+      </ul>
+      <a href="#" class="btn-card primary">Buy now</a>
+      <div class="btn-secondary-link"><a href="#">Or request a demo →</a></div>
+    </div>
+  </div>
+
+  <!-- Analytics AI add-on for Essentials -->
+  <div class="ai-addon-card">
+    <div class="info">
+      <h3>✦ Add Analytics AI to Essentials</h3>
+      <p>On the Essentials plan? Add Analytics AI for ask-anything Q&amp;A, predictive insights, and forecasting.</p>
+      <div class="pricing-line">
+        <span class="strike-old">$25/mo</span>
+        <span class="arrow">→</span>
+        <span class="new-price">$7.50/mo</span>
+        <span class="save-tag">70% off · 3 months</span>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn-card primary" style="width:auto; padding: 12px 24px;">Add to my plan</a>
+      <a href="#playground" class="btn-card outline" style="width:auto; padding: 10px 20px; font-size: 13px;">Try the demo ↑</a>
+    </div>
+  </div>
+
+  <div class="pricing-footer">
+    <p>Risk-Free · No Credit Card Required · Cancel anytime</p>
+    <button class="compare-toggle" id="compareToggle">Compare all features ▾</button>
+  </div>
+
+  <div class="compare-table-wrap" id="compareTableWrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:40%;">Feature</th>
+          <th>Free</th>
+          <th>Essentials</th>
+          <th>Standard</th>
+          <th>Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-row"><td colspan="5">Core</td></tr>
+        <tr><td>Audiences</td><td>1</td><td>3</td><td>5</td><td>Unlimited</td></tr>
+        <tr><td>Users</td><td>1</td><td>3</td><td>5</td><td>Unlimited</td></tr>
+        <tr><td>Email scheduling</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+
+        <tr class="section-row"><td colspan="5">✦ Analytics AI</td></tr>
+        <tr><td>Conversational Q&amp;A</td><td class="no">—</td><td>Add-on (70% off)</td><td class="check">Included</td><td class="check">Included</td></tr>
+        <tr><td>Predictive insights</td><td class="no">—</td><td>Add-on</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Revenue forecasting</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Custom AI dashboards</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td></tr>
+
+        <tr class="section-row"><td colspan="5">Reporting</td></tr>
+        <tr><td>Basic reports</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Custom reports</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>A/B testing</td><td class="no">—</td><td>Limited</td><td class="check">Multivariate</td><td class="check">Multivariate</td></tr>
+
+        <tr class="section-row"><td colspan="5">Support</td></tr>
+        <tr><td>Onboarding sessions</td><td class="no">—</td><td class="no">—</td><td>1</td><td>4</td></tr>
+        <tr><td>24/7 support</td><td>Email</td><td>Email + chat</td><td class="check">All channels</td><td class="check">Phone + dedicated</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta">
+  <h2>Save 70% on Analytics AI.</h2>
+  <p>Start free. Add AI when you're ready. No credit card required.</p>
+  <div class="cta-row">
+    <a href="#pricing" class="btn-primary">Start Free Trial →</a>
+    <a href="#" class="btn-secondary">Talk to Sales</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="logo" style="margin-bottom: 16px;"><span class="logo-mark">😉</span> Mailchimp</div>
+      <p style="font-size: 14px; opacity: 0.8;">The #1 AI-powered marketing platform.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul><li><a href="#">Email Marketing</a></li><li><a href="#">Analytics AI</a></li><li><a href="#">Automations</a></li><li><a href="#pricing">Pricing</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <ul><li><a href="#">Marketing Library</a></li><li><a href="#">Help Center</a></li><li><a href="#">API Docs</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul><li><a href="#">About</a></li><li><a href="#">Careers</a></li><li><a href="#">Newsroom</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">GDPR</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2001-2026 Mailchimp. All rights reserved. Mailchimp® is a registered trademark.</div>
+</footer>
+
+<!-- ===== STICKY PILL (appears after engagement) ===== -->
+<a href="#pricing" class="sticky-pill" id="stickyPill">
+  <span class="ai-snowflake">✦</span> See plans &amp; pricing ↓
+</a>
+
+<script>
+  /* ============== Persona / Playground Logic ============== */
+  const personas = {
+    ecommerce: {
+      title: "Oat Lord · Live demo",
+      dataset: "Oat Lord's",
+      questions: [
+        { q: "Why did revenue drop last week?", chartTitle: "Weekly Revenue", chartType: "line",
+          metrics: [{val:"$18.4K", lbl:"This week", delta:"-18%", dir:"down"},{val:"$22.5K", lbl:"Last week", delta:"baseline", dir:"up"}],
+          answer: "Revenue dropped <strong>18% week-over-week</strong>. The decline tracks closely with the abandoned-cart automation pausing on Tuesday. <span class='insight'>✦ Insight: Restarting that automation should recover ~$4,200/wk based on prior performance.</span>",
+          action: "Restart automation"
+        },
+        { q: "Top 3 products this month?", chartTitle: "Top Products by Revenue", chartType: "bars",
+          metrics: [{val:"$8.2K", lbl:"Top product", delta:"+12%", dir:"up"},{val:"43%", lbl:"% of revenue", delta:"3 SKUs", dir:"up"}],
+          answer: "Your top 3 products this month: <strong>Oat Bowl Bundle ($8.2K)</strong>, Strawberry Smoothie Mix ($5.4K), and Recovery Granola ($4.1K). Together they drive <strong>43% of revenue</strong> from just 3 SKUs. <span class='insight'>✦ Insight: Repeat buyers of the Oat Bowl Bundle are 3x more likely to convert on a smoothie upsell.</span>",
+          action: "Build upsell automation"
+        },
+        { q: "What's the best send time?", chartTitle: "Open rate by hour", chartType: "heatmap",
+          metrics: [{val:"Tue 9am", lbl:"Best slot", delta:"42% open", dir:"up"},{val:"Sun 8pm", lbl:"Worst slot", delta:"11% open", dir:"down"}],
+          answer: "Your audience opens most reliably <strong>Tuesday 9am ET (42% open)</strong> and Thursday 11am (38%). Sunday evenings underperform — skip them. <span class='insight'>✦ Insight: Switching your weekly send from Friday 4pm to Tuesday 9am should lift opens ~22%.</span>",
+          action: "Reschedule next campaign"
+        },
+        { q: "Forecast next month's revenue", chartTitle: "Revenue Forecast", chartType: "forecast",
+          metrics: [{val:"$94K", lbl:"Forecast (May)", delta:"+8% MoM", dir:"up"},{val:"±$6K", lbl:"Confidence range", delta:"86% conf.", dir:"up"}],
+          answer: "Forecast: <strong>$94K in May</strong> (±$6K), an 8% lift over April. Driven by Mother's Day campaign + 2 new product launches. <span class='insight'>✦ Insight: Adding a 2nd Mother's Day reminder send could add ~$5K based on similar campaigns.</span>",
+          action: "Schedule reminder send"
+        },
+      ]
+    },
+    agency: {
+      title: "Pixel Co. · 5 client accounts",
+      dataset: "Pixel Co.'s 5 client accounts",
+      questions: [
+        { q: "Which client had the worst week?", chartTitle: "Client performance", chartType: "bars",
+          metrics: [{val:"Riverbed", lbl:"Underperformer", delta:"-31%", dir:"down"},{val:"$2.4K", lbl:"Lost revenue", delta:"vs forecast", dir:"down"}],
+          answer: "<strong>Riverbed Coffee</strong> dropped 31% week-over-week. Their last 3 campaigns hit a spam folder pattern. <span class='insight'>✦ Insight: Their sender reputation score fell from 92 → 71 after the bulk send. Pause and warm up domain.</span>",
+          action: "Pause Riverbed sends"
+        },
+        { q: "Which client should I upsell first?", chartTitle: "Upsell scoring", chartType: "bars",
+          metrics: [{val:"Sundial", lbl:"Top score", delta:"94/100", dir:"up"},{val:"+$8K/mo", lbl:"Est. upsell value", delta:"4 clients", dir:"up"}],
+          answer: "<strong>Sundial Apparel</strong> scores 94/100 for upsell. They've maxed Standard's audiences (5/5), revenue is up 38% QoQ, and they've asked support twice about Premium features. <span class='insight'>✦ Insight: Bundle Premium + 4 onboarding sessions for Sundial — 87% likely to close.</span>",
+          action: "Draft Sundial pitch"
+        },
+        { q: "Compare client open rates", chartTitle: "Client open rates", chartType: "bars",
+          metrics: [{val:"Sundial", lbl:"Best", delta:"42% open", dir:"up"},{val:"Riverbed", lbl:"Worst", delta:"14% open", dir:"down"}],
+          answer: "Sundial leads at <strong>42% open</strong>; Mavenly (38%), Vela (35%), Glow (28%), Riverbed (14%). <span class='insight'>✦ Insight: Vertical matters more than tactic — apparel clients average 39% vs CPG at 22%.</span>",
+          action: "Export client report"
+        },
+      ]
+    },
+    nonprofit: {
+      title: "Reach Out · 5K donors",
+      dataset: "Reach Out's donor",
+      questions: [
+        { q: "Which campaign drove the most donations?", chartTitle: "Donations by campaign", chartType: "bars",
+          metrics: [{val:"$14.2K", lbl:"Holiday Drive", delta:"+62%", dir:"up"},{val:"68%", lbl:"% of Q4 revenue", delta:"single campaign", dir:"up"}],
+          answer: "<strong>Holiday Drive</strong> raised <strong>$14.2K</strong> — 62% above target and 68% of Q4 revenue. Subject line A/B winner: 'A meal for a neighbor' (+47% lift). <span class='insight'>✦ Insight: Stories with named beneficiaries outperform generic appeals 2.3x in your audience.</span>",
+          action: "Replicate for Spring Drive"
+        },
+        { q: "Who are my major donor candidates?", chartTitle: "Donor scoring", chartType: "bars",
+          metrics: [{val:"42 donors", lbl:"Major candidates", delta:"$50K potential", dir:"up"},{val:"7", lbl:"Top tier (>$500)", delta:"3 new", dir:"up"}],
+          answer: "<strong>42 donors</strong> score high for major-gift potential — gave 3+ times in 2 years and engaged with 5+ emails. Estimated <strong>$50K potential</strong> annual upgrade. <span class='insight'>✦ Insight: 7 donors are top tier (lifetime gifts &gt; $500). 3 are new this quarter — outreach now while warm.</span>",
+          action: "Export major donor list"
+        },
+        { q: "How is donor retention trending?", chartTitle: "Donor retention", chartType: "line",
+          metrics: [{val:"68%", lbl:"YoY retention", delta:"+4 pp", dir:"up"},{val:"22%", lbl:"Lapsed", delta:"-3 pp", dir:"up"}],
+          answer: "Retention is at <strong>68%</strong>, up 4 points YoY. Lapsed donors fell to 22%. Your re-engagement series is working. <span class='insight'>✦ Insight: Donors who got 2+ thank-you emails retain at 81% vs 54% for those who got just 1.</span>",
+          action: "Expand thank-you series"
+        },
+      ]
+    }
+  };
+
+  let currentPersona = "ecommerce";
+  let interactionCount = 0;
+
+  const personaCards = document.querySelectorAll('.persona-card');
+  const suggestedQuestions = document.getElementById('suggestedQuestions');
+  const chatMessages = document.getElementById('chatMessages');
+  const chartTitle = document.getElementById('chartTitle');
+  const chartCanvas = document.getElementById('chartCanvas');
+  const metricRow = document.getElementById('metricRow');
+  const playgroundTitle = document.getElementById('playgroundTitle');
+  const datasetName = document.getElementById('datasetName');
+  const playgroundConversion = document.getElementById('playgroundConversion');
+  const stickyPill = document.getElementById('stickyPill');
+
+  function renderSuggested() {
+    const persona = personas[currentPersona];
+    const items = persona.questions.map((qa, i) => `<button class="chip" data-idx="${i}">${qa.q}</button>`).join('');
+    suggestedQuestions.innerHTML = `<span class="label">Suggested questions</span>${items}`;
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => askQuestion(parseInt(chip.dataset.idx)));
+    });
+  }
+
+  function selectPersona(p) {
+    currentPersona = p;
+    personaCards.forEach(c => c.classList.toggle('active', c.dataset.persona === p));
+    playgroundTitle.textContent = personas[p].title;
+    datasetName.textContent = personas[p].dataset;
+    chatMessages.innerHTML = `
+      <div class="message ai">
+        <div class="ai-icon">✦</div>
+        <div class="bubble">Hi! I'm Analytics AI. I have access to <strong>${personas[p].dataset}</strong> data.<br><br>Ask me anything — or pick a question below to get started.</div>
+      </div>`;
+    chartTitle.textContent = "Pick a question to see your chart";
+    metricRow.style.display = 'none';
+    chartCanvas.innerHTML = '<div class="chart-empty">Your chart will appear here →</div>';
+    renderSuggested();
+  }
+
+  personaCards.forEach(card => {
+    card.addEventListener('click', () => selectPersona(card.dataset.persona));
+  });
+
+  function askQuestion(idx) {
+    const persona = personas[currentPersona];
+    const qa = persona.questions[idx];
+
+    // Add user message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.innerHTML = `<div class="bubble">${qa.q}</div>`;
+    chatMessages.appendChild(userMsg);
+
+    // Add AI typing
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'message ai';
+    aiMsg.innerHTML = `<div class="ai-icon">✦</div><div class="bubble"><span class="typing-cursor"></span></div>`;
+    chatMessages.appendChild(aiMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Stream answer
+    setTimeout(() => {
+      aiMsg.querySelector('.bubble').innerHTML = qa.answer + `<br><button class="action-btn">▶ ${qa.action}</button>`;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 700);
+
+    // Update chart
+    chartTitle.textContent = qa.chartTitle;
+    metricRow.style.display = 'flex';
+    document.getElementById('m1Val').textContent = qa.metrics[0].val;
+    document.getElementById('m1Lbl').textContent = qa.metrics[0].lbl;
+    const m1d = document.getElementById('m1Delta');
+    m1d.textContent = qa.metrics[0].delta;
+    m1d.className = 'delta ' + qa.metrics[0].dir;
+    document.getElementById('m2Val').textContent = qa.metrics[1].val;
+    document.getElementById('m2Lbl').textContent = qa.metrics[1].lbl;
+    const m2d = document.getElementById('m2Delta');
+    m2d.textContent = qa.metrics[1].delta;
+    m2d.className = 'delta ' + qa.metrics[1].dir;
+
+    setTimeout(() => { renderChart(qa.chartType, qa.chartTitle); }, 300);
+
+    interactionCount++;
+    if (interactionCount >= 2) {
+      playgroundConversion.classList.add('visible');
+      stickyPill.classList.add('visible');
+    }
+  }
+
+  function renderChart(type, title) {
+    let svg = '';
+    if (type === 'line') {
+      svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
+        <defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0069ff" stop-opacity="0.25"/><stop offset="100%" stop-color="#0069ff" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0,40 L60,32 L120,28 L180,40 L240,110 L300,140 L360,130" stroke="#0069ff" stroke-width="2.5" fill="none"/>
+        <path d="M0,40 L60,32 L120,28 L180,40 L240,110 L300,140 L360,130 L360,180 L0,180 Z" fill="url(#g1)"/>
+        <circle cx="240" cy="110" r="5" fill="#d13438"/><text x="248" y="103" font-size="11" fill="#d13438" font-weight="700">-18%</text>
+      </svg>`;
+    } else if (type === 'bars') {
+      svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
+        <rect x="20" y="40" width="60" height="130" rx="3" fill="#1e3a6e"/>
+        <rect x="100" y="60" width="60" height="110" rx="3" fill="#4472c4"/>
+        <rect x="180" y="80" width="60" height="90" rx="3" fill="#00b9a6"/>
+        <rect x="260" y="120" width="60" height="50" rx="3" fill="#f4809b"/>
+        <text x="50" y="35" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$8.2K</text>
+        <text x="130" y="55" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$5.4K</text>
+        <text x="210" y="75" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$4.1K</text>
+        <text x="290" y="115" font-size="11" fill="#1a1f36" text-anchor="middle" font-weight="700">$2.8K</text>
+      </svg>`;
+    } else if (type === 'heatmap') {
+      svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
+        ${[0,1,2,3,4,5,6].map(d => [0,1,2,3,4,5,6,7].map(h => {
+          const intensity = Math.random();
+          const fill = intensity > 0.7 ? '#1e3a6e' : intensity > 0.4 ? '#4472c4' : intensity > 0.2 ? '#a3c2eb' : '#e8edf5';
+          return `<rect x="${20 + h*40}" y="${20 + d*22}" width="36" height="18" rx="2" fill="${fill}"/>`;
+        }).join('')).join('')}
+        <rect x="60" y="42" width="36" height="18" rx="2" fill="#1aab68" stroke="#1aab68" stroke-width="2"/>
+        <text x="78" y="55" font-size="9" fill="white" text-anchor="middle" font-weight="700">42%</text>
+      </svg>`;
+    } else if (type === 'forecast') {
+      svg = `<svg viewBox="0 0 360 180" preserveAspectRatio="none">
+        <defs><linearGradient id="g2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#00b9a6" stop-opacity="0.25"/><stop offset="100%" stop-color="#00b9a6" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0,120 L60,110 L120,100 L180,90 L240,80" stroke="#0069ff" stroke-width="2.5" fill="none"/>
+        <path d="M240,80 L300,65 L360,52" stroke="#00b9a6" stroke-width="2.5" stroke-dasharray="5,4" fill="none"/>
+        <path d="M240,72 L300,55 L360,40 L360,68 L300,75 L240,88 Z" fill="url(#g2)"/>
+        <circle cx="240" cy="80" r="5" fill="#0069ff"/>
+        <circle cx="360" cy="52" r="5" fill="#00b9a6"/>
+        <text x="240" y="160" font-size="11" fill="#6b7c93" text-anchor="middle">Today</text>
+        <text x="360" y="40" font-size="11" fill="#00b9a6" font-weight="700" text-anchor="end">$94K</text>
+      </svg>`;
+    }
+    chartCanvas.innerHTML = svg;
+  }
+
+  // Custom question handler
+  document.getElementById('sendBtn').addEventListener('click', () => {
+    const input = document.getElementById('userInput');
+    const q = input.value.trim();
+    if (!q) return;
+    // Just answer the first scripted question for any custom input (demo behavior)
+    askQuestion(0);
+    input.value = '';
+  });
+  document.getElementById('userInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') document.getElementById('sendBtn').click();
+  });
+
+  /* ============== Billing toggle ============== */
+  document.querySelectorAll('.billing-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.billing-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const isAnnual = btn.dataset.billing === 'annual';
+      // Update prices (demo: just toggle visible amounts)
+      const priceCards = document.querySelectorAll('.price-card');
+      const annualPrices = ['$0', '$10.40', '$16', '$280'];
+      const monthlyPrices = ['$0', '$13', '$20', '$350'];
+      const strikePrices = ['', '$13', '$20', '$350'];
+      priceCards.forEach((card, i) => {
+        const priceEl = card.querySelector('.price');
+        const strikeEl = card.querySelector('.price-strike');
+        const saveTag = card.querySelector('.save-tag');
+        if (priceEl) priceEl.textContent = isAnnual ? annualPrices[i] : monthlyPrices[i];
+        if (strikeEl) strikeEl.textContent = isAnnual ? strikePrices[i] : '';
+        if (saveTag) saveTag.style.display = isAnnual ? 'inline-block' : 'none';
+      });
+    });
+  });
+
+  /* ============== Compare features toggle ============== */
+  document.getElementById('compareToggle').addEventListener('click', () => {
+    const wrap = document.getElementById('compareTableWrap');
+    const btn = document.getElementById('compareToggle');
+    wrap.classList.toggle('open');
+    btn.textContent = wrap.classList.contains('open') ? 'Hide feature comparison ▴' : 'Compare all features ▾';
+  });
+
+  /* ============== FAQ accordion ============== */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-question').addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+
+  /* ============== Sticky pill: show after scroll past hero ============== */
+  let pillShown = false;
+  window.addEventListener('scroll', () => {
+    if (!pillShown && window.scrollY > 800 && interactionCount >= 1) {
+      stickyPill.classList.add('visible');
+      pillShown = true;
+    }
+  });
+
+  /* ============== Init ============== */
+  renderSuggested();
+</script>
+
+</body>
+</html>
