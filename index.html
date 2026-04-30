@@ -155,7 +155,7 @@
     font-size: 12px; font-weight: 600; color: var(--mc-text);
     margin-top: 16px;
   }
-  .gdpr-badge::before { content: '🛡️'; font-size: 14px; }
+  .gdpr-badge svg { width: 14px; height: 14px; color: var(--mc-cta); }
 
   /* ---------- Hero animated demo ---------- */
   .hero-demo {
@@ -560,39 +560,152 @@
     border-radius: var(--radius-sm); font-weight: 600; text-decoration: none; font-size: 15px;
   }
 
-  /* ---------- How it works ---------- */
-  .how-section { background: white; padding: 100px 32px; }
-  .how-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; font-size: 48px; text-align: center; letter-spacing: -0.01em; margin-bottom: 56px; line-height: 1.05; }
-  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
+  /* ---------- How it works (editorial showcase) ---------- */
+  .how-section { background: white; padding: 120px 32px; }
+  .how-section .how-intro {
+    max-width: 1280px; margin: 0 auto 72px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end;
+  }
+  .how-section h2 {
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
+    font-size: 56px; letter-spacing: -0.01em; line-height: 1.05; margin: 0;
+    color: var(--mc-text);
+  }
+  .how-section .how-intro-text {
+    font-size: 18px; color: var(--mc-text-secondary); line-height: 1.6;
+    max-width: 480px;
+  }
+  .how-section .eyebrow { display: block; margin-bottom: 12px; color: var(--mc-cta); }
+  .how-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
   .how-step {
-    background: var(--mc-bg-soft); padding: 32px; border-radius: var(--radius-lg); text-align: center;
+    background: white; border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--mc-border);
+    transition: all 0.25s;
+    display: flex; flex-direction: column;
   }
-  .how-step .num {
-    width: 40px; height: 40px; border-radius: 50%; background: var(--mc-cta); color: white;
+  .how-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+    border-color: rgba(0,124,137,0.2);
+  }
+  .how-step-photo {
+    aspect-ratio: 4/3;
+    background-size: cover; background-position: center;
+    position: relative;
+  }
+  .how-step-num {
+    position: absolute; top: 16px; left: 16px;
+    background: white;
+    color: var(--mc-text);
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .how-step-icon-wrap {
+    position: absolute; bottom: -22px; left: 24px;
+    width: 56px; height: 56px; border-radius: 14px;
+    background: white;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 700; margin: 0 auto 16px; font-size: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border: 1px solid var(--mc-border);
   }
-  .how-step h3 { font-size: 20px; margin-bottom: 8px; }
-  .how-step p { color: var(--mc-text-secondary); font-size: 15px; }
+  .how-step-icon-wrap svg { width: 26px; height: 26px; color: var(--mc-cta); }
+  .how-step-body {
+    padding: 36px 28px 32px;
+  }
+  .how-step h3 {
+    font-size: 22px; font-weight: 700; margin-bottom: 8px;
+    color: var(--mc-text); letter-spacing: -0.01em;
+  }
+  .how-step p { color: var(--mc-text-secondary); font-size: 15px; line-height: 1.6; }
 
-  /* ---------- Trust & privacy ---------- */
-  .trust-section { background: var(--mc-bg-alt); padding: 80px 32px; }
-  .trust-section .container { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: center; }
-  .trust-section h2 { font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300; font-size: 40px; letter-spacing: -0.01em; margin-bottom: 12px; line-height: 1.1; }
-  .trust-section p.sub { color: var(--mc-text-secondary); font-size: 16px; }
-  .trust-points { display: grid; gap: 16px; }
+  /* ---------- Privacy & Trust (premium editorial) ---------- */
+  .trust-section {
+    background: #0d0a08;
+    padding: 120px 32px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .trust-section::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url('assets/privacy-hero.jpg');
+    background-size: cover; background-position: center;
+    opacity: 0.18;
+    filter: saturate(0.6);
+  }
+  .trust-section::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(13,10,8,0.92) 0%, rgba(13,10,8,0.6) 60%, rgba(13,10,8,0.85) 100%);
+  }
+  .trust-section .container {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 96px; align-items: center;
+    max-width: 1280px;
+  }
+  .trust-section .eyebrow {
+    color: #a89aff;
+    margin-bottom: 16px; display: block;
+  }
+  .trust-section h2 {
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
+    font-size: 56px; letter-spacing: -0.01em; margin-bottom: 20px; line-height: 1.05;
+    color: white;
+  }
+  .trust-section p.sub {
+    color: rgba(255,255,255,0.7); font-size: 17px; line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .trust-section .compliance-row {
+    display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+    padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .compliance-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+  }
+
+  .trust-points {
+    display: grid; gap: 12px;
+  }
   .trust-point {
-    background: white; padding: 20px 24px; border-radius: var(--radius-md);
-    display: flex; gap: 16px; align-items: flex-start; box-shadow: var(--shadow-sm);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 24px 28px;
+    border-radius: 14px;
+    display: flex; gap: 20px; align-items: flex-start;
+    backdrop-filter: blur(20px);
+    transition: all 0.2s;
+  }
+  .trust-point:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(167,139,250,0.25);
+    transform: translateX(4px);
   }
   .trust-point .ico {
-    width: 36px; height: 36px; border-radius: 50%; background: rgba(26,171,104,0.1);
-    color: var(--mc-green);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    font-size: 18px;
+    width: 44px; height: 44px; flex-shrink: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(123,97,255,0.18), rgba(0,185,166,0.18));
+    border: 1px solid rgba(167,139,250,0.25);
+    display: flex; align-items: center; justify-content: center;
   }
-  .trust-point h4 { font-size: 16px; margin-bottom: 4px; }
-  .trust-point p { font-size: 14px; color: var(--mc-text-secondary); line-height: 1.5; }
+  .trust-point .ico svg {
+    width: 22px; height: 22px;
+    color: #a89aff;
+  }
+  .trust-point h4 {
+    font-size: 17px; margin-bottom: 6px;
+    color: white; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .trust-point p {
+    font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6;
+  }
 
   /* ---------- Features ---------- */
   .features-section { background: white; padding: 100px 32px; }
@@ -626,7 +739,7 @@
     font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
     color: var(--mc-cta); margin-bottom: 6px;
   }
-  .feature-img-overlay .ai-tag::before { content: '✦'; font-size: 12px; color: var(--mc-yellow); -webkit-text-stroke: 0.5px var(--mc-text); }
+  .feature-img-overlay .ai-tag svg { width: 11px; height: 11px; color: var(--mc-cta); }
   .feature-img-overlay .insight-line { font-size: 13px; font-weight: 600; color: var(--mc-text); line-height: 1.4; }
 
   /* ---------- Testimonial ---------- */
@@ -969,7 +1082,7 @@
       </button>
       <span class="lang">EN <svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span>
       <a href="tel:18003155939" class="phone">
-        <span class="phone-icon">📞</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         <span>+1 (800) 315-5939</span>
       </a>
       <a href="#" class="login">Log In</a>
@@ -989,7 +1102,7 @@
         <a href="#playground" class="btn-primary">Get Started</a>
         <a href="#pricing" class="btn-secondary">See plans &amp; pricing ↓</a>
       </div>
-      <div class="gdpr-badge">GDPR Friendly</div>
+      <div class="gdpr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>GDPR · SOC 2 · HIPAA</div>
       <div class="hero-meta">
         <span>✨ Live AI demo below</span><span class="dot"></span>
         <span>30M+ questions answered</span><span class="dot"></span>
@@ -1234,56 +1347,116 @@
   </div>
 </section>
 
-<!-- ===== HOW IT WORKS ===== -->
+<!-- ===== HOW IT WORKS — editorial showcase ===== -->
 <section class="how-section">
-  <h2>3 steps. 60 seconds. Real answers.</h2>
+  <div class="how-intro">
+    <div>
+      <span class="eyebrow">How it works</span>
+      <h2>From your first<br>question to a real<br>business decision.</h2>
+    </div>
+    <p class="how-intro-text">No dashboards to build. No SQL to write. No reports to ship to anyone. Just connect your stack, ask a question, and get an answer with a clear next step — in under a minute.</p>
+  </div>
+
   <div class="how-grid">
     <div class="how-step">
-      <div class="num">1</div>
-      <h3>Connect your data</h3>
-      <p>One-click integrations with Shopify, Stripe, Salesforce, and 300+ more. Or upload a CSV.</p>
+      <div class="how-step-photo" style="background-image: url('assets/step-connect.jpg');">
+        <div class="how-step-num">Step 01</div>
+        <div class="how-step-icon-wrap">
+          <!-- Lucide: link-2 -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+      </div>
+      <div class="how-step-body">
+        <h3>Connect your stack</h3>
+        <p>One-click integrations with Shopify, Stripe, Salesforce, and 300+ more — or drop in a CSV. Read-only by default, fully revocable.</p>
+      </div>
     </div>
+
     <div class="how-step">
-      <div class="num">2</div>
-      <h3>Ask in plain English</h3>
-      <p>"Why did open rates drop?" "Which segment converts best?" Just type. No SQL, no dashboards.</p>
+      <div class="how-step-photo" style="background-image: url('assets/step-ask.jpg');">
+        <div class="how-step-num">Step 02</div>
+        <div class="how-step-icon-wrap">
+          <!-- Lucide: message-square -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="how-step-body">
+        <h3>Ask in plain English</h3>
+        <p>"Why did open rates drop in March?" "Which segment converts best?" Just type. Analytics AI handles the heavy lifting.</p>
+      </div>
     </div>
+
     <div class="how-step">
-      <div class="num">3</div>
-      <h3>Get the answer</h3>
-      <p>Charts, insights, and a recommended next step. Click to act on it directly in Mailchimp.</p>
+      <div class="how-step-photo" style="background-image: url('assets/step-act.jpg');">
+        <div class="how-step-num">Step 03</div>
+        <div class="how-step-icon-wrap">
+          <!-- Lucide: target -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="how-step-body">
+        <h3>Act on the answer</h3>
+        <p>Each response includes a recommended next step — schedule a send, restart an automation, export a segment. One click and it's done.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== TRUST & PRIVACY ===== -->
+<!-- ===== PRIVACY & TRUST — premium editorial ===== -->
 <section class="trust-section">
   <div class="container">
     <div>
       <span class="eyebrow">Privacy &amp; Trust</span>
-      <h2>Built for marketers. Audited for security.</h2>
-      <p class="sub">Your data stays yours. Period.</p>
+      <h2>Built for marketers.<br>Audited for security.</h2>
+      <p class="sub">Your data is the most sensitive asset you own. Analytics AI is engineered with the same trust framework that powers 11 million Mailchimp businesses worldwide — and reviewed by independent auditors every quarter.</p>
+      <div class="compliance-row">
+        <span class="compliance-badge">SOC 2 Type II</span>
+        <span class="compliance-badge">GDPR</span>
+        <span class="compliance-badge">HIPAA-ready</span>
+        <span class="compliance-badge">ISO 27001</span>
+      </div>
     </div>
     <div class="trust-points">
       <div class="trust-point">
-        <div class="ico">🔒</div>
+        <div class="ico">
+          <!-- Lucide: shield-check -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
         <div>
-          <h4>Your data isn't used to train models</h4>
-          <p>Analytics AI uses your data only to answer your questions. It is never used for training, fine-tuning, or shared with third parties.</p>
+          <h4>Your data is never used to train AI models</h4>
+          <p>Analytics AI processes your data only to answer your questions, in your account. We never use it for model training, fine-tuning, or share it with any third party — including Anthropic, OpenAI, or other foundation-model providers.</p>
         </div>
       </div>
       <div class="trust-point">
-        <div class="ico">📋</div>
+        <div class="ico">
+          <!-- Lucide: file-search -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="11.5" cy="14.5" r="2.5"/><line x1="13.27" y1="16.27" x2="15" y2="18"/>
+          </svg>
+        </div>
         <div>
           <h4>Every answer cites its sources</h4>
-          <p>Hover any number or insight to see the exact rows the AI used. Full audit trail, every time.</p>
+          <p>Hover any number, segment, or insight to see the exact rows and metrics the AI used to generate it. Full audit trail, every time. If we can't show you where a fact came from, we don't show you the fact.</p>
         </div>
       </div>
       <div class="trust-point">
-        <div class="ico">✅</div>
+        <div class="ico">
+          <!-- Lucide: lock -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
         <div>
-          <h4>SOC 2, GDPR, HIPAA-ready</h4>
-          <p>Enterprise-grade security and compliance, the same trust framework powering 11M+ Mailchimp users.</p>
+          <h4>End-to-end encryption, region-locked storage</h4>
+          <p>All data is encrypted in transit and at rest with AES-256. Storage region pinning available for EU, UK, and US-only customers. SAML SSO, role-based access, and IP allowlisting on every paid plan.</p>
         </div>
       </div>
     </div>
@@ -1302,7 +1475,7 @@
     </div>
     <div class="feature-img" style="background-image: url('assets/feature-predictive.jpg');">
       <div class="feature-img-overlay">
-        <div class="ai-tag">Analytics AI</div>
+        <div class="ai-tag"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>Analytics AI</div>
         <div class="insight-line">Forecast: $94K next month (+8% MoM, ±$6K)</div>
       </div>
     </div>
@@ -1316,7 +1489,7 @@
     </div>
     <div class="feature-img" style="background-image: url('assets/feature-acquisition.jpg');">
       <div class="feature-img-overlay">
-        <div class="ai-tag">Analytics AI</div>
+        <div class="ai-tag"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>Analytics AI</div>
         <div class="insight-line">Email drives 42% of acquisition. Reroute paid to top-performing segments.</div>
       </div>
     </div>
@@ -1330,7 +1503,7 @@
     </div>
     <div class="feature-img" style="background-image: url('assets/feature-abtest.jpg');">
       <div class="feature-img-overlay">
-        <div class="ai-tag">Winner declared</div>
+        <div class="ai-tag"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>Winner declared</div>
         <div class="insight-line">Variant B drove +73% open lift. Emoji boosted mobile opens.</div>
       </div>
     </div>
