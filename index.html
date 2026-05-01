@@ -828,6 +828,97 @@
     display: flex; align-items: center; justify-content: center;
   }
 
+  /* ---------- Rotating Insight Cards (idle state) ---------- */
+  .insight-carousel {
+    position: relative; width: 100%; flex: 1; min-height: 240px;
+    overflow: hidden;
+  }
+  .insight-card {
+    position: absolute; inset: 0;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    display: flex; flex-direction: column; gap: 14px;
+    pointer-events: none;
+  }
+  .insight-card.active {
+    opacity: 1; transform: translateY(0); pointer-events: auto;
+  }
+  .insight-card-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mc-teal); display: flex; align-items: center; gap: 6px;
+  }
+  .insight-card-label .ic-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--mc-teal);
+    animation: ic-pulse 2s ease-in-out infinite;
+  }
+  @keyframes ic-pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  .insight-card-title {
+    font-size: 16px; font-weight: 600; color: white; line-height: 1.35;
+  }
+  .insight-card-viz {
+    flex: 1; display: flex; flex-direction: column; gap: 8px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 16px; min-height: 120px;
+  }
+  /* Mini bar chart rows */
+  .ic-bar-row { display: flex; align-items: center; gap: 10px; }
+  .ic-bar-label { font-size: 11px; color: rgba(255,255,255,0.55); width: 80px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ic-bar-track { flex: 1; height: 14px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+  .ic-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+  .ic-bar-fill.teal { background: var(--mc-teal); }
+  .ic-bar-fill.cta { background: var(--mc-cta); }
+  .ic-bar-val { font-size: 12px; font-weight: 700; color: white; width: 42px; font-variant-numeric: tabular-nums; }
+
+  /* Gauge */
+  .ic-gauge-wrap { display: flex; align-items: center; gap: 20px; padding: 8px 0; }
+  .ic-gauge { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ic-gauge svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+  .ic-gauge-ring { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 7; }
+  .ic-gauge-value { fill: none; stroke: var(--mc-teal); stroke-width: 7; stroke-linecap: round;
+    stroke-dasharray: 220; stroke-dashoffset: 220; transition: stroke-dashoffset 1.2s ease; }
+  .ic-gauge-center {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: white;
+  }
+  .ic-gauge-detail { display: flex; flex-direction: column; gap: 4px; }
+  .ic-gauge-detail .ic-gd-line { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.4; }
+  .ic-gauge-detail .ic-gd-line strong { color: var(--mc-teal); }
+
+  /* Recommendation card */
+  .ic-rec {
+    background: rgba(0,185,166,0.06); border: 1px solid rgba(0,185,166,0.15);
+    border-radius: 8px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .ic-rec-icon { flex-shrink: 0; color: var(--mc-teal); margin-top: 2px; }
+  .ic-rec-text { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.5; }
+  .ic-rec-text strong { color: var(--mc-teal); font-weight: 600; }
+  .ic-spark { display: inline-flex; align-items: baseline; gap: 4px; }
+  .ic-spark-bar { width: 3px; border-radius: 2px; background: var(--mc-teal); display: inline-block; }
+
+  /* Revenue donut */
+  .ic-revenue-row { display: flex; align-items: center; gap: 20px; padding: 4px 0; }
+  .ic-donut { width: 72px; height: 72px; flex-shrink: 0; }
+  .ic-donut svg { width: 72px; height: 72px; transform: rotate(-90deg); }
+  .ic-donut-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
+  .ic-donut-fill { fill: none; stroke-width: 10; stroke-linecap: round;
+    stroke-dasharray: 188; stroke-dashoffset: 188; transition: stroke-dashoffset 1.2s ease; }
+  .ic-donut-fill.seg1 { stroke: var(--mc-cta); }
+  .ic-donut-fill.seg2 { stroke: var(--mc-teal); }
+  .ic-donut-fill.seg3 { stroke: var(--mc-gold); }
+  .ic-revenue-detail { display: flex; flex-direction: column; gap: 6px; }
+  .ic-rev-line { font-size: 12px; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 8px; }
+  .ic-rev-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .ic-rev-line strong { color: white; font-weight: 600; }
+
+  /* Carousel dots */
+  .ic-dots { display: flex; gap: 6px; justify-content: center; margin-top: 12px; }
+  .ic-dot-nav {
+    width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.15);
+    border: none; cursor: pointer; padding: 0; transition: all 0.3s;
+  }
+  .ic-dot-nav.active { background: var(--mc-teal); width: 18px; border-radius: 3px; }
+
   /* ---------- Engagement-triggered CTA ---------- */
   .playground-conversion {
     max-width: 1100px; margin: 24px auto 0;
@@ -3134,11 +3225,112 @@
             <div class="metric"><div class="val" id="m2Val">—</div><div class="lbl" id="m2Lbl">Metric</div><div class="delta" id="m2Delta"></div></div>
           </div>
           <div class="chart-canvas" id="chartCanvas">
-            <div class="chart-empty">
-              <div class="small-spark">
-                <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
+            <!-- Rotating insight cards (idle state) — replaced by live chart on query -->
+            <div class="insight-carousel" id="insightCarousel">
+
+              <!-- Card 1: Top campaigns by open rate -->
+              <div class="insight-card active" data-card="0">
+                <div class="insight-card-label"><span class="ic-dot"></span> Sample insight</div>
+                <div class="insight-card-title">Top 5 campaigns by open rate</div>
+                <div class="insight-card-viz">
+                  <div class="ic-bar-row"><span class="ic-bar-label">Holiday Flash</span><div class="ic-bar-track"><div class="ic-bar-fill teal" style="width:92%"></div></div><span class="ic-bar-val">46%</span></div>
+                  <div class="ic-bar-row"><span class="ic-bar-label">Summer Drop</span><div class="ic-bar-track"><div class="ic-bar-fill teal" style="width:76%"></div></div><span class="ic-bar-val">38%</span></div>
+                  <div class="ic-bar-row"><span class="ic-bar-label">VIP Early Access</span><div class="ic-bar-track"><div class="ic-bar-fill cta" style="width:70%"></div></div><span class="ic-bar-val">35%</span></div>
+                  <div class="ic-bar-row"><span class="ic-bar-label">New Arrivals</span><div class="ic-bar-track"><div class="ic-bar-fill cta" style="width:58%"></div></div><span class="ic-bar-val">29%</span></div>
+                  <div class="ic-bar-row"><span class="ic-bar-label">Weekly Digest</span><div class="ic-bar-track"><div class="ic-bar-fill cta" style="width:44%"></div></div><span class="ic-bar-val">22%</span></div>
+                </div>
               </div>
-              <span>Ask a question to see live data</span>
+
+              <!-- Card 2: Benchmark comparison -->
+              <div class="insight-card" data-card="1">
+                <div class="insight-card-label"><span class="ic-dot"></span> Benchmark analysis</div>
+                <div class="insight-card-title">Your open rate vs. industry</div>
+                <div class="insight-card-viz">
+                  <div class="ic-gauge-wrap">
+                    <div class="ic-gauge">
+                      <svg viewBox="0 0 80 80"><circle class="ic-gauge-ring" cx="40" cy="40" r="35"/><circle class="ic-gauge-value" cx="40" cy="40" r="35" data-target="132"/></svg>
+                      <div class="ic-gauge-center">28%</div>
+                    </div>
+                    <div class="ic-gauge-detail">
+                      <div class="ic-gd-line">Your open rate: <strong>28%</strong></div>
+                      <div class="ic-gd-line">Ecommerce avg: 22%</div>
+                      <div class="ic-gd-line" style="color:var(--mc-sage);">+6pp above benchmark</div>
+                    </div>
+                  </div>
+                  <div class="ic-rec">
+                    <div class="ic-rec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div class="ic-rec-text">Strong performance. Focus on <strong>click-through rate</strong> next — yours is 1.2pp below benchmark.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3: Send time recommendation -->
+              <div class="insight-card" data-card="2">
+                <div class="insight-card-label"><span class="ic-dot"></span> Recommendation</div>
+                <div class="insight-card-title">Best send time for your audience</div>
+                <div class="insight-card-viz">
+                  <div class="ic-rec" style="margin-bottom:10px;">
+                    <div class="ic-rec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div class="ic-rec-text"><strong>Tuesday 9:00 AM</strong> drives 3.2x more revenue than your current Thursday sends.</div>
+                  </div>
+                  <div style="display:flex;gap:6px;align-items:flex-end;padding:8px 0 4px;">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+                      <div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:28px;position:relative;"><div style="position:absolute;bottom:0;width:100%;height:28px;background:rgba(255,255,255,0.08);border-radius:3px;"></div></div>
+                      <span style="font-size:10px;color:rgba(255,255,255,0.4);">Mon</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+                      <div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:80px;position:relative;"><div style="position:absolute;bottom:0;width:100%;height:80px;background:var(--mc-teal);border-radius:3px;opacity:0.8;"></div></div>
+                      <span style="font-size:10px;color:var(--mc-teal);font-weight:700;">Tue</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+                      <div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:36px;position:relative;"><div style="position:absolute;bottom:0;width:100%;height:36px;background:rgba(255,255,255,0.08);border-radius:3px;"></div></div>
+                      <span style="font-size:10px;color:rgba(255,255,255,0.4);">Wed</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+                      <div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:22px;position:relative;"><div style="position:absolute;bottom:0;width:100%;height:22px;background:rgba(255,255,255,0.08);border-radius:3px;"></div></div>
+                      <span style="font-size:10px;color:rgba(255,255,255,0.4);">Thu</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+                      <div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:18px;position:relative;"><div style="position:absolute;bottom:0;width:100%;height:18px;background:rgba(255,255,255,0.08);border-radius:3px;"></div></div>
+                      <span style="font-size:10px;color:rgba(255,255,255,0.4);">Fri</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4: Revenue summary -->
+              <div class="insight-card" data-card="3">
+                <div class="insight-card-label"><span class="ic-dot"></span> Revenue attribution</div>
+                <div class="insight-card-title">Campaign revenue — last 30 days</div>
+                <div class="insight-card-viz">
+                  <div class="ic-revenue-row">
+                    <div class="ic-donut">
+                      <svg viewBox="0 0 72 72">
+                        <circle class="ic-donut-bg" cx="36" cy="36" r="30"/>
+                        <circle class="ic-donut-fill seg1" cx="36" cy="36" r="30" data-target="94"/>
+                        <circle class="ic-donut-fill seg2" cx="36" cy="36" r="30" data-target="150" style="stroke-dashoffset:94"/>
+                        <circle class="ic-donut-fill seg3" cx="36" cy="36" r="30" data-target="170" style="stroke-dashoffset:150"/>
+                      </svg>
+                    </div>
+                    <div class="ic-revenue-detail">
+                      <div class="ic-rev-line"><span class="ic-rev-dot" style="background:var(--mc-cta);"></span> Campaigns <strong>$52.4K</strong></div>
+                      <div class="ic-rev-line"><span class="ic-rev-dot" style="background:var(--mc-teal);"></span> Automations <strong>$24.1K</strong></div>
+                      <div class="ic-rev-line"><span class="ic-rev-dot" style="background:var(--mc-gold);"></span> Journeys <strong>$7.7K</strong></div>
+                    </div>
+                  </div>
+                  <div class="ic-rec">
+                    <div class="ic-rec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                    <div class="ic-rec-text"><strong>$84.2K total</strong> from 1,247 orders. Automations drove 29% — consider adding a post-purchase sequence.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ic-dots" id="icDots">
+                <button class="ic-dot-nav active" data-idx="0"></button>
+                <button class="ic-dot-nav" data-idx="1"></button>
+                <button class="ic-dot-nav" data-idx="2"></button>
+                <button class="ic-dot-nav" data-idx="3"></button>
+              </div>
             </div>
           </div>
         </div>
@@ -3934,6 +4126,98 @@
 </a>
 
 <script>
+  /* ============== Restore Insight Carousel (idle state) ============== */
+  function restoreInsightCarousel() {
+    const cc = document.getElementById('chartCanvas');
+    if (!cc) return;
+    cc.innerHTML = `
+      <div class="insight-carousel" id="insightCarousel">
+        <div class="insight-card active" data-card="0">
+          <div class="insight-card-label"><span class="ic-dot"></span> Sample insight</div>
+          <div class="insight-card-title">Top 5 campaigns by open rate</div>
+          <div class="insight-card-viz">
+            <div class="ic-bar-row"><span class="ic-bar-label">Holiday Flash</span><div class="ic-bar-track"><div class="ic-bar-fill teal" style="width:92%"></div></div><span class="ic-bar-val">46%</span></div>
+            <div class="ic-bar-row"><span class="ic-bar-label">Summer Drop</span><div class="ic-bar-track"><div class="ic-bar-fill teal" style="width:76%"></div></div><span class="ic-bar-val">38%</span></div>
+            <div class="ic-bar-row"><span class="ic-bar-label">VIP Early Access</span><div class="ic-bar-track"><div class="ic-bar-fill cta" style="width:70%"></div></div><span class="ic-bar-val">35%</span></div>
+            <div class="ic-bar-row"><span class="ic-bar-label">New Arrivals</span><div class="ic-bar-track"><div class="ic-bar-fill cta" style="width:58%"></div></div><span class="ic-bar-val">29%</span></div>
+            <div class="ic-bar-row"><span class="ic-bar-label">Weekly Digest</span><div class="ic-bar-track"><div class="ic-bar-fill cta" style="width:44%"></div></div><span class="ic-bar-val">22%</span></div>
+          </div>
+        </div>
+        <div class="insight-card" data-card="1">
+          <div class="insight-card-label"><span class="ic-dot"></span> Benchmark analysis</div>
+          <div class="insight-card-title">Your open rate vs. industry</div>
+          <div class="insight-card-viz">
+            <div class="ic-gauge-wrap">
+              <div class="ic-gauge">
+                <svg viewBox="0 0 80 80"><circle class="ic-gauge-ring" cx="40" cy="40" r="35"/><circle class="ic-gauge-value" cx="40" cy="40" r="35" data-target="132"/></svg>
+                <div class="ic-gauge-center">28%</div>
+              </div>
+              <div class="ic-gauge-detail">
+                <div class="ic-gd-line">Your open rate: <strong>28%</strong></div>
+                <div class="ic-gd-line">Ecommerce avg: 22%</div>
+                <div class="ic-gd-line" style="color:var(--mc-sage);">+6pp above benchmark</div>
+              </div>
+            </div>
+            <div class="ic-rec"><div class="ic-rec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="ic-rec-text">Strong performance. Focus on <strong>click-through rate</strong> next — yours is 1.2pp below benchmark.</div></div>
+          </div>
+        </div>
+        <div class="insight-card" data-card="2">
+          <div class="insight-card-label"><span class="ic-dot"></span> Recommendation</div>
+          <div class="insight-card-title">Best send time for your audience</div>
+          <div class="insight-card-viz">
+            <div class="ic-rec" style="margin-bottom:10px;"><div class="ic-rec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="ic-rec-text"><strong>Tuesday 9:00 AM</strong> drives 3.2x more revenue than your current Thursday sends.</div></div>
+            <div style="display:flex;gap:6px;align-items:flex-end;padding:8px 0 4px;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;"><div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:28px;"></div><span style="font-size:10px;color:rgba(255,255,255,0.4);">Mon</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;"><div style="width:100%;border-radius:3px;height:80px;background:var(--mc-teal);opacity:0.8;"></div><span style="font-size:10px;color:var(--mc-teal);font-weight:700;">Tue</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;"><div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:36px;"></div><span style="font-size:10px;color:rgba(255,255,255,0.4);">Wed</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;"><div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:22px;"></div><span style="font-size:10px;color:rgba(255,255,255,0.4);">Thu</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;"><div style="width:100%;background:rgba(255,255,255,0.06);border-radius:3px;height:18px;"></div><span style="font-size:10px;color:rgba(255,255,255,0.4);">Fri</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="insight-card" data-card="3">
+          <div class="insight-card-label"><span class="ic-dot"></span> Revenue attribution</div>
+          <div class="insight-card-title">Campaign revenue — last 30 days</div>
+          <div class="insight-card-viz">
+            <div class="ic-revenue-row">
+              <div class="ic-donut"><svg viewBox="0 0 72 72"><circle class="ic-donut-bg" cx="36" cy="36" r="30"/><circle class="ic-donut-fill seg1" cx="36" cy="36" r="30" data-target="94"/><circle class="ic-donut-fill seg2" cx="36" cy="36" r="30" data-target="150" style="stroke-dashoffset:94"/><circle class="ic-donut-fill seg3" cx="36" cy="36" r="30" data-target="170" style="stroke-dashoffset:150"/></svg></div>
+              <div class="ic-revenue-detail">
+                <div class="ic-rev-line"><span class="ic-rev-dot" style="background:var(--mc-cta);"></span> Campaigns <strong>$52.4K</strong></div>
+                <div class="ic-rev-line"><span class="ic-rev-dot" style="background:var(--mc-teal);"></span> Automations <strong>$24.1K</strong></div>
+                <div class="ic-rev-line"><span class="ic-rev-dot" style="background:var(--mc-gold);"></span> Journeys <strong>$7.7K</strong></div>
+              </div>
+            </div>
+            <div class="ic-rec"><div class="ic-rec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="ic-rec-text"><strong>$84.2K total</strong> from 1,247 orders. Automations drove 29% — consider adding a post-purchase sequence.</div></div>
+          </div>
+        </div>
+        <div class="ic-dots" id="icDots"><button class="ic-dot-nav active" data-idx="0"></button><button class="ic-dot-nav" data-idx="1"></button><button class="ic-dot-nav" data-idx="2"></button><button class="ic-dot-nav" data-idx="3"></button></div>
+      </div>`;
+    // Re-init carousel logic
+    initInsightCarousel();
+  }
+
+  function initInsightCarousel() {
+    const carousel = document.getElementById('insightCarousel');
+    if (!carousel) return;
+    const cards = carousel.querySelectorAll('.insight-card');
+    const dots = carousel.querySelectorAll('.ic-dot-nav');
+    let current = 0; let timer = null;
+    function showCard(idx) {
+      cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      current = idx;
+      if (idx === 1) { const g = carousel.querySelector('[data-card="1"] .ic-gauge-value'); if (g) setTimeout(() => { g.style.strokeDashoffset = (220 - parseInt(g.dataset.target||'132')); }, 100); }
+      if (idx === 3) { carousel.querySelectorAll('[data-card="3"] .ic-donut-fill').forEach(r => { const t = parseInt(r.dataset.target||'0'); setTimeout(() => { r.style.strokeDashoffset = t; }, 100); }); }
+    }
+    function next() { showCard((current + 1) % cards.length); }
+    function start() { timer = setInterval(next, 4000); }
+    function stop() { clearInterval(timer); }
+    dots.forEach(d => d.addEventListener('click', () => { stop(); showCard(parseInt(d.dataset.idx)); start(); }));
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    start();
+  }
+
   /* ============== Persona / Playground Logic ============== */
   const personas = {
     ecommerce: {
@@ -4046,13 +4330,7 @@
       </div>`;
     chartTitle.textContent = "Your chart will appear here";
     metricRow.style.display = 'none';
-    chartCanvas.innerHTML = `
-      <div class="chart-empty">
-        <div class="small-spark">
-          <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
-        </div>
-        <span>Ask a question to see live data</span>
-      </div>`;
+    restoreInsightCarousel();
     renderSuggested();
   }
 
@@ -4580,13 +4858,7 @@
 
     chartTitle.textContent = 'Your chart will appear here';
     metricRow.style.display = 'none';
-    chartCanvas.innerHTML = `
-      <div class="chart-empty">
-        <div class="small-spark">
-          <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
-        </div>
-        <span>Ask a question to see live data</span>
-      </div>`;
+    restoreInsightCarousel();
 
     renderSuggested();
 
@@ -4639,6 +4911,69 @@
 
   /* ============== Init ============== */
   renderSuggested();
+
+  /* ============== Insight Carousel (idle right-panel) ============== */
+  (function () {
+    const carousel = document.getElementById('insightCarousel');
+    if (!carousel) return;
+    const cards = carousel.querySelectorAll('.insight-card');
+    const dots = carousel.querySelectorAll('.ic-dot-nav');
+    let current = 0;
+    let timer = null;
+
+    function showCard(idx) {
+      cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      current = idx;
+
+      // Animate gauge rings when card 1 (benchmark) becomes active
+      if (idx === 1) {
+        const gaugeVal = carousel.querySelector('.insight-card[data-card="1"] .ic-gauge-value');
+        if (gaugeVal) {
+          const target = parseInt(gaugeVal.dataset.target || '132');
+          setTimeout(() => { gaugeVal.style.strokeDashoffset = (220 - target); }, 100);
+        }
+      }
+      // Animate donut when card 3 (revenue) becomes active
+      if (idx === 3) {
+        carousel.querySelectorAll('.insight-card[data-card="3"] .ic-donut-fill').forEach(ring => {
+          const target = parseInt(ring.dataset.target || '0');
+          setTimeout(() => { ring.style.strokeDashoffset = target; }, 100);
+        });
+      }
+    }
+
+    function next() { showCard((current + 1) % cards.length); }
+
+    function startTimer() { timer = setInterval(next, 4000); }
+    function stopTimer() { clearInterval(timer); }
+
+    dots.forEach(d => {
+      d.addEventListener('click', () => {
+        stopTimer();
+        showCard(parseInt(d.dataset.idx));
+        startTimer();
+      });
+    });
+
+    // Pause on hover
+    carousel.addEventListener('mouseenter', stopTimer);
+    carousel.addEventListener('mouseleave', startTimer);
+
+    // Hide carousel when a real chart renders
+    const observer = new MutationObserver(() => {
+      if (carousel && !carousel.closest('.chart-canvas').querySelector('.insight-carousel')) return;
+      const hasSVG = carousel.closest('.chart-canvas').querySelector('svg.playground-chart, svg[viewBox]');
+      if (hasSVG && !hasSVG.closest('.insight-carousel')) {
+        carousel.style.display = 'none';
+        stopTimer();
+      }
+    });
+    const chartCanvas = document.getElementById('chartCanvas');
+    if (chartCanvas) observer.observe(chartCanvas, { childList: true, subtree: true });
+
+    startTimer();
+  })();
 </script>
 
 <!-- ===== Bento features: motion controller ===== -->
