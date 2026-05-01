@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Analytics & Reporting Tools | Mailchimp</title>
+<!-- Real data parsers -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
   /* ---------- Mailchimp Design System (Analytics page palette) ---------- */
   :root {
@@ -297,6 +300,184 @@
   .persona-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: white; }
   .persona-card .role { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
   .persona-card .meta { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  /* ----- Data source picker (above playground) ----- */
+  .data-source {
+    max-width: 1180px; margin: 0 auto 32px;
+  }
+  .ds-tabs {
+    display: flex; gap: 0; padding: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .ds-tab {
+    background: none; border: none;
+    padding: 10px 22px; border-radius: 10px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.15s;
+  }
+  .ds-tab:hover { color: rgba(255,255,255,0.9); }
+  .ds-tab.active {
+    background: rgba(255,255,255,0.1);
+    color: white;
+  }
+  .ds-tab svg { width: 16px; height: 16px; }
+
+  .ds-panel { display: none; }
+  .ds-panel.active { display: block; animation: fadeIn 0.3s; }
+
+  /* Sample personas (existing — wrapped in panel now) */
+
+  /* Upload zone */
+  .upload-zone {
+    background: rgba(255,255,255,0.03);
+    border: 2px dashed rgba(255,255,255,0.18);
+    border-radius: 16px;
+    padding: 56px 32px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    background: rgba(167,139,250,0.08);
+    border-color: rgba(167,139,250,0.5);
+  }
+  .upload-zone .up-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(123,97,255,0.2), rgba(0,185,166,0.2));
+    border: 1px solid rgba(167,139,250,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .upload-zone .up-icon svg { width: 26px; height: 26px; color: #a89aff; }
+  .upload-zone h4 {
+    font-size: 18px; font-weight: 600; color: white;
+    margin-bottom: 6px;
+  }
+  .upload-zone p {
+    font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.5;
+    max-width: 420px; margin: 0 auto;
+  }
+  .upload-zone .or-line {
+    margin-top: 18px;
+    display: inline-flex; gap: 14px; align-items: center;
+    font-size: 13px; color: rgba(255,255,255,0.5);
+  }
+  .upload-zone .browse-btn {
+    background: white; color: #161310;
+    padding: 10px 20px; border-radius: 8px;
+    font-weight: 600; font-size: 14px;
+    border: none; cursor: pointer; font-family: inherit;
+  }
+  .upload-zone .download-sample {
+    color: #a89aff; text-decoration: underline; cursor: pointer;
+    background: none; border: none; font-family: inherit; font-size: 13px;
+  }
+
+  /* Google Sheets paste */
+  .gsheet-input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .gsheet-input label {
+    display: block; font-size: 13px; color: rgba(255,255,255,0.7);
+    margin-bottom: 10px; font-weight: 500;
+  }
+  .gsheet-input .url-row {
+    display: flex; gap: 10px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 4px 4px 4px 18px;
+  }
+  .gsheet-input input {
+    flex: 1; padding: 12px 0;
+    background: transparent; border: none;
+    color: white; font-size: 14px; font-family: inherit;
+    outline: none;
+  }
+  .gsheet-input input::placeholder { color: rgba(255,255,255,0.3); }
+  .gsheet-input button {
+    background: white; color: #161310;
+    border: none; padding: 10px 22px;
+    border-radius: 8px; font-weight: 600; cursor: pointer;
+    font-family: inherit;
+  }
+  .gsheet-input .help {
+    font-size: 12px; color: rgba(255,255,255,0.4);
+    margin-top: 12px; line-height: 1.5;
+  }
+  .gsheet-input .help code {
+    background: rgba(255,255,255,0.06);
+    padding: 2px 6px; border-radius: 4px;
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+  }
+
+  /* Data preview after upload */
+  .data-preview {
+    margin-top: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(167,139,250,0.25);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: none;
+  }
+  .data-preview.visible { display: block; animation: fadeIn 0.3s; }
+  .data-preview .dp-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .data-preview .dp-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: #5fe5b8; font-size: 13px; font-weight: 600;
+  }
+  .data-preview .dp-status::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #5fe5b8; box-shadow: 0 0 8px #5fe5b8;
+  }
+  .data-preview .dp-meta { font-size: 13px; color: rgba(255,255,255,0.55); }
+  .data-preview .dp-table-wrap {
+    overflow-x: auto;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .data-preview table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12px;
+  }
+  .data-preview th, .data-preview td {
+    padding: 8px 12px; text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+  }
+  .data-preview th {
+    background: rgba(255,255,255,0.03);
+    font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .ds-error {
+    background: rgba(255, 107, 138, 0.08);
+    border: 1px solid rgba(255, 107, 138, 0.3);
+    color: #ff8fa3;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px; margin-top: 12px;
+    display: none;
+  }
+  .ds-error.visible { display: block; }
 
   /* Premium gradient frame around the playground app */
   .playground-frame-wrap {
@@ -1063,6 +1244,10 @@
     h1 { font-size: 30px; }
     .persona-picker { grid-template-columns: 1fr; }
   }
+
+  /* Bar chart helpers used by dynamic analytics */
+  .dyn-bar-label { font-size: 10px; fill: rgba(255,255,255,0.7); }
+  .dyn-bar-val   { font-size: 11px; fill: white; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -1248,29 +1433,97 @@
     <p>Pick a sample business, then ask a question. Analytics AI delivers a real answer with a live chart in seconds — same experience as ChatGPT, but grounded in your marketing data.</p>
   </div>
 
-  <div class="persona-picker">
-    <div class="persona-card active" data-persona="ecommerce">
-      <div class="persona-photo" style="background-image: url('assets/persona-ecommerce.jpg');"></div>
-      <div class="persona-body">
-        <h3>Ecommerce Founder</h3>
-        <div class="role">Oat Lord · Shopify + SMS</div>
-        <div class="meta">12K customers · 6 months data</div>
+  <div class="data-source">
+    <div class="ds-tabs">
+      <button class="ds-tab active" data-tab="sample">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        Sample data
+      </button>
+      <button class="ds-tab" data-tab="upload">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Excel / CSV
+      </button>
+      <button class="ds-tab" data-tab="gsheet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        Paste Google Sheet
+      </button>
+    </div>
+
+    <div class="ds-panel active" data-panel="sample">
+      <div class="persona-picker">
+        <div class="persona-card active" data-persona="ecommerce">
+          <div class="persona-photo" style="background-image: url('assets/persona-ecommerce.jpg');"></div>
+          <div class="persona-body">
+            <h3>Ecommerce Founder</h3>
+            <div class="role">Oat Lord · Shopify + SMS</div>
+            <div class="meta">12K customers · 6 months data</div>
+          </div>
+        </div>
+        <div class="persona-card" data-persona="agency">
+          <div class="persona-photo" style="background-image: url('assets/persona-agency.jpg');"></div>
+          <div class="persona-body">
+            <h3>Agency Owner</h3>
+            <div class="role">Pixel Co. · 5 client accounts</div>
+            <div class="meta">Cross-client analytics</div>
+          </div>
+        </div>
+        <div class="persona-card" data-persona="nonprofit">
+          <div class="persona-photo" style="background-image: url('assets/persona-nonprofit.jpg');"></div>
+          <div class="persona-body">
+            <h3>Nonprofit Director</h3>
+            <div class="role">Reach Out · 5K donors</div>
+            <div class="meta">Campaign + donation data</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="persona-card" data-persona="agency">
-      <div class="persona-photo" style="background-image: url('assets/persona-agency.jpg');"></div>
-      <div class="persona-body">
-        <h3>Agency Owner</h3>
-        <div class="role">Pixel Co. · 5 client accounts</div>
-        <div class="meta">Cross-client analytics</div>
+
+    <div class="ds-panel" data-panel="upload">
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.tsv" style="display: none;" />
+        <div class="up-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h4>Drop your spreadsheet here</h4>
+        <p>Excel (.xlsx, .xls), CSV, or TSV. Up to 50MB. Your data stays in your browser — nothing is uploaded to our servers in this demo.</p>
+        <div class="or-line">
+          <button class="browse-btn" id="browseBtn">Browse files</button>
+          <span>or</span>
+          <a href="sample-mailchimp-campaigns.csv" download class="download-sample">Download sample CSV →</a>
+        </div>
+      </div>
+      <div class="ds-error" id="uploadError"></div>
+      <div class="data-preview" id="dataPreview">
+        <div class="dp-header">
+          <div class="dp-status">Connected · Ready to query</div>
+          <div class="dp-meta" id="dpMeta">—</div>
+        </div>
+        <div class="dp-table-wrap">
+          <table id="dpTable"></table>
+        </div>
       </div>
     </div>
-    <div class="persona-card" data-persona="nonprofit">
-      <div class="persona-photo" style="background-image: url('assets/persona-nonprofit.jpg');"></div>
-      <div class="persona-body">
-        <h3>Nonprofit Director</h3>
-        <div class="role">Reach Out · 5K donors</div>
-        <div class="meta">Campaign + donation data</div>
+
+    <div class="ds-panel" data-panel="gsheet">
+      <div class="gsheet-input">
+        <label>Paste your Google Sheets share link</label>
+        <div class="url-row">
+          <input type="text" id="gsheetUrl" placeholder="https://docs.google.com/spreadsheets/d/..." />
+          <button id="gsheetConnect">Connect</button>
+        </div>
+        <div class="help">
+          Make sure your sheet is set to <code>Anyone with the link can view</code>. We use Google's CSV export endpoint — no OAuth required for read-only public sheets.
+        </div>
+      </div>
+      <div class="ds-error" id="gsheetError"></div>
+      <div class="data-preview" id="gsheetPreview">
+        <div class="dp-header">
+          <div class="dp-status">Connected · Ready to query</div>
+          <div class="dp-meta" id="gsheetMeta">—</div>
+        </div>
+        <div class="dp-table-wrap">
+          <table id="gsheetTable"></table>
+        </div>
       </div>
     </div>
   </div>
@@ -2065,6 +2318,416 @@
       pillShown = true;
     }
   });
+
+  /* ============================================================ */
+  /* ============== DATA SOURCE: tabs / upload / GSheet ========= */
+  /* ============================================================ */
+
+  // Tab switching
+  document.querySelectorAll('.ds-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.ds-tab').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.ds-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
+    });
+  });
+
+  /* ----- File upload (CSV / Excel via SheetJS + PapaParse) ----- */
+  const uploadZone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+  const browseBtn = document.getElementById('browseBtn');
+  const uploadError = document.getElementById('uploadError');
+  const dataPreview = document.getElementById('dataPreview');
+
+  browseBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
+  uploadZone.addEventListener('click', () => fileInput.click());
+
+  ['dragenter', 'dragover'].forEach(ev => {
+    uploadZone.addEventListener(ev, (e) => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    uploadZone.addEventListener(ev, (e) => { e.preventDefault(); uploadZone.classList.remove('dragover'); });
+  });
+  uploadZone.addEventListener('drop', (e) => {
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+  });
+
+  function showError(el, msg) {
+    el.textContent = msg;
+    el.classList.add('visible');
+    setTimeout(() => el.classList.remove('visible'), 6000);
+  }
+
+  function handleFile(file) {
+    uploadError.classList.remove('visible');
+    const ext = file.name.split('.').pop().toLowerCase();
+    const reader = new FileReader();
+
+    if (ext === 'csv' || ext === 'tsv') {
+      reader.onload = (e) => {
+        Papa.parse(e.target.result, {
+          header: true, skipEmptyLines: true, dynamicTyping: true,
+          complete: (results) => activateUploadedData(results.data, file.name),
+          error: (err) => showError(uploadError, 'Could not parse CSV: ' + err.message)
+        });
+      };
+      reader.readAsText(file);
+    } else if (ext === 'xlsx' || ext === 'xls') {
+      reader.onload = (e) => {
+        try {
+          const wb = XLSX.read(e.target.result, { type: 'array' });
+          const sheet = wb.Sheets[wb.SheetNames[0]];
+          const json = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+          activateUploadedData(json, file.name);
+        } catch (err) {
+          showError(uploadError, 'Could not parse Excel file: ' + err.message);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      showError(uploadError, 'Unsupported file type. Please upload CSV, TSV, XLSX, or XLS.');
+    }
+  }
+
+  function activateUploadedData(rows, sourceName) {
+    if (!rows || rows.length === 0) {
+      showError(uploadError, 'No rows found in the file.');
+      return;
+    }
+    const cols = Object.keys(rows[0]);
+    renderDataPreview(rows, cols, dataPreview, document.getElementById('dpTable'), document.getElementById('dpMeta'), sourceName);
+    activateCustomPersona(rows, cols, sourceName);
+  }
+
+  function renderDataPreview(rows, cols, container, tableEl, metaEl, sourceName) {
+    const previewRows = rows.slice(0, 8);
+    const tableHtml = `
+      <thead><tr>${cols.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+      <tbody>${previewRows.map(r => `<tr>${cols.map(c => `<td>${escapeHtml(String(r[c] ?? ''))}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    tableEl.innerHTML = tableHtml;
+    metaEl.innerHTML = `<strong>${rows.length}</strong> rows · <strong>${cols.length}</strong> columns · ${escapeHtml(sourceName)}`;
+    container.classList.add('visible');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* ----- Google Sheets connect (uses CSV export endpoint) ----- */
+  const gsheetUrl = document.getElementById('gsheetUrl');
+  const gsheetConnect = document.getElementById('gsheetConnect');
+  const gsheetError = document.getElementById('gsheetError');
+  const gsheetPreview = document.getElementById('gsheetPreview');
+
+  gsheetConnect.addEventListener('click', () => {
+    const url = gsheetUrl.value.trim();
+    if (!url) { showError(gsheetError, 'Please paste a Google Sheets URL first.'); return; }
+    const m = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    if (!m) { showError(gsheetError, 'That doesn\'t look like a Google Sheets link.'); return; }
+    const id = m[1];
+    const gidMatch = url.match(/[#&]gid=([0-9]+)/);
+    const gid = gidMatch ? gidMatch[1] : '0';
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
+
+    gsheetConnect.textContent = 'Connecting…';
+    gsheetConnect.disabled = true;
+
+    fetch(csvUrl)
+      .then(r => {
+        if (!r.ok) throw new Error('Sheet is not publicly accessible (status ' + r.status + ').');
+        return r.text();
+      })
+      .then(csv => {
+        Papa.parse(csv, {
+          header: true, skipEmptyLines: true, dynamicTyping: true,
+          complete: (results) => {
+            const rows = results.data;
+            if (!rows.length) { showError(gsheetError, 'Sheet appears to be empty.'); return; }
+            const cols = Object.keys(rows[0]);
+            renderDataPreview(rows, cols, gsheetPreview, document.getElementById('gsheetTable'), document.getElementById('gsheetMeta'), 'Google Sheet');
+            activateCustomPersona(rows, cols, 'Google Sheet');
+          }
+        });
+      })
+      .catch(err => {
+        showError(gsheetError, err.message + ' Make sure the sheet is set to "Anyone with the link can view".');
+      })
+      .finally(() => {
+        gsheetConnect.textContent = 'Connect';
+        gsheetConnect.disabled = false;
+      });
+  });
+
+  /* ============================================================ */
+  /* ============== ANALYSIS ENGINE for uploaded data ============ */
+  /* ============================================================ */
+
+  function detectColumnTypes(rows, cols) {
+    const types = {};
+    cols.forEach(col => {
+      let nums = 0, dates = 0, total = 0;
+      for (const r of rows.slice(0, 30)) {
+        const v = r[col];
+        if (v === null || v === undefined || v === '') continue;
+        total++;
+        if (typeof v === 'number' || (typeof v === 'string' && !isNaN(parseFloat(v.replace(/[$,%]/g, ''))))) nums++;
+        if (!isNaN(Date.parse(v))) dates++;
+      }
+      types[col] = {
+        numeric: total > 0 && nums / total > 0.7,
+        date: total > 0 && dates / total > 0.7 && nums / total < 0.7,
+        category: total > 0 && nums / total < 0.3 && dates / total < 0.3
+      };
+    });
+    return types;
+  }
+
+  function num(v) {
+    if (typeof v === 'number') return v;
+    if (!v) return 0;
+    return parseFloat(String(v).replace(/[$,%\s]/g, '')) || 0;
+  }
+
+  function summarizeColumn(rows, col) {
+    const values = rows.map(r => num(r[col])).filter(v => !isNaN(v));
+    if (!values.length) return null;
+    const sum = values.reduce((a,b) => a+b, 0);
+    const avg = sum / values.length;
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+    return { sum, avg, max, min, count: values.length };
+  }
+
+  function topRowsBy(rows, col, n = 5) {
+    return [...rows].sort((a,b) => num(b[col]) - num(a[col])).slice(0, n);
+  }
+
+  function findColumn(cols, keywords) {
+    for (const kw of keywords) {
+      const found = cols.find(c => c.toLowerCase().includes(kw.toLowerCase()));
+      if (found) return found;
+    }
+    return null;
+  }
+
+  function generateInsightsFromData(rows, cols) {
+    const types = detectColumnTypes(rows, cols);
+    const numericCols = cols.filter(c => types[c].numeric);
+    const categoryCols = cols.filter(c => types[c].category);
+
+    // Try to detect common marketing column names
+    const revenueCol = findColumn(cols, ['revenue', 'sales', 'amount', 'donation', 'gift']);
+    const openCol = findColumn(cols, ['open rate', 'opens']);
+    const clickCol = findColumn(cols, ['click rate', 'clicks', 'ctr']);
+    const recipCol = findColumn(cols, ['recipients', 'sent', 'delivered']);
+    const nameCol = findColumn(cols, ['campaign', 'name', 'title']) || categoryCols[0];
+    const dateCol = cols.find(c => types[c].date);
+    const audienceCol = findColumn(cols, ['audience', 'segment', 'list', 'group']);
+
+    const questions = [];
+
+    // Q1: Top performer (revenue / first numeric)
+    const primaryMetric = revenueCol || numericCols[0];
+    if (primaryMetric && nameCol) {
+      const top = topRowsBy(rows, primaryMetric, 3);
+      const summary = summarizeColumn(rows, primaryMetric);
+      const formatter = (v) => primaryMetric.toLowerCase().includes('rate') ? v.toFixed(1) + '%' :
+                                primaryMetric.toLowerCase().match(/revenue|sales|amount|donation/) ? '$' + Math.round(v).toLocaleString() :
+                                Math.round(v).toLocaleString();
+      questions.push({
+        q: `Which ${nameCol.toLowerCase()} drove the most ${primaryMetric.toLowerCase()}?`,
+        answer: `<p>The top performer is <strong>"${escapeHtml(String(top[0][nameCol]))}"</strong> with ${primaryMetric.toLowerCase()} of <strong>${formatter(num(top[0][primaryMetric]))}</strong>. Your top 3:</p>
+                 <p>${top.map((r, i) => `${i+1}. <strong>${escapeHtml(String(r[nameCol]))}</strong> — ${formatter(num(r[primaryMetric]))}`).join('<br>')}</p>
+                 <p>Average across all ${rows.length} rows: <strong>${formatter(summary.avg)}</strong>. Top 3 alone account for <strong>${Math.round(top.reduce((a,r) => a + num(r[primaryMetric]), 0) / summary.sum * 100)}%</strong> of total ${primaryMetric.toLowerCase()}.</p>`,
+        chartTitle: `Top ${nameCol.toLowerCase()} by ${primaryMetric.toLowerCase()}`,
+        chartType: 'custom-bars',
+        chartData: top.map(r => ({ label: String(r[nameCol]).slice(0, 18), value: num(r[primaryMetric]) })),
+        metrics: [
+          { val: formatter(num(top[0][primaryMetric])), lbl: 'Top performer', delta: top[0][nameCol].toString().slice(0, 14), dir: 'up' },
+          { val: formatter(summary.avg), lbl: 'Average', delta: `${rows.length} rows`, dir: 'up' }
+        ],
+        action: `Replicate top ${nameCol.toLowerCase()} pattern`
+      });
+    }
+
+    // Q2: Open rate analysis (if open rate exists)
+    if (openCol && nameCol) {
+      const openSum = summarizeColumn(rows, openCol);
+      const top = topRowsBy(rows, openCol, 1)[0];
+      const bottom = [...rows].sort((a,b) => num(a[openCol]) - num(b[openCol]))[0];
+      questions.push({
+        q: `What's driving open rate differences across ${nameCol.toLowerCase()}s?`,
+        answer: `<p>Average open rate is <strong>${openSum.avg.toFixed(1)}%</strong>, ranging from <strong>${num(bottom[openCol]).toFixed(1)}%</strong> ("${escapeHtml(String(bottom[nameCol]))}") to <strong>${num(top[openCol]).toFixed(1)}%</strong> ("${escapeHtml(String(top[nameCol]))}").</p>
+                 <p>That's a <strong>${(num(top[openCol]) - num(bottom[openCol])).toFixed(1)}-point spread</strong>. ${audienceCol ? `Looking at the audience column: campaigns sent to <strong>"${escapeHtml(String(top[audienceCol]))}"</strong> tend to outperform broader sends — segmented audiences typically see 1.5–2x lift.` : 'Subject line testing and audience segmentation are the most likely drivers.'}</p>`,
+        chartTitle: 'Open rate distribution',
+        chartType: 'custom-bars',
+        chartData: topRowsBy(rows, openCol, 5).map(r => ({ label: String(r[nameCol]).slice(0, 18), value: num(r[openCol]) })),
+        metrics: [
+          { val: openSum.avg.toFixed(1) + '%', lbl: 'Avg open rate', delta: `Best: ${num(top[openCol]).toFixed(1)}%`, dir: 'up' },
+          { val: (num(top[openCol]) - num(bottom[openCol])).toFixed(1) + 'pp', lbl: 'Spread', delta: 'Optimization room', dir: 'up' }
+        ],
+        action: 'A/B test top performer subject line'
+      });
+    }
+
+    // Q3: Audience / segment performance
+    if (audienceCol && primaryMetric) {
+      const byAudience = {};
+      rows.forEach(r => {
+        const aud = String(r[audienceCol] || 'Unknown');
+        if (!byAudience[aud]) byAudience[aud] = { count: 0, total: 0 };
+        byAudience[aud].count++;
+        byAudience[aud].total += num(r[primaryMetric]);
+      });
+      const audSummary = Object.entries(byAudience)
+        .map(([k, v]) => ({ label: k, avg: v.total / v.count, count: v.count, total: v.total }))
+        .sort((a,b) => b.avg - a.avg);
+      const formatter = (v) => primaryMetric.toLowerCase().match(/revenue|sales|amount/) ? '$' + Math.round(v).toLocaleString() :
+                                primaryMetric.toLowerCase().includes('rate') ? v.toFixed(1) + '%' :
+                                Math.round(v).toLocaleString();
+      questions.push({
+        q: `Which ${audienceCol.toLowerCase()} performs best?`,
+        answer: `<p><strong>"${escapeHtml(audSummary[0].label)}"</strong> is your strongest segment with average ${primaryMetric.toLowerCase()} of <strong>${formatter(audSummary[0].avg)}</strong> per ${nameCol ? nameCol.toLowerCase() : 'send'} — across ${audSummary[0].count} ${audSummary[0].count === 1 ? 'campaign' : 'campaigns'}.</p>
+                 <p>Compared to <strong>"${escapeHtml(audSummary[audSummary.length-1].label)}"</strong> at ${formatter(audSummary[audSummary.length-1].avg)}, that's a <strong>${(audSummary[0].avg / Math.max(audSummary[audSummary.length-1].avg, 1)).toFixed(1)}x performance gap</strong>. Worth investing more in your best-performing segments and re-engaging or pruning the weakest.</p>`,
+        chartTitle: `${primaryMetric} by ${audienceCol.toLowerCase()}`,
+        chartType: 'custom-bars',
+        chartData: audSummary.slice(0, 5).map(a => ({ label: a.label.slice(0, 18), value: a.avg })),
+        metrics: [
+          { val: formatter(audSummary[0].avg), lbl: 'Best segment avg', delta: audSummary[0].label.slice(0, 14), dir: 'up' },
+          { val: (audSummary[0].avg / Math.max(audSummary[audSummary.length-1].avg, 1)).toFixed(1) + 'x', lbl: 'Top vs bottom gap', delta: `${audSummary.length} segments`, dir: 'up' }
+        ],
+        action: `Double down on best segment`
+      });
+    }
+
+    // Q4: Trend over time (if date column exists)
+    if (dateCol && primaryMetric) {
+      const sorted = [...rows].sort((a,b) => new Date(a[dateCol]) - new Date(b[dateCol]));
+      const half = Math.floor(sorted.length / 2);
+      const firstHalf = sorted.slice(0, half);
+      const secondHalf = sorted.slice(half);
+      const fhAvg = firstHalf.reduce((a,r) => a + num(r[primaryMetric]), 0) / Math.max(firstHalf.length, 1);
+      const shAvg = secondHalf.reduce((a,r) => a + num(r[primaryMetric]), 0) / Math.max(secondHalf.length, 1);
+      const change = ((shAvg - fhAvg) / Math.max(fhAvg, 1)) * 100;
+      const direction = change > 0 ? 'up' : 'down';
+      const formatter = (v) => primaryMetric.toLowerCase().match(/revenue|sales|amount/) ? '$' + Math.round(v).toLocaleString() :
+                                primaryMetric.toLowerCase().includes('rate') ? v.toFixed(1) + '%' :
+                                Math.round(v).toLocaleString();
+      questions.push({
+        q: `How is ${primaryMetric.toLowerCase()} trending over time?`,
+        answer: `<p>${primaryMetric} is trending <strong>${direction === 'up' ? '📈 upward' : '📉 downward'}</strong>. The first half of your data (${firstHalf.length} rows) averaged <strong>${formatter(fhAvg)}</strong>, while the second half averaged <strong>${formatter(shAvg)}</strong> — a <strong>${Math.abs(change).toFixed(1)}% ${direction === 'up' ? 'lift' : 'decline'}</strong>.</p>
+                 <p>${direction === 'up' ? 'Whatever changed in your strategy in the second half is working — keep going. Document what shifted and codify it as your new baseline.' : 'Worth investigating what changed. Look at frequency, audience composition, content type, or external seasonality factors that may have shifted.'}</p>`,
+        chartTitle: `${primaryMetric} trend over time`,
+        chartType: 'custom-line',
+        chartData: sorted.map(r => num(r[primaryMetric])),
+        metrics: [
+          { val: formatter(shAvg), lbl: 'Recent avg', delta: `${change > 0 ? '+' : ''}${change.toFixed(1)}%`, dir: direction },
+          { val: sorted.length, lbl: 'Data points', delta: `${dateCol}`, dir: 'up' }
+        ],
+        action: direction === 'up' ? 'Document winning strategy' : 'Diagnose decline'
+      });
+    }
+
+    return questions;
+  }
+
+  /* ============== Activate uploaded dataset as a custom persona ============== */
+  function activateCustomPersona(rows, cols, sourceName) {
+    const questions = generateInsightsFromData(rows, cols);
+    if (!questions.length) {
+      alert('Could not auto-detect columns to analyze. Try a file with named columns and at least one numeric metric (e.g., Revenue, Open Rate).');
+      return;
+    }
+
+    // Inject into personas object
+    personas.custom = {
+      title: sourceName + ' · Your data',
+      dataset: 'your',
+      questions: questions
+    };
+
+    // Switch to it
+    currentPersona = 'custom';
+    interactionCount = 0;
+
+    playgroundTitle.textContent = sourceName + ' · Your data';
+    datasetName.textContent = 'your';
+
+    chatMessages.innerHTML = `
+      <div class="message ai">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/>
+            <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/>
+          </svg>
+        </div>
+        <div class="bubble">
+          <p>Connected to <strong>${escapeHtml(sourceName)}</strong>. I detected <strong>${cols.length} columns</strong> across <strong>${rows.length} rows</strong>, including ${cols.slice(0, 4).map(c => `<code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;">${escapeHtml(c)}</code>`).join(', ')}${cols.length > 4 ? ', and more' : ''}.</p>
+          <p style="color:rgba(255,255,255,0.6);">I've prepared <strong>${questions.length} questions</strong> tailored to your dataset. Pick one below — or ask your own.</p>
+        </div>
+      </div>`;
+
+    chartTitle.textContent = 'Your chart will appear here';
+    metricRow.style.display = 'none';
+    chartCanvas.innerHTML = `
+      <div class="chart-empty">
+        <div class="small-spark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/></svg>
+        </div>
+        <span>Ask a question to see live data</span>
+      </div>`;
+
+    renderSuggested();
+
+    // Smooth scroll into the chat
+    document.querySelector('.playground-frame-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ============== Custom chart renderer (for uploaded data) ============== */
+  const originalRenderChart = renderChart;
+  renderChart = function(type, title, customData) {
+    const qa = personas[currentPersona].questions.find(q => q.chartTitle === title);
+    if (qa && qa.chartData) {
+      if (qa.chartType === 'custom-bars') {
+        const data = qa.chartData;
+        const max = Math.max(...data.map(d => d.value));
+        const colors = ['#a89aff', '#7B61FF', '#5fb8e5', '#5fe5d3', '#ff9ed4'];
+        const barW = 60, gap = 12, startX = 30;
+        const chartHeight = 130;
+        const bars = data.map((d, i) => {
+          const h = (d.value / max) * chartHeight;
+          const x = startX + i * (barW + gap);
+          return `<rect x="${x}" y="${chartHeight + 30 - h}" width="${barW}" height="${h}" rx="6" fill="${colors[i % colors.length]}"/>
+                  <text x="${x + barW/2}" y="${chartHeight + 30 - h - 6}" font-size="10" fill="white" text-anchor="middle" font-weight="700">${typeof d.value === 'number' ? (d.value > 1000 ? Math.round(d.value).toLocaleString() : d.value.toFixed(1)) : d.value}</text>
+                  <text x="${x + barW/2}" y="${chartHeight + 48}" font-size="9" fill="rgba(255,255,255,0.55)" text-anchor="middle">${d.label.slice(0, 12)}</text>`;
+        }).join('');
+        chartCanvas.innerHTML = `<svg viewBox="0 0 ${startX * 2 + data.length * (barW + gap)} 180" preserveAspectRatio="xMidYMid meet">${bars}</svg>`;
+        return;
+      }
+      if (qa.chartType === 'custom-line') {
+        const data = qa.chartData;
+        const max = Math.max(...data);
+        const min = Math.min(...data);
+        const w = 360, h = 140;
+        const points = data.map((v, i) => {
+          const x = (i / (data.length - 1)) * w;
+          const y = h - ((v - min) / Math.max(max - min, 1)) * (h - 20) - 10;
+          return `${x},${y}`;
+        });
+        chartCanvas.innerHTML = `<svg viewBox="0 0 ${w} ${h + 20}" preserveAspectRatio="xMidYMid meet">
+          <defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#a89aff" stop-opacity="0.4"/><stop offset="100%" stop-color="#a89aff" stop-opacity="0"/></linearGradient></defs>
+          <polyline points="${points.join(' ')}" stroke="#a89aff" stroke-width="2.5" fill="none"/>
+          <polygon points="${points.join(' ')} ${w},${h} 0,${h}" fill="url(#cg)"/>
+          ${points.map((p,i) => { const [x,y] = p.split(','); return `<circle cx="${x}" cy="${y}" r="3" fill="#a89aff"/>`; }).join('')}
+        </svg>`;
+        return;
+      }
+    }
+    originalRenderChart(type, title);
+  };
 
   /* ============== Init ============== */
   renderSuggested();
