@@ -995,7 +995,24 @@
     aspect-ratio: 4/3;
     background-size: cover; background-position: center;
     position: relative;
+    overflow: hidden;
   }
+  /* Brand-illustration variant: tinted card with centered ink illustration */
+  .how-step-photo.spot { background-size: 70% auto; background-position: center 45%; background-repeat: no-repeat; }
+  .how-step-photo.spot.tint-peach     { background-color: #FFE5DA; }
+  .how-step-photo.spot.tint-yellow    { background-color: #FFF4B8; }
+  .how-step-photo.spot.tint-lavender  { background-color: #E8E1FF; }
+  .how-step-photo.spot::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(120% 80% at 50% 110%, rgba(0,0,0,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .how-step-photo.spot .how-step-illo {
+    position: absolute; inset: 0;
+    background-size: contain; background-repeat: no-repeat; background-position: center 48%;
+    transition: transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .how-step:hover .how-step-photo.spot .how-step-illo { transform: scale(1.04) rotate(-1deg); }
   .how-step-num {
     position: absolute; top: 16px; left: 16px;
     background: white;
@@ -1004,6 +1021,7 @@
     font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 2;
   }
   .how-step-icon-wrap {
     position: absolute; bottom: -22px; left: 24px;
@@ -1012,6 +1030,7 @@
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     border: 1px solid var(--mc-border);
+    z-index: 2;
   }
   .how-step-icon-wrap svg { width: 26px; height: 26px; color: var(--mc-cta); }
   .how-step-body {
@@ -3798,7 +3817,8 @@
 
   <div class="how-grid">
     <div class="how-step">
-      <div class="how-step-photo" style="background-image: url('assets/step-connect.jpg');">
+      <div class="how-step-photo spot tint-peach">
+        <div class="how-step-illo" style="background-image: url('assets/mc-brand/step-connect-spot.jpg');"></div>
         <div class="how-step-num">Step 01</div>
         <div class="how-step-icon-wrap">
           <!-- Lucide: link-2 -->
@@ -3814,7 +3834,8 @@
     </div>
 
     <div class="how-step">
-      <div class="how-step-photo" style="background-image: url('assets/step-ask.jpg');">
+      <div class="how-step-photo spot tint-yellow">
+        <div class="how-step-illo" style="background-image: url('assets/mc-brand/step-ask-spot.jpg');"></div>
         <div class="how-step-num">Step 02</div>
         <div class="how-step-icon-wrap">
           <!-- Lucide: message-square -->
@@ -3830,7 +3851,8 @@
     </div>
 
     <div class="how-step">
-      <div class="how-step-photo" style="background-image: url('assets/step-act.jpg');">
+      <div class="how-step-photo spot tint-lavender">
+        <div class="how-step-illo" style="background-image: url('assets/mc-brand/step-act-anim.gif');"></div>
         <div class="how-step-num">Step 03</div>
         <div class="how-step-icon-wrap">
           <!-- Lucide: target -->
