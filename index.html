@@ -3159,6 +3159,249 @@
   </div>
 </section>
 
+<!-- ===== AGENT INTELLIGENCE — production-proven capabilities ===== -->
+<section class="agent-intel" id="agent-intel">
+  <style>
+    .agent-intel {
+      padding: 96px 32px 80px;
+      background: var(--mc-bg-soft);
+    }
+    .agent-intel .ai-head {
+      max-width: 720px; margin: 0 auto 56px; text-align: center;
+    }
+    .agent-intel h2 {
+      font-family: 'Cooper Light', 'Cooper Lt BT', Georgia, serif;
+      font-size: 44px; font-weight: 300; line-height: 1.1; color: var(--mc-text); margin-bottom: 16px;
+    }
+    .agent-intel .ai-sub {
+      font-size: 17px; color: var(--mc-text-secondary); line-height: 1.6; max-width: 580px; margin: 0 auto 8px;
+    }
+    .agent-intel .ai-proof {
+      display: inline-block; font-size: 13px; color: var(--mc-text-muted); letter-spacing: 0.02em;
+      border: 1px solid var(--mc-border); border-radius: 20px; padding: 6px 16px; margin-top: 16px;
+    }
+    .agent-intel .ai-proof strong { color: var(--mc-cta); }
+
+    /* --- Stat strip --- */
+    .ai-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+      max-width: 900px; margin: 0 auto 64px;
+    }
+    .ai-stat-card {
+      text-align: center; padding: 28px 16px;
+      background: white; border-radius: var(--radius-lg); border: 1px solid var(--mc-border);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .ai-stat-card:hover { transform: translateY(-3px); border-color: var(--mc-cta); }
+    .ai-stat-num {
+      font-size: 36px; font-weight: 700; color: var(--mc-cta);
+      line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums;
+    }
+    .ai-stat-label { font-size: 13px; color: var(--mc-text-secondary); line-height: 1.35; }
+
+    /* --- Action cards (scrollable row) --- */
+    .ai-actions-wrap { max-width: 1200px; margin: 0 auto; }
+    .ai-actions-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--mc-text); margin-bottom: 20px;
+    }
+    .ai-actions {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .ai-action {
+      background: white; border-radius: var(--radius-lg); border: 1px solid var(--mc-border);
+      padding: 28px 24px; transition: transform 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .ai-action:hover { transform: translateY(-2px); border-color: var(--mc-cta); }
+    .ai-action-top {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ai-action-icon {
+      width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,124,137,0.08);
+    }
+    .ai-action-icon svg { width: 18px; height: 18px; color: var(--mc-cta); }
+    .ai-action-pct {
+      font-size: 13px; font-weight: 700; color: var(--mc-cta); background: rgba(0,124,137,0.06);
+      padding: 3px 10px; border-radius: 12px;
+    }
+    .ai-action h4 { font-size: 17px; font-weight: 600; color: var(--mc-text); line-height: 1.3; }
+    .ai-action-desc { font-size: 14px; color: var(--mc-text-secondary); line-height: 1.5; }
+    .ai-action-example {
+      font-size: 13px; color: var(--mc-text-muted); font-style: italic;
+      background: var(--mc-bg-soft); border-radius: 6px; padding: 10px 14px; line-height: 1.45;
+      border-left: 3px solid var(--mc-cta);
+    }
+
+    /* --- Before / After --- */
+    .ai-compare { max-width: 960px; margin: 64px auto 0; }
+    .ai-compare-title { font-size: 28px; font-weight: 300; text-align: center; margin-bottom: 32px;
+      font-family: 'Cooper Light', 'Cooper Lt BT', Georgia, serif; color: var(--mc-text); }
+    .ai-compare-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-lg); overflow: hidden;
+      border: 1px solid var(--mc-border);
+    }
+    .ai-compare-col { padding: 32px 28px; }
+    .ai-compare-col.old { background: #f9f7f3; }
+    .ai-compare-col.new { background: white; }
+    .ai-compare-col h5 {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .ai-compare-col.old h5 { color: var(--mc-text-muted); }
+    .ai-compare-col.new h5 { color: var(--mc-cta); }
+    .ai-compare-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 0; border-bottom: 1px solid var(--mc-border);
+      font-size: 14px; color: var(--mc-text-secondary); line-height: 1.45;
+    }
+    .ai-compare-row:last-child { border-bottom: none; }
+    .ai-compare-row .task { font-weight: 600; color: var(--mc-text); min-width: 110px; flex-shrink: 0; }
+
+    @media (max-width: 900px) {
+      .ai-stats { grid-template-columns: repeat(2, 1fr); }
+      .ai-actions { grid-template-columns: 1fr; }
+      .ai-compare-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .agent-intel h2 { font-size: 32px; }
+      .ai-stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .ai-stat-num { font-size: 28px; }
+    }
+  </style>
+
+  <div class="ai-head">
+    <span class="eyebrow">What the agent actually does</span>
+    <h2>Not a dashboard.<br>An analyst who works for you.</h2>
+    <p class="ai-sub">Every capability below is proven in production — extracted from real conversations with real marketers.</p>
+    <span class="ai-proof"><strong>29,588</strong> conversations &middot; <strong>12,431</strong> customers &middot; 32 days of production data</span>
+  </div>
+
+  <!-- Production stats -->
+  <div class="ai-stats">
+    <div class="ai-stat-card">
+      <div class="ai-stat-num">93%</div>
+      <div class="ai-stat-label">of responses are structured,<br>decision-ready reports</div>
+    </div>
+    <div class="ai-stat-card">
+      <div class="ai-stat-num">54%</div>
+      <div class="ai-stat-label">include a concrete<br>next-step recommendation</div>
+    </div>
+    <div class="ai-stat-card">
+      <div class="ai-stat-num">48%</div>
+      <div class="ai-stat-label">benchmark against<br>your industry vertical</div>
+    </div>
+    <div class="ai-stat-card">
+      <div class="ai-stat-num">35%</div>
+      <div class="ai-stat-label">calculate revenue<br>and commerce impact</div>
+    </div>
+  </div>
+
+  <!-- Top agentic actions -->
+  <div class="ai-actions-wrap">
+    <div class="ai-actions-title">Top agent capabilities — ranked by real usage</div>
+    <div class="ai-actions">
+
+      <div class="ai-action">
+        <div class="ai-action-top">
+          <div class="ai-action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span class="ai-action-pct">93%</span>
+        </div>
+        <h4>Instant structured reports</h4>
+        <p class="ai-action-desc">Ask any question and get a formatted report with metrics, tables, commentary, and key insights — not a raw data dump.</p>
+        <div class="ai-action-example">"Summarize my campaign performance in the last 30 days" → multi-section report with tables and recommendations</div>
+      </div>
+
+      <div class="ai-action">
+        <div class="ai-action-top">
+          <div class="ai-action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="ai-action-pct">63%</span>
+        </div>
+        <h4>Engagement metrics on demand</h4>
+        <p class="ai-action-desc">Open, click, CTR, bounce, and unsubscribe rates across any time window and campaign set — named in plain language.</p>
+        <div class="ai-action-example">"Which campaigns had the highest open and click rates?" → ranked tables with per-campaign metrics</div>
+      </div>
+
+      <div class="ai-action">
+        <div class="ai-action-top">
+          <div class="ai-action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <span class="ai-action-pct">54%</span>
+        </div>
+        <h4>Concrete next-step actions</h4>
+        <p class="ai-action-desc">Translates numbers into specific actions: resend to non-openers, test subject lines, prune inactive contacts, change send time.</p>
+        <div class="ai-action-example">For a 9.4% open rate, recommended subject-line improvements and flagged a 10x-elevated unsubscribe rate</div>
+      </div>
+
+      <div class="ai-action">
+        <div class="ai-action-top">
+          <div class="ai-action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <span class="ai-action-pct">48%</span>
+        </div>
+        <h4>Industry benchmarking</h4>
+        <p class="ai-action-desc">Pulls your vertical's benchmark (restaurants ~12%, pro services ~34%) and positions your number against it — instantly.</p>
+        <div class="ai-action-example">"Your 9.4% open rate is below the 12% restaurant benchmark; your unsubscribe rate is ~10x higher than typical"</div>
+      </div>
+
+      <div class="ai-action">
+        <div class="ai-action-top">
+          <div class="ai-action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <span class="ai-action-pct">35%</span>
+        </div>
+        <h4>Revenue attribution</h4>
+        <p class="ai-action-desc">Ties campaigns to attributed revenue, orders, AOV, and ROI. Flags zero-revenue campaigns. Answers "is email making us money?"</p>
+        <div class="ai-action-example">"Your campaigns generated $3,603 in revenue from 29 orders across 451,060 sends" with per-campaign breakdown</div>
+      </div>
+
+      <div class="ai-action">
+        <div class="ai-action-top">
+          <div class="ai-action-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <span class="ai-action-pct">17%</span>
+        </div>
+        <h4>Root cause diagnosis</h4>
+        <p class="ai-action-desc">Converts symptoms into diagnosis — bot opens, list fatigue, deliverability issues, content drift — with the likely cause and fix.</p>
+        <div class="ai-action-example">"Why does the main page show 27%?" → three-part explanation: bot inclusion, unique vs. total, variant view</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Before / After -->
+  <div class="ai-compare">
+    <h3 class="ai-compare-title">The old way vs. the agent way</h3>
+    <div class="ai-compare-grid">
+      <div class="ai-compare-col old">
+        <h5>Without Analytics AI</h5>
+        <div class="ai-compare-row"><span class="task">Campaign report</span> Export CSV → pivot table → 45 min</div>
+        <div class="ai-compare-row"><span class="task">Why rates dropped</span> Guess → test → wait 2 weeks</div>
+        <div class="ai-compare-row"><span class="task">Revenue from email</span> Stitch 3 tools, reconcile IDs</div>
+        <div class="ai-compare-row"><span class="task">Best subject line</span> Manually scroll 200 campaigns</div>
+        <div class="ai-compare-row"><span class="task">Industry benchmark</span> Google reports, do the math</div>
+      </div>
+      <div class="ai-compare-col new">
+        <h5>With Analytics AI</h5>
+        <div class="ai-compare-row"><span class="task">Campaign report</span> Ask a question → 10 seconds</div>
+        <div class="ai-compare-row"><span class="task">Why rates dropped</span> "Bot opens inflating numbers; list fatigue on segment X"</div>
+        <div class="ai-compare-row"><span class="task">Revenue from email</span> "$3,603 from 29 orders across 451K sends"</div>
+        <div class="ai-compare-row"><span class="task">Best subject line</span> "Geo-targeted + emoji consistently wins your top 20"</div>
+        <div class="ai-compare-row"><span class="task">Industry benchmark</span> "Your 9.4% is below the 12% restaurant benchmark"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== HOW IT WORKS — editorial showcase ===== -->
 <section class="how-section">
   <div class="how-intro">
