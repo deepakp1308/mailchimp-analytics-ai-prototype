@@ -199,21 +199,125 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ---------- Trust bar ---------- */
+  /* ---------- Trust bar (thin streaming marquee) ---------- */
   .trust-bar {
     background: var(--mc-yellow);
-    padding: 48px 32px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(36,28,21,0.08);
+    border-bottom: 1px solid rgba(36,28,21,0.08);
   }
-  .trust-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
-    max-width: 1280px; margin: 0 auto; text-align: center;
+  .trust-bar::before,
+  .trust-bar::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 90px;
+    pointer-events: none; z-index: 3;
+  }
+  .trust-bar::before { left: 0;  background: linear-gradient(90deg, var(--mc-yellow), rgba(255,224,27,0)); }
+  .trust-bar::after  { right: 0; background: linear-gradient(-90deg, var(--mc-yellow), rgba(255,224,27,0)); }
+
+  /* Subtle bright shimmer that sweeps across the bar */
+  .trust-bar .shimmer {
+    position: absolute; top: 0; bottom: 0; width: 240px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: translateX(-100%); pointer-events: none; z-index: 2;
+    animation: trustShimmer 7s linear infinite;
+    animation-delay: 1.5s;
+  }
+  @keyframes trustShimmer {
+    0%   { transform: translateX(-30%); }
+    60%  { transform: translateX(140vw); }
+    100% { transform: translateX(140vw); }
+  }
+
+  /* Pinned LIVE indicator at the left edge */
+  .trust-live {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 6px;
+    z-index: 4;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--mc-text);
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(36,28,21,0.10);
+    padding: 4px 10px 4px 8px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+  .trust-live::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #1aab68;
+    box-shadow: 0 0 0 0 rgba(26,171,104,0.55);
+    animation: trustPulse 1.7s ease-in-out infinite;
+  }
+  @keyframes trustPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(26,171,104,0.55); }
+    70%  { box-shadow: 0 0 0 7px rgba(26,171,104,0);   }
+    100% { box-shadow: 0 0 0 0   rgba(26,171,104,0);   }
+  }
+
+  .trust-viewport {
+    position: relative; z-index: 1;
+    padding: 14px 0 14px 110px;
+    mask-image: linear-gradient(90deg, transparent 0, #000 90px, #000 calc(100% - 60px), transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 90px, #000 calc(100% - 60px), transparent 100%);
+  }
+  .trust-track {
+    display: flex; align-items: center; gap: 0;
+    width: max-content;
+    animation: trustScroll 42s linear infinite;
+    will-change: transform;
+  }
+  .trust-bar:hover .trust-track { animation-play-state: paused; }
+  @keyframes trustScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .trust-set {
+    display: flex; align-items: center; gap: 44px;
+    padding-right: 44px;
+    flex-shrink: 0;
+  }
+  .trust-stat {
+    display: inline-flex; align-items: baseline; gap: 10px;
+    flex-shrink: 0; white-space: nowrap;
   }
   .trust-stat .num {
-    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
-    font-size: 44px; color: var(--mc-text); letter-spacing: -0.02em;
-    margin-bottom: 4px; line-height: 1;
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif;
+    font-weight: 300;
+    font-size: 26px; color: var(--mc-text); letter-spacing: -0.01em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
-  .trust-stat .label { font-size: 14px; color: var(--mc-text); font-weight: 500; }
+  .trust-stat .label {
+    font-size: 12px; color: var(--mc-text); font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .trust-sep {
+    flex-shrink: 0;
+    width: 14px; height: 14px;
+    color: var(--mc-text); opacity: 0.45;
+    animation: trustSparkSpin 5s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes trustSparkSpin {
+    0%   { transform: rotate(0deg)   scale(1); }
+    50%  { transform: rotate(180deg) scale(0.85); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  @media (max-width: 960px) {
+    .trust-stat .num { font-size: 22px; }
+    .trust-set { gap: 32px; padding-right: 32px; }
+    .trust-track { animation-duration: 30s; }
+    .trust-live { font-size: 9px; padding: 3px 8px 3px 7px; }
+    .trust-viewport { padding-left: 92px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .trust-track,
+    .trust-sep,
+    .trust-bar .shimmer,
+    .trust-live::before { animation: none !important; }
+  }
 
   /* ---------- Intuit Assist sparkle (multi-pointed star) ---------- */
   .ia-spark {
@@ -1539,7 +1643,6 @@
     .pricing-grid { grid-template-columns: repeat(2, 1fr); }
     .price-card.recommended { transform: none; }
     .nav-links { display: none; }
-    .trust-grid { grid-template-columns: repeat(2, 1fr); }
     .how-grid, .integration-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .ai-addon-card { grid-template-columns: 1fr; }
@@ -2986,13 +3089,43 @@
 </script>
 
 
-<!-- ===== TRUST BAR ===== -->
-<section class="trust-bar">
-  <div class="trust-grid">
-    <div class="trust-stat"><div class="num">30x</div><div class="label">ROI seen by Mailchimp users</div></div>
-    <div class="trust-stat"><div class="num">&gt;99%</div><div class="label">Email deliverability rate</div></div>
-    <div class="trust-stat"><div class="num">11M+</div><div class="label">Users globally</div></div>
-    <div class="trust-stat"><div class="num">50+</div><div class="label">Behavior-based triggers</div></div>
+<!-- ===== TRUST BAR (thin streaming marquee) ===== -->
+<section class="trust-bar" aria-label="Mailchimp by the numbers">
+  <span class="trust-live" aria-hidden="true">Live</span>
+  <span class="shimmer" aria-hidden="true"></span>
+  <div class="trust-viewport">
+    <div class="trust-track">
+      <!-- Set 1 (visible) -->
+      <div class="trust-set">
+        <div class="trust-stat"><span class="num">30x</span><span class="label">ROI seen by Mailchimp users</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">&gt;99%</span><span class="label">Email deliverability rate</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">11M+</span><span class="label">Users globally</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">50+</span><span class="label">Behavior-based triggers</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">300+</span><span class="label">App integrations</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">SOC 2</span><span class="label">Type II certified</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+      </div>
+      <!-- Set 2 (clone for seamless loop) -->
+      <div class="trust-set" aria-hidden="true">
+        <div class="trust-stat"><span class="num">30x</span><span class="label">ROI seen by Mailchimp users</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">&gt;99%</span><span class="label">Email deliverability rate</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">11M+</span><span class="label">Users globally</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">50+</span><span class="label">Behavior-based triggers</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">300+</span><span class="label">App integrations</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+        <div class="trust-stat"><span class="num">SOC 2</span><span class="label">Type II certified</span></div>
+        <svg class="trust-sep" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z"/></svg>
+      </div>
+    </div>
   </div>
 </section>
 
