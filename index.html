@@ -399,7 +399,7 @@
 
   .persona-picker {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-    max-width: 900px; margin: 0 auto 32px;
+    max-width: 1180px; margin: 0 auto 32px;
   }
   .persona-card {
     background: rgba(255,255,255,0.04); border-radius: 12px;
@@ -416,7 +416,18 @@
   }
   .persona-photo {
     width: 100%; aspect-ratio: 16/10;
+    background: var(--mc-bg-soft);
     background-size: cover; background-position: center;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .persona-photo .persona-anim {
+    width: 78%; height: 78%; object-fit: contain;
+    transition: transform 0.4s ease;
+  }
+  .persona-card:hover .persona-anim {
+    transform: scale(1.05) rotate(-2deg);
   }
   .persona-body { padding: 18px 22px 22px; }
   .persona-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: white; }
@@ -3166,16 +3177,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Upload Excel / CSV
       </button>
-      <button class="ds-tab" data-tab="gsheet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-        Paste Google Sheet
-      </button>
     </div>
 
     <div class="ds-panel active" data-panel="sample">
       <div class="persona-picker">
         <div class="persona-card active" data-persona="ecommerce">
-          <div class="persona-photo" style="background-image: url('assets/persona-ecommerce.jpg');"></div>
+          <div class="persona-photo">
+            <img class="persona-anim" src="assets/mc-brand/persona-sendsent.gif" alt="Ecommerce animation"/>
+          </div>
           <div class="persona-body">
             <h3>Ecommerce Founder</h3>
             <div class="role">Oat Lord · Shopify + SMS</div>
@@ -3183,7 +3192,9 @@
           </div>
         </div>
         <div class="persona-card" data-persona="agency">
-          <div class="persona-photo" style="background-image: url('assets/persona-agency.jpg');"></div>
+          <div class="persona-photo" style="background:#FFF1A8;">
+            <img class="persona-anim" src="assets/mc-brand/persona-running.gif" alt="Agency animation"/>
+          </div>
           <div class="persona-body">
             <h3>Agency Owner</h3>
             <div class="role">Pixel Co. · 5 client accounts</div>
@@ -3191,7 +3202,9 @@
           </div>
         </div>
         <div class="persona-card" data-persona="nonprofit">
-          <div class="persona-photo" style="background-image: url('assets/persona-nonprofit.jpg');"></div>
+          <div class="persona-photo">
+            <img class="persona-anim" src="assets/mc-brand/persona-ads.gif" alt="Nonprofit animation"/>
+          </div>
           <div class="persona-body">
             <h3>Nonprofit Director</h3>
             <div class="role">Reach Out · 5K donors</div>
@@ -3228,29 +3241,6 @@
       </div>
     </div>
 
-    <div class="ds-panel" data-panel="gsheet">
-      <div class="gsheet-input">
-        <label>Paste your Google Sheets share link</label>
-        <div class="url-row">
-          <input type="text" id="gsheetUrl" placeholder="https://docs.google.com/spreadsheets/d/..." />
-          <button id="gsheetConnect">Connect</button>
-        </div>
-        <div class="help">
-          Make sure your sheet is set to <code>Anyone with the link can view</code>. We use Google's CSV export endpoint — no OAuth required for read-only public sheets.
-          Don't have one? <a href="sample-mailchimp-campaigns.xlsx" download style="color:#007C89;text-decoration:underline;">Download the sample Excel</a> and upload it instead.
-        </div>
-      </div>
-      <div class="ds-error" id="gsheetError"></div>
-      <div class="data-preview" id="gsheetPreview">
-        <div class="dp-header">
-          <div class="dp-status">Connected · Ready to query</div>
-          <div class="dp-meta" id="gsheetMeta">—</div>
-        </div>
-        <div class="dp-table-wrap">
-          <table id="gsheetTable"></table>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="playground-frame-wrap">
