@@ -3479,13 +3479,22 @@
     .ft-nav-dot:hover { border-color:rgba(255,255,255,0.15); color:rgba(255,255,255,0.6); }
     .ft-nav-dot.active { background:var(--mc-teal); border-color:var(--mc-teal); color:white; }
 
-    /* Bottom controls */
-    .ft-controls { display:flex; align-items:center; justify-content:center; gap:16px; padding:28px 32px 60px; }
-    .ft-arrow { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); background:transparent; color:rgba(255,255,255,0.4); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
-    .ft-arrow:hover { border-color:var(--mc-teal); color:var(--mc-teal); }
-    .ft-dots { display:flex; gap:6px; }
-    .ft-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.12); border:none; cursor:pointer; padding:0; transition:all 0.3s; }
-    .ft-dot.active { background:var(--mc-teal); width:24px; border-radius:4px; }
+    /* Bottom controls — progress bar style */
+    .ft-controls { display:flex; align-items:center; justify-content:center; gap:16px; padding:28px 32px 60px; max-width:800px; margin:0 auto; }
+    .ft-arrow { width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,0.12); background:transparent; color:rgba(255,255,255,0.5); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; }
+    .ft-arrow:hover { border-color:var(--mc-teal); color:var(--mc-teal); background:rgba(0,185,166,0.08); }
+    .ft-progress { display:flex; gap:6px; flex:1; align-items:center; }
+    .ft-prog-seg { flex:1; height:4px; border-radius:2px; background:rgba(255,255,255,0.08); cursor:pointer; position:relative; overflow:hidden; transition:background 0.2s; }
+    .ft-prog-seg:hover { background:rgba(255,255,255,0.15); }
+    .ft-prog-seg .ft-prog-fill { position:absolute; inset:0; border-radius:2px; background:var(--mc-teal); transform:scaleX(0); transform-origin:left; }
+    .ft-prog-seg.active .ft-prog-fill { transform:scaleX(1); transition:transform 2.8s linear; }
+    .ft-prog-seg.done .ft-prog-fill { transform:scaleX(1); transition:none; }
+    .ft-prog-seg.upcoming .ft-prog-fill { transform:scaleX(0); transition:none; }
+    .ft-prog-label { position:absolute; top:-22px; left:0; font-size:10px; font-weight:600; color:rgba(255,255,255,0.35); opacity:0; transition:opacity 0.2s; white-space:nowrap; }
+    .ft-prog-seg:hover .ft-prog-label, .ft-prog-seg.active .ft-prog-label { opacity:1; color:var(--mc-teal); }
+    /* Old dot styles kept hidden */
+    .ft-dots { display:none; }
+    .ft-dot { display:none; }
 
     @media (max-width:1000px) {
       .ft-stats { flex-wrap:wrap; gap:24px; padding:48px 24px 32px; }
@@ -3703,18 +3712,18 @@
     </div>
   </div>
 
-  <!-- Bottom controls -->
+  <!-- Bottom controls — progress bar -->
   <div class="ft-controls">
-    <button class="ft-arrow" id="ftPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-    <div class="ft-dots" id="ftDots">
-      <button class="ft-dot active" data-i="0"></button>
-      <button class="ft-dot" data-i="1"></button>
-      <button class="ft-dot" data-i="2"></button>
-      <button class="ft-dot" data-i="3"></button>
-      <button class="ft-dot" data-i="4"></button>
-      <button class="ft-dot" data-i="5"></button>
+    <button class="ft-arrow" id="ftPrev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="ft-progress" id="ftProgress">
+      <div class="ft-prog-seg active" data-i="0"><div class="ft-prog-fill"></div><span class="ft-prog-label">Reports</span></div>
+      <div class="ft-prog-seg upcoming" data-i="1"><div class="ft-prog-fill"></div><span class="ft-prog-label">Metrics</span></div>
+      <div class="ft-prog-seg upcoming" data-i="2"><div class="ft-prog-fill"></div><span class="ft-prog-label">Actions</span></div>
+      <div class="ft-prog-seg upcoming" data-i="3"><div class="ft-prog-fill"></div><span class="ft-prog-label">Benchmark</span></div>
+      <div class="ft-prog-seg upcoming" data-i="4"><div class="ft-prog-fill"></div><span class="ft-prog-label">Revenue</span></div>
+      <div class="ft-prog-seg upcoming" data-i="5"><div class="ft-prog-fill"></div><span class="ft-prog-label">Root cause</span></div>
     </div>
-    <button class="ft-arrow" id="ftNext"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <button class="ft-arrow" id="ftNext"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
   </div>
 </section>
 
@@ -5142,9 +5151,10 @@
   const slides = document.querySelectorAll('.ft-slide');
   const vizs = document.querySelectorAll('.ft-viz');
   const navDots = document.querySelectorAll('.ft-nav-dot');
-  const botDots = document.querySelectorAll('.ft-dot');
+  const progSegs = document.querySelectorAll('.ft-prog-seg');
   const total = slides.length;
   let cur = 0, timer = null;
+  const INTERVAL = 3000;
 
   function goTo(idx) {
     if (idx === cur && slides[idx].classList.contains('active')) return;
@@ -5152,7 +5162,12 @@
     slides.forEach((s, i) => s.classList.toggle('active', i === idx));
     vizs.forEach((v, i) => v.classList.toggle('active', i === idx));
     navDots.forEach((d, i) => d.classList.toggle('active', i === idx));
-    botDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    progSegs.forEach((s, i) => {
+      s.classList.remove('active', 'done', 'upcoming');
+      if (i < idx) s.classList.add('done');
+      else if (i === idx) s.classList.add('active');
+      else s.classList.add('upcoming');
+    });
     animateViz(idx);
   }
 
@@ -5183,13 +5198,13 @@
 
   function next() { goTo((cur + 1) % total); }
   function prev() { goTo((cur - 1 + total) % total); }
-  function startTimer() { timer = setInterval(next, 5000); }
+  function startTimer() { timer = setInterval(next, INTERVAL); }
   function stopTimer() { clearInterval(timer); }
   function resetTimer() { stopTimer(); startTimer(); }
 
-  // Nav dots
+  // Nav dots + progress bar segments
   navDots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
-  botDots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
+  progSegs.forEach(s => s.addEventListener('click', () => { goTo(+s.dataset.i); resetTimer(); }));
 
   // Arrows
   const prevBtn = document.getElementById('ftPrev');
