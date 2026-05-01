@@ -3351,245 +3351,239 @@
   </div>
 </section>
 
-<!-- ===== AGENT INTELLIGENCE — production-proven capabilities ===== -->
-<section class="agent-intel" id="agent-intel">
+<!-- ===== AGENT INTELLIGENCE v2 — Dark Sticky-Scroll Experience ===== -->
+<section class="agent-intel-v2" id="agent-intel">
   <style>
-    .agent-intel {
-      padding: 96px 32px 80px;
-      background: var(--mc-bg-soft);
-    }
-    .agent-intel .ai-head {
-      max-width: 720px; margin: 0 auto 56px; text-align: center;
-    }
-    .agent-intel h2 {
-      font-family: 'Cooper Light', 'Cooper Lt BT', Georgia, serif;
-      font-size: 44px; font-weight: 300; line-height: 1.1; color: var(--mc-text); margin-bottom: 16px;
-    }
-    .agent-intel .ai-sub {
-      font-size: 17px; color: var(--mc-text-secondary); line-height: 1.6; max-width: 580px; margin: 0 auto 8px;
-    }
-    .agent-intel .ai-proof {
-      display: inline-block; font-size: 13px; color: var(--mc-text-muted); letter-spacing: 0.02em;
-      border: 1px solid var(--mc-border); border-radius: 20px; padding: 6px 16px; margin-top: 16px;
-    }
-    .agent-intel .ai-proof strong { color: var(--mc-cta); }
-
-    /* --- Stat strip --- */
-    .ai-stats {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-      max-width: 900px; margin: 0 auto 64px;
-    }
-    .ai-stat-card {
-      text-align: center; padding: 28px 16px;
-      background: white; border-radius: var(--radius-lg); border: 1px solid var(--mc-border);
-      transition: transform 0.2s, border-color 0.2s;
-    }
-    .ai-stat-card:hover { transform: translateY(-3px); border-color: var(--mc-cta); }
-    .ai-stat-num {
-      font-size: 36px; font-weight: 700; color: var(--mc-cta);
-      line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums;
-    }
-    .ai-stat-label { font-size: 13px; color: var(--mc-text-secondary); line-height: 1.35; }
-
-    /* --- Action cards (scrollable row) --- */
-    .ai-actions-wrap { max-width: 1200px; margin: 0 auto; }
-    .ai-actions-title {
-      font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--mc-text); margin-bottom: 20px;
-    }
-    .ai-actions {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-    }
-    .ai-action {
-      background: white; border-radius: var(--radius-lg); border: 1px solid var(--mc-border);
-      padding: 28px 24px; transition: transform 0.2s, border-color 0.2s;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .ai-action:hover { transform: translateY(-2px); border-color: var(--mc-cta); }
-    .ai-action-top {
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .ai-action-icon {
-      width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      background: rgba(0,124,137,0.08);
-    }
-    .ai-action-icon svg { width: 18px; height: 18px; color: var(--mc-cta); }
-    .ai-action-pct {
-      font-size: 13px; font-weight: 700; color: var(--mc-cta); background: rgba(0,124,137,0.06);
-      padding: 3px 10px; border-radius: 12px;
-    }
-    .ai-action h4 { font-size: 17px; font-weight: 600; color: var(--mc-text); line-height: 1.3; }
-    .ai-action-desc { font-size: 14px; color: var(--mc-text-secondary); line-height: 1.5; }
-    .ai-action-example {
-      font-size: 13px; color: var(--mc-text-muted); font-style: italic;
-      background: var(--mc-bg-soft); border-radius: 6px; padding: 10px 14px; line-height: 1.45;
-      border-left: 3px solid var(--mc-cta);
+    .agent-intel-v2 {
+      background: var(--mc-pep-deep);
+      color: rgba(255,255,255,0.85);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* --- Before / After --- */
-    .ai-compare { max-width: 960px; margin: 64px auto 0; }
-    .ai-compare-title { font-size: 28px; font-weight: 300; text-align: center; margin-bottom: 32px;
-      font-family: 'Cooper Light', 'Cooper Lt BT', Georgia, serif; color: var(--mc-text); }
-    .ai-compare-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-lg); overflow: hidden;
-      border: 1px solid var(--mc-border);
+    /* --- Animated stat counter bar --- */
+    .ai2-stats-bar {
+      display: flex; justify-content: center; gap: 48px; padding: 80px 32px 48px;
+      max-width: 1000px; margin: 0 auto;
     }
-    .ai-compare-col { padding: 32px 28px; }
-    .ai-compare-col.old { background: #f9f7f3; }
-    .ai-compare-col.new { background: white; }
-    .ai-compare-col h5 {
-      font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 20px;
+    .ai2-stat { text-align: center; }
+    .ai2-stat-num {
+      font-size: 42px; font-weight: 700; color: var(--mc-teal);
+      font-variant-numeric: tabular-nums; line-height: 1; transition: color 0.3s;
     }
-    .ai-compare-col.old h5 { color: var(--mc-text-muted); }
-    .ai-compare-col.new h5 { color: var(--mc-cta); }
-    .ai-compare-row {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 12px 0; border-bottom: 1px solid var(--mc-border);
-      font-size: 14px; color: var(--mc-text-secondary); line-height: 1.45;
+    .ai2-stat-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 6px; letter-spacing: 0.04em; }
+    .ai2-stat-sep { width: 1px; background: rgba(255,255,255,0.08); }
+
+    /* --- Section header --- */
+    .ai2-header {
+      text-align: center; padding: 32px 32px 64px; max-width: 680px; margin: 0 auto;
     }
-    .ai-compare-row:last-child { border-bottom: none; }
-    .ai-compare-row .task { font-weight: 600; color: var(--mc-text); min-width: 110px; flex-shrink: 0; }
+    .ai2-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mc-teal); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .ai2-eyebrow .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--mc-teal);
+      animation: ai2pulse 2s ease-in-out infinite; }
+    @keyframes ai2pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+    .ai2-header h2 {
+      font-family: 'Cooper Light','Cooper Lt BT',Georgia,serif;
+      font-size: 48px; font-weight: 300; line-height: 1.08; color: white; margin-bottom: 18px;
+    }
+    .ai2-header p { font-size: 17px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* --- Sticky scroll layout --- */
+    .ai2-scroll-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      max-width: 1280px; margin: 0 auto; min-height: 100vh;
+      padding: 0 40px;
+    }
+    .ai2-chat-col {
+      position: sticky; top: 80px; height: calc(100vh - 100px);
+      display: flex; align-items: flex-start; padding: 40px 32px 40px 0;
+    }
+    .ai2-chat-window {
+      width: 100%; background: var(--mc-pep); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px; overflow: hidden; height: 480px; display: flex; flex-direction: column;
+    }
+    .ai2-chat-bar {
+      display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+      background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .ai2-chat-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .ai2-chat-bar-title { font-size: 12px; color: rgba(255,255,255,0.4); margin-left: 6px; flex: 1; }
+    .ai2-chat-bar .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mc-sage);
+      animation: ai2pulse 1.5s ease-in-out infinite; }
+    .ai2-chat-body {
+      flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
+    }
+    .ai2-chat-msg {
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ai2-chat-msg.visible { opacity: 1; transform: translateY(0); }
+    .ai2-chat-msg.user {
+      align-self: flex-end; background: var(--mc-cta); color: white;
+      padding: 10px 16px; border-radius: 14px 14px 4px 14px; font-size: 13px; max-width: 85%;
+    }
+    .ai2-chat-msg.agent {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+      padding: 16px; border-radius: 4px 14px 14px 14px; font-size: 13px; color: rgba(255,255,255,0.8);
+      line-height: 1.55; max-width: 95%;
+    }
+    .ai2-chat-msg.agent .typing { color: var(--mc-teal); }
+    .ai2-chat-msg.agent strong { color: var(--mc-teal); font-weight: 600; }
+    .ai2-chat-msg.agent .mini-table {
+      display: grid; grid-template-columns: 1fr auto auto; gap: 4px 12px;
+      margin: 10px 0 6px; font-size: 11px; font-variant-numeric: tabular-nums;
+    }
+    .ai2-chat-msg.agent .mini-table .th { color: rgba(255,255,255,0.35); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .ai2-chat-msg.agent .rec-box {
+      margin-top: 10px; padding: 10px 12px; border-radius: 8px;
+      background: rgba(0,185,166,0.08); border: 1px solid rgba(0,185,166,0.15);
+      font-size: 12px; color: rgba(255,255,255,0.7);
+    }
+
+    /* --- Feature cards (right column, scroll) --- */
+    .ai2-features-col { padding: 40px 0 120px 32px; }
+    .ai2-feature {
+      padding: 40px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .ai2-feature.visible { opacity: 1; transform: translateY(0); }
+    .ai2-feature:last-child { border-bottom: none; }
+    .ai2-feature-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .ai2-feature-pct {
+      font-size: 11px; font-weight: 700; color: var(--mc-teal);
+      background: rgba(0,185,166,0.1); padding: 3px 10px; border-radius: 10px;
+    }
+    .ai2-feature-old {
+      font-size: 11px; color: rgba(255,255,255,0.3);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .ai2-feature-old .strike { text-decoration: line-through; }
+    .ai2-feature h4 {
+      font-size: 22px; font-weight: 600; color: white; line-height: 1.3; margin-bottom: 10px;
+    }
+    .ai2-feature p { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 16px; }
+    .ai2-feature-quote {
+      font-size: 13px; color: rgba(255,255,255,0.5); font-style: italic; line-height: 1.5;
+      padding-left: 14px; border-left: 2px solid var(--mc-teal);
+    }
 
     @media (max-width: 900px) {
-      .ai-stats { grid-template-columns: repeat(2, 1fr); }
-      .ai-actions { grid-template-columns: 1fr; }
-      .ai-compare-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 600px) {
-      .agent-intel h2 { font-size: 32px; }
-      .ai-stats { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .ai-stat-num { font-size: 28px; }
+      .ai2-stats-bar { flex-wrap: wrap; gap: 24px; padding: 48px 24px 32px; }
+      .ai2-stat-sep { display: none; }
+      .ai2-stat-num { font-size: 32px; }
+      .ai2-header h2 { font-size: 34px; }
+      .ai2-scroll-wrap { grid-template-columns: 1fr; padding: 0 20px; }
+      .ai2-chat-col { position: relative; top: auto; height: auto; padding: 0 0 32px; }
+      .ai2-chat-window { height: 360px; }
+      .ai2-features-col { padding: 0 0 60px; }
     }
   </style>
 
-  <div class="ai-head">
-    <span class="eyebrow">What the agent actually does</span>
-    <h2>Not a dashboard.<br>An analyst who works for you.</h2>
-    <p class="ai-sub">Every capability below is proven in production — extracted from real conversations with real marketers.</p>
-    <span class="ai-proof"><strong>29,588</strong> conversations &middot; <strong>12,431</strong> customers &middot; 32 days of production data</span>
+  <!-- Animated stats bar -->
+  <div class="ai2-stats-bar">
+    <div class="ai2-stat"><div class="ai2-stat-num" data-countup="29588">0</div><div class="ai2-stat-label">Conversations analyzed</div></div>
+    <div class="ai2-stat-sep"></div>
+    <div class="ai2-stat"><div class="ai2-stat-num" data-countup="12431">0</div><div class="ai2-stat-label">Customers served</div></div>
+    <div class="ai2-stat-sep"></div>
+    <div class="ai2-stat"><div class="ai2-stat-num" data-countup="93" data-suffix="%">0%</div><div class="ai2-stat-label">Structured reports</div></div>
+    <div class="ai2-stat-sep"></div>
+    <div class="ai2-stat"><div class="ai2-stat-num" data-countup="54" data-suffix="%">0%</div><div class="ai2-stat-label">With recommendations</div></div>
   </div>
 
-  <!-- Production stats -->
-  <div class="ai-stats">
-    <div class="ai-stat-card">
-      <div class="ai-stat-num">93%</div>
-      <div class="ai-stat-label">of responses are structured,<br>decision-ready reports</div>
-    </div>
-    <div class="ai-stat-card">
-      <div class="ai-stat-num">54%</div>
-      <div class="ai-stat-label">include a concrete<br>next-step recommendation</div>
-    </div>
-    <div class="ai-stat-card">
-      <div class="ai-stat-num">48%</div>
-      <div class="ai-stat-label">benchmark against<br>your industry vertical</div>
-    </div>
-    <div class="ai-stat-card">
-      <div class="ai-stat-num">35%</div>
-      <div class="ai-stat-label">calculate revenue<br>and commerce impact</div>
-    </div>
+  <!-- Section header -->
+  <div class="ai2-header">
+    <div class="ai2-eyebrow"><span class="pulse"></span> Proven in production</div>
+    <h2>Not a dashboard.<br>An analyst who works&nbsp;for&nbsp;you.</h2>
+    <p>Every capability below was extracted from real conversations with real marketers. Scroll to see the agent in action.</p>
   </div>
 
-  <!-- Top agentic actions -->
-  <div class="ai-actions-wrap">
-    <div class="ai-actions-title">Top agent capabilities — ranked by real usage</div>
-    <div class="ai-actions">
+  <!-- Sticky scroll: agent chat (left) + features (right) -->
+  <div class="ai2-scroll-wrap">
 
-      <div class="ai-action">
-        <div class="ai-action-top">
-          <div class="ai-action-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
-          <span class="ai-action-pct">93%</span>
+    <!-- LEFT: Sticky agent chat window -->
+    <div class="ai2-chat-col">
+      <div class="ai2-chat-window">
+        <div class="ai2-chat-bar">
+          <div class="ai2-chat-dot" style="background:#FF5F57;"></div>
+          <div class="ai2-chat-dot" style="background:#FFBD2E;"></div>
+          <div class="ai2-chat-dot" style="background:#28CA42;"></div>
+          <span class="ai2-chat-bar-title">Analytics AI</span>
+          <span class="live-dot"></span>
+        </div>
+        <div class="ai2-chat-body" id="ai2ChatBody">
+          <!-- Messages injected by scroll controller -->
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Scrolling feature blocks -->
+    <div class="ai2-features-col">
+
+      <div class="ai2-feature" data-feat="0">
+        <div class="ai2-feature-top">
+          <span class="ai2-feature-pct">93% of responses</span>
+          <span class="ai2-feature-old"><span class="strike">45 min in spreadsheets</span> &rarr; 10 seconds</span>
         </div>
         <h4>Instant structured reports</h4>
-        <p class="ai-action-desc">Ask any question and get a formatted report with metrics, tables, commentary, and key insights — not a raw data dump.</p>
-        <div class="ai-action-example">"Summarize my campaign performance in the last 30 days" → multi-section report with tables and recommendations</div>
+        <p>Ask any question and get a formatted report with metrics, tables, commentary, and key insights. Ready to paste into Slack or a client deck.</p>
+        <div class="ai2-feature-quote">"Summarize my campaign performance in the last 30 days" &rarr; multi-section report with tables and recommendations</div>
       </div>
 
-      <div class="ai-action">
-        <div class="ai-action-top">
-          <div class="ai-action-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <span class="ai-action-pct">63%</span>
+      <div class="ai2-feature" data-feat="1">
+        <div class="ai2-feature-top">
+          <span class="ai2-feature-pct">63% of responses</span>
+          <span class="ai2-feature-old"><span class="strike">Manual CSV analysis</span> &rarr; Ask in English</span>
         </div>
         <h4>Engagement metrics on demand</h4>
-        <p class="ai-action-desc">Open, click, CTR, bounce, and unsubscribe rates across any time window and campaign set — named in plain language.</p>
-        <div class="ai-action-example">"Which campaigns had the highest open and click rates?" → ranked tables with per-campaign metrics</div>
+        <p>Open, click, CTR, bounce, and unsubscribe rates across any time window and campaign set — named in plain language. No SQL required.</p>
+        <div class="ai2-feature-quote">"Which campaigns had the highest open and click rates?" &rarr; ranked tables with per-campaign metrics</div>
       </div>
 
-      <div class="ai-action">
-        <div class="ai-action-top">
-          <div class="ai-action-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <span class="ai-action-pct">54%</span>
+      <div class="ai2-feature" data-feat="2">
+        <div class="ai2-feature-top">
+          <span class="ai2-feature-pct">54% of responses</span>
+          <span class="ai2-feature-old"><span class="strike">Data without direction</span> &rarr; Clear next steps</span>
         </div>
-        <h4>Concrete next-step actions</h4>
-        <p class="ai-action-desc">Translates numbers into specific actions: resend to non-openers, test subject lines, prune inactive contacts, change send time.</p>
-        <div class="ai-action-example">For a 9.4% open rate, recommended subject-line improvements and flagged a 10x-elevated unsubscribe rate</div>
+        <h4>Concrete next-step recommendations</h4>
+        <p>The agent doesn't stop at numbers. It tells you exactly what to do: resend to non-openers, test subject lines, prune inactive contacts, shift your send window.</p>
+        <div class="ai2-feature-quote">For a 9.4% open rate, recommended specific subject-line improvements and flagged a 10x-elevated unsubscribe rate</div>
       </div>
 
-      <div class="ai-action">
-        <div class="ai-action-top">
-          <div class="ai-action-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          </div>
-          <span class="ai-action-pct">48%</span>
+      <div class="ai2-feature" data-feat="3">
+        <div class="ai2-feature-top">
+          <span class="ai2-feature-pct">48% of responses</span>
+          <span class="ai2-feature-old"><span class="strike">Google industry reports</span> &rarr; Instant context</span>
         </div>
         <h4>Industry benchmarking</h4>
-        <p class="ai-action-desc">Pulls your vertical's benchmark (restaurants ~12%, pro services ~34%) and positions your number against it — instantly.</p>
-        <div class="ai-action-example">"Your 9.4% open rate is below the 12% restaurant benchmark; your unsubscribe rate is ~10x higher than typical"</div>
+        <p>Pulls your vertical's benchmark (restaurants ~12%, professional services ~34%) and positions your number against it. Know instantly if it's a crisis or normal.</p>
+        <div class="ai2-feature-quote">"Your 9.4% open rate is below the 12% restaurant benchmark; your unsubscribe rate is ~10x higher than typical"</div>
       </div>
 
-      <div class="ai-action">
-        <div class="ai-action-top">
-          <div class="ai-action-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <span class="ai-action-pct">35%</span>
+      <div class="ai2-feature" data-feat="4">
+        <div class="ai2-feature-top">
+          <span class="ai2-feature-pct">35% of responses</span>
+          <span class="ai2-feature-old"><span class="strike">Stitch 3 tools, reconcile IDs</span> &rarr; One answer</span>
         </div>
         <h4>Revenue attribution</h4>
-        <p class="ai-action-desc">Ties campaigns to attributed revenue, orders, AOV, and ROI. Flags zero-revenue campaigns. Answers "is email making us money?"</p>
-        <div class="ai-action-example">"Your campaigns generated $3,603 in revenue from 29 orders across 451,060 sends" with per-campaign breakdown</div>
+        <p>Ties campaigns to attributed revenue, orders, AOV, and ROI. Flags zero-revenue campaigns. Answers "is email making us money?" without leaving the tool.</p>
+        <div class="ai2-feature-quote">"Your campaigns generated $3,603 in revenue from 29 orders across 451,060 sends" — with per-campaign breakdown</div>
       </div>
 
-      <div class="ai-action">
-        <div class="ai-action-top">
-          <div class="ai-action-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <span class="ai-action-pct">17%</span>
+      <div class="ai2-feature" data-feat="5">
+        <div class="ai2-feature-top">
+          <span class="ai2-feature-pct">17% of responses</span>
+          <span class="ai2-feature-old"><span class="strike">Guess and wait</span> &rarr; Root cause in seconds</span>
         </div>
         <h4>Root cause diagnosis</h4>
-        <p class="ai-action-desc">Converts symptoms into diagnosis — bot opens, list fatigue, deliverability issues, content drift — with the likely cause and fix.</p>
-        <div class="ai-action-example">"Why does the main page show 27%?" → three-part explanation: bot inclusion, unique vs. total, variant view</div>
+        <p>Converts symptoms into diagnosis with the likely cause — bot opens, list fatigue, deliverability issues, content drift — and a step-by-step fix.</p>
+        <div class="ai2-feature-quote">"Why does the main page show 27%?" &rarr; three-part explanation: bot inclusion, unique vs. total, variant view</div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- Before / After -->
-  <div class="ai-compare">
-    <h3 class="ai-compare-title">The old way vs. the agent way</h3>
-    <div class="ai-compare-grid">
-      <div class="ai-compare-col old">
-        <h5>Without Analytics AI</h5>
-        <div class="ai-compare-row"><span class="task">Campaign report</span> Export CSV → pivot table → 45 min</div>
-        <div class="ai-compare-row"><span class="task">Why rates dropped</span> Guess → test → wait 2 weeks</div>
-        <div class="ai-compare-row"><span class="task">Revenue from email</span> Stitch 3 tools, reconcile IDs</div>
-        <div class="ai-compare-row"><span class="task">Best subject line</span> Manually scroll 200 campaigns</div>
-        <div class="ai-compare-row"><span class="task">Industry benchmark</span> Google reports, do the math</div>
-      </div>
-      <div class="ai-compare-col new">
-        <h5>With Analytics AI</h5>
-        <div class="ai-compare-row"><span class="task">Campaign report</span> Ask a question → 10 seconds</div>
-        <div class="ai-compare-row"><span class="task">Why rates dropped</span> "Bot opens inflating numbers; list fatigue on segment X"</div>
-        <div class="ai-compare-row"><span class="task">Revenue from email</span> "$3,603 from 29 orders across 451K sends"</div>
-        <div class="ai-compare-row"><span class="task">Best subject line</span> "Geo-targeted + emoji consistently wins your top 20"</div>
-        <div class="ai-compare-row"><span class="task">Industry benchmark</span> "Your 9.4% is below the 12% restaurant benchmark"</div>
-      </div>
     </div>
   </div>
 </section>
@@ -4974,6 +4968,153 @@
 
     startTimer();
   })();
+</script>
+
+<!-- ===== Agent Intelligence v2: scroll controller ===== -->
+<script>
+(function() {
+  /* --- Count-up animation for stats bar --- */
+  const statEls = document.querySelectorAll('[data-countup]');
+  let statsCounted = false;
+  function animateCountUp(el) {
+    const target = parseInt(el.dataset.countup);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(eased * target);
+      el.textContent = val.toLocaleString() + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const statsObs = new IntersectionObserver(entries => {
+    if (statsCounted) return;
+    entries.forEach(e => {
+      if (e.isIntersecting) { statsCounted = true; statEls.forEach(animateCountUp); statsObs.disconnect(); }
+    });
+  }, { threshold: 0.3 });
+  if (statEls.length) statsObs.observe(statEls[0].closest('.ai2-stats-bar'));
+
+  /* --- Feature reveal on scroll --- */
+  const features = document.querySelectorAll('.ai2-feature');
+  const featObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
+  features.forEach(f => featObs.observe(f));
+
+  /* --- Agent chat morphing as features scroll --- */
+  const chatBody = document.getElementById('ai2ChatBody');
+  if (!chatBody) return;
+
+  const chatStates = [
+    { user: "Summarize my campaign performance in the last 30 days",
+      agent: `<strong>Campaign Performance — Last 30 Days</strong><br><br>
+      <div class="mini-table">
+        <span class="th">Campaign</span><span class="th">Opens</span><span class="th">Revenue</span>
+        <span>Holiday Flash Sale</span><span>46%</span><span>$12.4K</span>
+        <span>Summer Drop</span><span>38%</span><span>$8.1K</span>
+        <span>VIP Early Access</span><span>35%</span><span>$6.8K</span>
+        <span>Weekly Digest #12</span><span>22%</span><span>$1.2K</span>
+      </div>
+      <div class="rec-box">Key insight: Geo-targeted subject lines dominate your top performers. Consider A/B testing location-specific vs. generic headers.</div>` },
+
+    { user: "Which campaigns had the highest open and click rates?",
+      agent: `<strong>Top Campaigns by Engagement</strong><br><br>
+      <div class="mini-table">
+        <span class="th">Campaign</span><span class="th">Open %</span><span class="th">Click %</span>
+        <span>Holiday Flash</span><span style="color:var(--mc-teal);">46.2%</span><span>8.4%</span>
+        <span>Summer Drop</span><span style="color:var(--mc-teal);">38.1%</span><span>6.2%</span>
+        <span>Back to School</span><span>31.5%</span><span style="color:var(--mc-teal);">9.1%</span>
+      </div>
+      Your click-to-open rate (CTOR) averages <strong>18.4%</strong> — solid for ecommerce. Campaigns with preview text outperform by 12%.` },
+
+    { user: "Why is my open rate dropping? What should I do?",
+      agent: `Your open rate dropped from <strong>34% &rarr; 28%</strong> over the last 6 weeks. Three factors:<br><br>
+      <strong>1. Bot opens inflating baseline</strong> — Apple MPP accounts for ~22% of your "opens." Your real human open rate is closer to 22%.<br><br>
+      <strong>2. List fatigue on segment "All Subscribers"</strong> — contacts receiving 4+ emails/week show 3x higher unsubscribe rate.<br><br>
+      <strong>3. Subject line staleness</strong> — your last 8 campaigns all used the same "New arrival:" prefix.<br><br>
+      <div class="rec-box">Action plan: (1) Suppress contacts inactive 90+ days, (2) Test emoji + geo subject lines, (3) Reduce "All Subscribers" to 2x/week max.</div>` },
+
+    { user: "How does my open rate compare to the industry?",
+      agent: `<strong>Benchmark Comparison</strong><br><br>
+      Your open rate: <strong style="color:var(--mc-teal);">28%</strong><br>
+      Ecommerce average: 22%<br>
+      Top quartile: 34%<br><br>
+      You're <strong>+6pp above average</strong> but below the top quartile. Your unsubscribe rate (0.8%) is 2x the industry norm of 0.4%.<br><br>
+      <div class="rec-box">Focus area: Your open rate is strong — shift attention to reducing unsubscribes and improving click-through rate (yours: 2.1% vs. benchmark 2.8%).</div>` },
+
+    { user: "How much revenue did email generate this month?",
+      agent: `<strong>Email Revenue Attribution — April 2026</strong><br><br>
+      Total: <strong style="color:var(--mc-teal);">$84.2K</strong> from 1,247 orders<br><br>
+      <div class="mini-table">
+        <span class="th">Channel</span><span class="th">Revenue</span><span class="th">Share</span>
+        <span>Campaigns</span><span>$52.4K</span><span>62%</span>
+        <span>Automations</span><span>$24.1K</span><span>29%</span>
+        <span>Journeys</span><span>$7.7K</span><span>9%</span>
+      </div>
+      <div class="rec-box">Your abandoned cart automation drives $4.2K/week alone. Adding a post-purchase upsell sequence could add an estimated $6-8K/month.</div>` },
+
+    { user: "Why does the dashboard show 27% but I expected higher?",
+      agent: `The 27% you see is likely a <strong>blended metric</strong>. Here's what's happening:<br><br>
+      <strong>1. Bot opens included</strong> — Apple Mail Privacy Protection auto-opens every email. This inflates totals but also masks real engagement.<br><br>
+      <strong>2. Unique vs. total confusion</strong> — the dashboard shows unique opens (27%) but the variant report shows total opens (which can exceed 100% with re-opens).<br><br>
+      <strong>3. Variant view</strong> — if you're viewing an A/B test, each variant reports its own rate. The combined rate is a weighted average.<br><br>
+      <div class="rec-box">I recommend filtering by "Excluding bot activity" in your next report. Your real human open rate is approximately 21%.</div>` },
+  ];
+
+  let currentChat = -1;
+
+  function renderChat(idx) {
+    if (idx === currentChat || !chatStates[idx]) return;
+    currentChat = idx;
+    const state = chatStates[idx];
+
+    chatBody.innerHTML = '';
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'ai2-chat-msg user';
+    userMsg.textContent = state.user;
+    chatBody.appendChild(userMsg);
+    setTimeout(() => userMsg.classList.add('visible'), 50);
+
+    const typing = document.createElement('div');
+    typing.className = 'ai2-chat-msg agent';
+    typing.innerHTML = '<span class="typing">Analyzing...</span>';
+    chatBody.appendChild(typing);
+    setTimeout(() => typing.classList.add('visible'), 300);
+
+    setTimeout(() => {
+      typing.remove();
+      const agentMsg = document.createElement('div');
+      agentMsg.className = 'ai2-chat-msg agent';
+      agentMsg.innerHTML = state.agent;
+      chatBody.appendChild(agentMsg);
+      setTimeout(() => agentMsg.classList.add('visible'), 50);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 900);
+  }
+
+  // Trigger chat state change when a feature scrolls into center viewport
+  const chatObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = parseInt(e.target.dataset.feat);
+        renderChat(idx);
+      }
+    });
+  }, { threshold: 0.4, rootMargin: '-20% 0px -30% 0px' });
+  features.forEach(f => chatObs.observe(f));
+
+  // Render first chat state on section entry
+  const sectionObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting && currentChat === -1) renderChat(0); });
+  }, { threshold: 0.1 });
+  const section = document.getElementById('agent-intel');
+  if (section) sectionObs.observe(section);
+})();
 </script>
 
 <!-- ===== Bento features: motion controller ===== -->
