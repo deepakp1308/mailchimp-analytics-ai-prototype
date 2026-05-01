@@ -1855,7 +1855,248 @@
     margin-top: 14px; text-align: center;
     color: rgba(255,255,255,0.45); font-size: 12px;
   }
-  .va-fold-cta a { color: #a89aff; text-decoration: none; }
+  .va-fold-cta a { color: #a89aff; text-decoration: none; cursor: pointer; }
+
+  /* ----- Shared dazzle styles (used by Variant A in-place + Variant C cinematic) ----- */
+  .mc-thinking { display: inline-flex; gap: 5px; padding: 6px 0; }
+  .mc-thinking span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.55);
+    animation: mcThink 1.1s infinite ease-in-out;
+  }
+  .mc-thinking span:nth-child(2) { animation-delay: 0.15s; }
+  .mc-thinking span:nth-child(3) { animation-delay: 0.30s; }
+  @keyframes mcThink {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+    30%           { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .mc-answer {
+    font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.92);
+    padding-top: 3px; margin: 0;
+  }
+  .mc-answer strong { color: white; }
+  .mc-answer .mc-word {
+    display: inline-block;
+    opacity: 0; transform: translateY(4px);
+    animation: mcWord 360ms cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes mcWord { to { opacity: 1; transform: none; } }
+
+  .mc-chart-card {
+    margin-top: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 14px 16px 16px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0; transform: translateY(8px);
+    animation: mcCardIn 600ms cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes mcCardIn { to { opacity: 1; transform: none; } }
+  .mc-chart-card::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(60% 80% at 100% 0%, rgba(123,97,255,0.08), transparent 60%);
+  }
+  .mc-chart-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .mc-chart-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.10em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  .mc-chart-meta { font-size: 11px; color: rgba(255,255,255,0.55); font-variant-numeric: tabular-nums; }
+
+  .mc-chart-svg { width: 100%; height: 140px; display: block; overflow: visible; }
+  .mc-chart-svg .grid { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+
+  /* Line + area + anomaly */
+  .mc-area      { fill: url(#mcLineGrad); opacity: 0; animation: mcCardIn 700ms ease 1300ms forwards; }
+  .mc-line      {
+    fill: none; stroke: #a89aff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 800; stroke-dashoffset: 800;
+    animation: mcDraw 1300ms cubic-bezier(.2,.7,.2,1) 350ms forwards;
+  }
+  @keyframes mcDraw { to { stroke-dashoffset: 0; } }
+  .mc-pt {
+    fill: #a89aff; opacity: 0;
+    animation: mcCardIn 320ms ease forwards;
+  }
+  .mc-pt.p0 { animation-delay: 600ms; }
+  .mc-pt.p1 { animation-delay: 800ms; }
+  .mc-pt.p2 { animation-delay: 1000ms; }
+  .mc-pt.p3 { animation-delay: 1200ms; }
+  .mc-anomaly-group {
+    opacity: 0;
+    animation: mcCardIn 450ms ease 1700ms forwards;
+  }
+  .mc-anomaly-label { font-size: 11px; font-weight: 700; fill: #ff6b8a; }
+  .mc-anomaly-tip {
+    margin-top: 10px;
+    background: rgba(255,107,138,0.08);
+    border: 1px solid rgba(255,107,138,0.22);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px; color: rgba(255,255,255,0.85);
+    display: inline-flex; align-items: center; gap: 8px;
+    opacity: 0;
+    animation: mcCardIn 500ms ease 2100ms forwards;
+  }
+  .mc-anomaly-tip::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: #ff6b8a; box-shadow: 0 0 8px #ff6b8a;
+  }
+  .mc-anomaly-tip strong { color: white; font-weight: 700; }
+
+  /* Donut + legend */
+  .mc-donut-wrap { display: flex; align-items: center; gap: 22px; }
+  .mc-donut-svg  { width: 150px; height: 150px; flex-shrink: 0; transform: rotate(-90deg); }
+  .mc-donut-bg   { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 18; }
+  .mc-donut-arc  {
+    fill: none; stroke-width: 18; stroke-linecap: butt;
+    transition: stroke-dasharray 900ms cubic-bezier(.2,.7,.2,1);
+  }
+  .mc-donut-center {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; pointer-events: none;
+  }
+  .mc-donut-stage { position: relative; width: 150px; height: 150px; flex-shrink: 0; }
+  .mc-donut-pct {
+    font-size: 26px; font-weight: 700; color: white; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .mc-donut-sub  { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 4px; letter-spacing: 0.04em; }
+  .mc-donut-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; flex: 1; }
+  .mc-donut-legend li {
+    display: grid; grid-template-columns: 12px 1fr auto;
+    align-items: center; gap: 10px;
+    font-size: 13px; color: rgba(255,255,255,0.85);
+    opacity: 0; transform: translateX(8px);
+    animation: mcLegendIn 480ms cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes mcLegendIn { to { opacity: 1; transform: none; } }
+  .mc-donut-legend li:nth-child(1) { animation-delay: 1100ms; }
+  .mc-donut-legend li:nth-child(2) { animation-delay: 1300ms; }
+  .mc-donut-legend li:nth-child(3) { animation-delay: 1500ms; }
+  .mc-donut-legend li:nth-child(4) { animation-delay: 1700ms; }
+  .mc-donut-legend .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .mc-donut-legend em { font-style: normal; font-weight: 700; color: white; font-variant-numeric: tabular-nums; }
+
+  /* Forecast (actuals + dashed forecast + confidence band + pulsing endpoint) */
+  .mc-band       { fill: rgba(255,224,27,0.10); opacity: 0; animation: mcCardIn 700ms ease 1500ms forwards; }
+  .mc-forecast-line {
+    fill: none; stroke: #FFE01B; stroke-width: 2.5; stroke-linecap: round;
+    stroke-dasharray: 5 6;
+    opacity: 0; transform: translateX(-12px);
+    animation: mcForecastIn 700ms cubic-bezier(.2,.7,.2,1) 1500ms forwards;
+  }
+  @keyframes mcForecastIn { to { opacity: 1; transform: none; } }
+  .mc-forecast-end {
+    opacity: 0;
+    animation: mcCardIn 400ms ease 2000ms forwards;
+  }
+  .mc-forecast-end-label { font-size: 11px; font-weight: 700; fill: #FFE01B; }
+
+  /* Insight card + action button (used by both variants) */
+  .mc-insight {
+    margin-top: 10px;
+    background: rgba(255,224,27,0.07);
+    border: 1px solid rgba(255,224,27,0.20);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12.5px; line-height: 1.5;
+    color: rgba(255,255,255,0.84);
+    opacity: 0; transform: translateY(6px);
+    animation: mcCardIn 500ms ease 2200ms forwards;
+  }
+  .mc-insight strong { color: #FFE01B; font-weight: 700; }
+  .mc-action-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: 12px; width: 100%;
+    background: linear-gradient(135deg, #FFE01B, #FFC700);
+    color: #241c15;
+    border: none;
+    padding: 11px 14px;
+    border-radius: 11px;
+    font-weight: 700; font-size: 13px;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 8px 24px -8px rgba(255,224,27,0.45);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    opacity: 0; transform: translateY(6px);
+    animation: mcCardIn 500ms ease 2400ms forwards;
+  }
+  .mc-action-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 12px 28px -8px rgba(255,224,27,0.55);
+  }
+
+  /* Variant A user-question bubble */
+  .va-user-bubble {
+    background: rgba(255,255,255,0.07);
+    padding: 10px 14px;
+    border-radius: 18px 18px 4px 18px;
+    font-size: 13px; max-width: 85%;
+    color: rgba(255,255,255,0.95);
+    opacity: 0; transform: translateY(4px);
+    animation: mcCardIn 320ms ease forwards;
+  }
+
+  /* ===================================================== */
+  /* ===== VARIANT C — Cinematic scene controller ========= */
+  /* ===================================================== */
+  .vc-scene-stage { position: relative; min-height: 360px; }
+  .vc-scene {
+    padding: 24px 28px 28px;
+    transition: opacity 320ms ease, transform 320ms ease;
+  }
+  .vc-scene.exiting { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+  .vc-scene.entering { opacity: 0; transform: translateY(6px); }
+
+  .vc-q-typing {
+    background: rgba(255,255,255,0.07);
+    padding: 12px 16px;
+    border-radius: 18px 18px 4px 18px;
+    font-size: 14px; color: rgba(255,255,255,0.95);
+    max-width: 85%; margin-left: auto; margin-bottom: 16px;
+    min-height: 22px;
+    display: inline-block;
+    position: relative;
+    align-self: flex-end;
+  }
+  .vc-q-row { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .vc-q-typing .caret {
+    display: inline-block; width: 2px; height: 14px;
+    background: #a89aff; margin-left: 2px; vertical-align: -2px;
+    animation: mcCaret 0.9s steps(1) infinite;
+  }
+  @keyframes mcCaret { 50% { opacity: 0; } }
+
+  .vc-thinking-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+  .vc-thinking-row .ava {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg, #7B61FF, #FF61C7 50%, #00B9A6);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(123,97,255,0.30);
+  }
+  .vc-thinking-row .ava svg { width: 16px; height: 16px; }
+  .vc-thinking-row .body { padding-top: 4px; flex: 1; min-width: 0; }
+  .vc-thinking-row .body p { margin: 0; }
+
+  .vc-dots {
+    display: inline-flex; gap: 6px; margin-right: 12px; vertical-align: middle;
+  }
+  .vc-dots button {
+    width: 18px; height: 4px; border-radius: 2px; border: none;
+    background: rgba(255,255,255,0.18); cursor: pointer; padding: 0;
+    transition: background 200ms ease, width 200ms ease;
+  }
+  .vc-dots button.active { background: #a89aff; width: 28px; }
+  .vc-dots button:hover { background: rgba(168,154,255,0.6); }
+
+  /* Variant C action button uses the dark-card mc-action-btn already */
+  .vc-scene .mc-action-btn { width: auto; padding: 10px 18px; }
 
   /* ===================================================== */
   /* ===== VARIANT B — Full-Width Hero Playground ========= */
@@ -2021,11 +2262,12 @@
     display: inline-flex; align-items: center; gap: 6px;
   }
   .vc-tryself {
-    margin-top: 18px; text-align: center;
-    padding: 14px;
+    margin-top: 0;
+    padding: 14px 22px;
     background: rgba(255,255,255,0.02);
     border-top: 1px solid rgba(255,255,255,0.06);
     font-size: 13px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
   .vc-tryself a { color: #a89aff; text-decoration: none; font-weight: 600; }
 
@@ -2164,8 +2406,8 @@
       <div class="gdpr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>GDPR · SOC 2 · HIPAA</div>
     </div>
 
-    <!-- Pre-baked Q&A demo (non-interactive in hero, links to full demo) -->
-    <div class="vc-demo">
+    <!-- Cinematic auto-playing demo: typewriter prompt → thinking → streaming answer → animated chart -->
+    <div class="vc-demo" id="vcDemo">
       <div class="vc-demo-toolbar">
         <span class="vc-pill">
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>
@@ -2173,26 +2415,15 @@
         </span>
         <span class="vc-status">Live</span>
       </div>
-      <div class="vc-demo-body">
-        <div class="vc-q">Why did revenue drop last week?</div>
-        <div class="vc-a">
-          <div class="ava">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>
-          </div>
-          <p>Revenue dropped <strong>18% week-over-week</strong>, falling from $22.5K to $18.4K. The decline tracks with your <strong>abandoned-cart automation</strong> pausing on Tuesday — that single flow drives ~$4,200/wk.</p>
-        </div>
-        <div class="vc-chart">
-          <svg viewBox="0 0 360 86" preserveAspectRatio="none" style="width:100%; height:100%;">
-            <defs><linearGradient id="vcg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#a89aff" stop-opacity="0.4"/><stop offset="100%" stop-color="#a89aff" stop-opacity="0"/></linearGradient></defs>
-            <path d="M0,30 L60,22 L120,18 L180,28 L240,55 L300,68 L360,62" stroke="#a89aff" stroke-width="2.5" fill="none"/>
-            <path d="M0,30 L60,22 L120,18 L180,28 L240,55 L300,68 L360,62 L360,86 L0,86 Z" fill="url(#vcg)"/>
-            <circle cx="240" cy="55" r="4" fill="#ff6b8a"/>
-            <text x="248" y="49" font-size="9" fill="#ff6b8a" font-weight="700">-18%</text>
-          </svg>
-        </div>
-        <button class="vc-action">Restart abandoned-cart automation →</button>
+      <div class="vc-scene-stage" id="vcStage" aria-live="polite">
+        <!-- Scenes are rendered dynamically by the controller below -->
       </div>
       <div class="vc-tryself">
+        <div class="vc-dots" id="vcDots" role="tablist" aria-label="Demo scene">
+          <button data-vc-scene="0" class="active" aria-label="Scene 1: Diagnose"></button>
+          <button data-vc-scene="1" aria-label="Scene 2: Top products"></button>
+          <button data-vc-scene="2" aria-label="Scene 3: Forecast"></button>
+        </div>
         <a href="#playground">Try this on your own data ↓</a>
       </div>
     </div>
@@ -2223,6 +2454,13 @@
       if (v === 'original') url.searchParams.delete('variant');
       else url.searchParams.set('variant', v);
       window.history.replaceState({}, '', url);
+      // Kick the cinematic demo when user lands on / switches to Variant C
+      if (v === 'c' && typeof window.__vcStart === 'function') {
+        window.__vcStart();
+      }
+      if (v !== 'c' && typeof window.__vcStop === 'function') {
+        window.__vcStop();
+      }
     }
     // Initial: read from URL or default to 'original'
     const initial = new URLSearchParams(window.location.search).get('variant') || 'original';
@@ -2232,37 +2470,362 @@
       btn.addEventListener('click', () => setVariant(btn.dataset.variant));
     });
 
-    // ----- Variant A interactivity -----
-    const vaQuestions = [
-      { q: "Why did revenue drop last week?", a: "Revenue dropped <strong>18% week-over-week</strong>. The decline tracks closely with your abandoned-cart automation pausing on Tuesday. Restarting it should recover ~$4,200/wk." },
-      { q: "What are my top 3 products?", a: "Top 3: <strong>Oat Bowl Bundle ($8.2K)</strong>, Strawberry Smoothie ($5.4K), Recovery Granola ($4.1K). Together — 43% of revenue from 3 SKUs." },
-      { q: "Forecast next month's revenue", a: "May forecast: <strong>$94K (±$6K)</strong>. 8% lift over April, driven by Mother's Day campaign + 2 launches." }
+    /* ============================================================
+       Shared dazzle: scene catalogue + chart renderers used by
+       Variant A (interactive) and Variant C (cinematic autoplay)
+       ============================================================ */
+    const AVATAR_SVG = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>';
+
+    const SCENES = [
+      {
+        q: "Why did revenue drop last week?",
+        a: "Revenue dropped <strong>18% week-over-week</strong>, falling from $22.5K to $18.4K. The decline tracks closely with your <strong>abandoned-cart automation</strong> pausing on Tuesday — that single flow drives ~$4,200/wk.",
+        chart: { type: 'line-anomaly', data: [22.1, 21.4, 22.8, 22.5, 18.4], labels: ['W-4','W-3','W-2','W-1','This wk'], anomalyAt: 4, dropPct: -18, title: 'Weekly revenue · last 5 weeks', meta: '$K' },
+        insight: '<strong>Root cause.</strong> Tuesday 9:14am — automation paused after a template edit. Restart recovers ~$4.2K/wk.',
+        action: 'Restart abandoned-cart automation →'
+      },
+      {
+        q: "What are my top 3 products?",
+        a: "Top 3: <strong>Oat Bowl Bundle ($8.2K)</strong>, Strawberry Smoothie ($5.4K), Recovery Granola ($4.1K). Together — <strong>43%</strong> of revenue from just 3 SKUs.",
+        chart: {
+          type: 'donut',
+          segments: [
+            { label: 'Oat Bowl Bundle',    value: 8.2, color: '#FFE01B' },
+            { label: 'Strawberry Smoothie', value: 5.4, color: '#00b9a6' },
+            { label: 'Recovery Granola',   value: 4.1, color: '#a89aff' },
+            { label: 'Other 24 SKUs',      value: 23.8, color: 'rgba(255,255,255,0.10)' }
+          ],
+          centerPct: 43, centerSub: 'from top 3', total: 41.5,
+          title: 'Top SKUs · this month', meta: '$41.5K total'
+        },
+        insight: '<strong>Concentration risk.</strong> 43% of revenue from 3 SKUs. Test bundles or upsells to lift AOV.',
+        action: 'Build a Top-3 lookalike segment →'
+      },
+      {
+        q: "Forecast next month's revenue",
+        a: "May forecast: <strong>$94K (±$6K)</strong>. <strong>+8%</strong> over April, driven by Mother's Day campaign and 2 product launches mid-month.",
+        chart: {
+          type: 'forecast',
+          actuals: [62, 71, 78, 85],
+          forecast: [88, 91, 94],
+          labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+          confidence: 6,
+          title: 'Revenue · actuals + forecast',
+          meta: '±$6K confidence'
+        },
+        insight: '<strong>Confidence: 94%.</strong> Last 6 forecasts averaged 94% accuracy. Spend window opens May 5.',
+        action: "Schedule Mother's Day campaign →"
+      }
     ];
+
+    /* ---------- chart renderers ---------- */
+    function escapeAttr(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
+
+    function renderLineAnomaly(c) {
+      const w = 480, h = 140, px = 24, py = 18;
+      const innerW = w - px * 2, innerH = h - py * 2;
+      const max = Math.max(...c.data) * 1.05;
+      const min = Math.min(...c.data) * 0.7;
+      const pts = c.data.map((v, i) => {
+        const x = px + (i / (c.data.length - 1)) * innerW;
+        const y = py + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
+        return [x, y];
+      });
+      const linePath = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+      const areaPath = linePath + ' L' + pts[pts.length - 1][0].toFixed(1) + ',' + (h - py) + ' L' + pts[0][0].toFixed(1) + ',' + (h - py) + ' Z';
+      const a = pts[c.anomalyAt];
+      const ptDots = pts.map((p, i) => `<circle class="mc-pt p${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3"/>`).join('');
+
+      return `
+        <div class="mc-chart-head">
+          <span class="mc-chart-title">${escapeAttr(c.title)}</span>
+          <span class="mc-chart-meta">${escapeAttr(c.meta)}</span>
+        </div>
+        <svg class="mc-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="mcLineGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a89aff" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#a89aff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line class="grid" x1="${px}" y1="${py + innerH/2}" x2="${px + innerW}" y2="${py + innerH/2}"/>
+          <path class="mc-area" d="${areaPath}"/>
+          <path class="mc-line" d="${linePath}"/>
+          ${ptDots}
+          <g class="mc-anomaly-group" transform="translate(${a[0].toFixed(1)} ${a[1].toFixed(1)})">
+            <circle r="14" fill="none" stroke="#ff6b8a" stroke-width="1.5">
+              <animate attributeName="r" from="6" to="20" dur="1.6s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" from="0.55" to="0" dur="1.6s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="5" fill="#ff6b8a"/>
+            <text class="mc-anomaly-label" x="0" y="-14" text-anchor="middle">${c.dropPct}%</text>
+          </g>
+        </svg>
+        <div class="mc-anomaly-tip">
+          <span><strong>Tuesday 9:14am</strong> — abandoned-cart automation paused</span>
+        </div>
+      `;
+    }
+
+    function renderDonut(c) {
+      const cx = 75, cy = 75, r = 56, sw = 18;
+      const C = 2 * Math.PI * r;
+      const total = c.segments.reduce((s, x) => s + x.value, 0);
+      let cum = 0;
+      const arcs = c.segments.map((seg, i) => {
+        const offset = -C * cum / total;
+        const dash = (seg.value / total) * C;
+        cum += seg.value;
+        return `<circle class="mc-donut-arc" cx="${cx}" cy="${cy}" r="${r}" stroke="${seg.color}" stroke-dasharray="0 ${C}" stroke-dashoffset="${offset.toFixed(2)}" data-target-dash="${dash.toFixed(2)} ${(C - dash).toFixed(2)}" style="transition-delay:${600 + i * 180}ms;"/>`;
+      }).join('');
+      const legend = c.segments.map((seg, i) => `
+        <li>
+          <span class="swatch" style="background:${seg.color};"></span>
+          <span>${escapeAttr(seg.label)}</span>
+          <em>$${seg.value}K</em>
+        </li>
+      `).join('');
+
+      return `
+        <div class="mc-chart-head">
+          <span class="mc-chart-title">${escapeAttr(c.title)}</span>
+          <span class="mc-chart-meta">${escapeAttr(c.meta)}</span>
+        </div>
+        <div class="mc-donut-wrap">
+          <div class="mc-donut-stage">
+            <svg class="mc-donut-svg" viewBox="0 0 150 150">
+              <circle class="mc-donut-bg" cx="${cx}" cy="${cy}" r="${r}"/>
+              ${arcs}
+            </svg>
+            <div class="mc-donut-center">
+              <div class="mc-donut-pct"><span data-cnt data-to="${c.centerPct}">0</span>%</div>
+              <div class="mc-donut-sub">${escapeAttr(c.centerSub)}</div>
+            </div>
+          </div>
+          <ul class="mc-donut-legend">${legend}</ul>
+        </div>
+      `;
+    }
+
+    function renderForecast(c) {
+      const w = 480, h = 140, px = 24, py = 18;
+      const innerW = w - px * 2, innerH = h - py * 2;
+      const all = c.actuals.concat(c.forecast);
+      const max = Math.max(...all) * 1.06;
+      const min = Math.min(...all) * 0.80;
+      const N = all.length;
+      const xAt = (i) => px + (i / (N - 1)) * innerW;
+      const yAt = (v) => py + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
+      const aPts = c.actuals.map((v, i) => [xAt(i), yAt(v)]);
+      const aLast = aPts[aPts.length - 1];
+      const fPts = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v)]);
+      const upper = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v + c.confidence)]);
+      const lower = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v - c.confidence)]);
+      const actualPath = aPts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+      const forecastPath = `M${aLast[0].toFixed(1)},${aLast[1].toFixed(1)} ` + fPts.map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+      const bandPath =
+        `M${aLast[0].toFixed(1)},${aLast[1].toFixed(1)} ` +
+        upper.map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ') + ' ' +
+        `L${lower[lower.length - 1][0].toFixed(1)},${lower[lower.length - 1][1].toFixed(1)} ` +
+        lower.slice().reverse().map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ') + ' Z';
+      const last = fPts[fPts.length - 1];
+      const ptDots = aPts.map((p, i) => `<circle class="mc-pt p${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3"/>`).join('');
+
+      return `
+        <div class="mc-chart-head">
+          <span class="mc-chart-title">${escapeAttr(c.title)}</span>
+          <span class="mc-chart-meta">${escapeAttr(c.meta)}</span>
+        </div>
+        <svg class="mc-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="mcLineGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a89aff" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#a89aff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line class="grid" x1="${px}" y1="${py + innerH/2}" x2="${px + innerW}" y2="${py + innerH/2}"/>
+          <path class="mc-band" d="${bandPath}"/>
+          <path class="mc-line" d="${actualPath}"/>
+          ${ptDots}
+          <path class="mc-forecast-line" d="${forecastPath}"/>
+          <g class="mc-forecast-end" transform="translate(${last[0].toFixed(1)} ${last[1].toFixed(1)})">
+            <circle r="5" fill="none" stroke="#FFE01B" stroke-width="1.5">
+              <animate attributeName="r" from="5" to="18" dur="1.8s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" from="0.55" to="0" dur="1.8s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="4" fill="#FFE01B"/>
+            <text class="mc-forecast-end-label" x="0" y="-12" text-anchor="middle">$94K</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    function renderChart(cfg) {
+      if (cfg.type === 'line-anomaly') return renderLineAnomaly(cfg);
+      if (cfg.type === 'donut')        return renderDonut(cfg);
+      if (cfg.type === 'forecast')     return renderForecast(cfg);
+      return '';
+    }
+
+    /* Trigger donut arcs to fill in once mounted (we use real stroke-dasharray instead of opacity) */
+    function activateDonut(scope) {
+      const arcs = scope.querySelectorAll('.mc-donut-arc');
+      requestAnimationFrame(() => {
+        arcs.forEach(a => {
+          a.setAttribute('stroke-dasharray', a.getAttribute('data-target-dash'));
+        });
+      });
+      const counters = scope.querySelectorAll('[data-cnt]');
+      counters.forEach((el, i) => setTimeout(() => animateCounter(el), 1100 + i * 150));
+    }
+
+    function animateCounter(el) {
+      const to   = parseFloat(el.getAttribute('data-to')   || '0');
+      const from = parseFloat(el.getAttribute('data-from') || '0');
+      const dur  = parseFloat(el.getAttribute('data-dur')  || '1200');
+      const isFloat = String(to).indexOf('.') >= 0;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const v = from + (to - from) * eased;
+        el.textContent = isFloat ? v.toFixed(1) : Math.round(v).toString();
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* Wrap each word in <span class="mc-word"> with stagger delay so the answer streams in */
+    function streamHTML(html) {
+      // Splits text nodes into word-spans while preserving inline tags like <strong>
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      let i = 0;
+      const walker = document.createTreeWalker(tmp, NodeFilter.SHOW_TEXT);
+      const targets = [];
+      while (walker.nextNode()) targets.push(walker.currentNode);
+      targets.forEach(node => {
+        const frag = document.createDocumentFragment();
+        const parts = node.nodeValue.split(/(\s+)/);
+        parts.forEach(p => {
+          if (!p) return;
+          if (/^\s+$/.test(p)) {
+            frag.appendChild(document.createTextNode(p));
+          } else {
+            const s = document.createElement('span');
+            s.className = 'mc-word';
+            s.style.animationDelay = (i * 35) + 'ms';
+            s.textContent = p;
+            frag.appendChild(s);
+            i++;
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+      return tmp.innerHTML;
+    }
+
+    /* ============================================================
+       Variant A — interactive: chip click → user bubble → thinking
+       → streaming answer → animated chart → insight + action
+       ============================================================ */
     function vaAsk(idx) {
       const variantA = document.querySelector('[data-variant="a"]');
       if (!variantA) return;
-      const greeting = variantA.querySelector('.va-mini-greeting');
-      const chips = variantA.querySelector('.va-mini-chips');
-      const input = variantA.querySelector('.va-mini-input');
-      const fold = variantA.querySelector('.va-fold-cta');
-      const qa = vaQuestions[idx];
-      // Replace greeting + chips with conversation
-      greeting.outerHTML = `
+      const body = variantA.querySelector('.va-mini-body');
+      const scene = SCENES[idx];
+      if (!scene) return;
+
+      // 1. Build new conversation skeleton
+      body.innerHTML = `
         <div class="va-mini-greeting" style="justify-content:flex-end;">
-          <div style="background:rgba(255,255,255,0.07); padding:10px 14px; border-radius:18px 18px 4px 18px; font-size:13px; max-width:85%; color:rgba(255,255,255,0.95);">${qa.q}</div>
+          <div class="va-user-bubble">${scene.q}</div>
         </div>
-        <div class="va-mini-greeting">
-          <div class="va-mini-avatar"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg></div>
-          <p>${qa.a}</p>
-        </div>`;
-      chips.style.display = 'none';
-      fold.innerHTML = '<a href="#playground">See the full chart + 3 more sample personas ↓</a>';
+        <div class="va-mini-greeting va-ai-row">
+          <div class="va-mini-avatar">${AVATAR_SVG}</div>
+          <div class="va-ai-body" style="flex:1;min-width:0;">
+            <div class="mc-thinking"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      `;
+
+      // 2. After ~900ms, replace thinking with streaming answer
+      setTimeout(() => {
+        const aiBody = body.querySelector('.va-ai-body');
+        if (!aiBody) return;
+        aiBody.innerHTML = `<p class="mc-answer">${streamHTML(scene.a)}</p>`;
+      }, 900);
+
+      // 3. After ~1700ms, append chart card
+      setTimeout(() => {
+        const chartCard = document.createElement('div');
+        chartCard.className = 'mc-chart-card';
+        chartCard.innerHTML = renderChart(scene.chart);
+        body.appendChild(chartCard);
+        if (scene.chart.type === 'donut') activateDonut(chartCard);
+      }, 1700);
+
+      // 4. After ~2400ms, append insight + action button
+      setTimeout(() => {
+        if (scene.insight) {
+          const ins = document.createElement('div');
+          ins.className = 'mc-insight';
+          ins.innerHTML = scene.insight;
+          body.appendChild(ins);
+        }
+        const btn = document.createElement('button');
+        btn.className = 'mc-action-btn';
+        btn.innerHTML = scene.action + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+        btn.addEventListener('click', () => {
+          document.querySelector('#playground').scrollIntoView({ behavior: 'smooth' });
+        });
+        body.appendChild(btn);
+
+        // Reset link
+        const reset = document.createElement('div');
+        reset.className = 'va-fold-cta';
+        reset.innerHTML = '<a href="#" data-va-reset>← Ask another question</a>';
+        body.appendChild(reset);
+        body.querySelector('[data-va-reset]').addEventListener('click', (e) => {
+          e.preventDefault();
+          resetVariantA();
+        });
+      }, 2400);
     }
-    document.querySelectorAll('.va-mini-chips .chip').forEach(c => {
-      c.addEventListener('click', () => vaAsk(parseInt(c.dataset.vaq)));
-    });
-    const vaSend = document.getElementById('vaSend');
-    if (vaSend) vaSend.addEventListener('click', () => vaAsk(0));
+
+    function resetVariantA() {
+      const variantA = document.querySelector('[data-variant="a"]');
+      if (!variantA) return;
+      const body = variantA.querySelector('.va-mini-body');
+      body.innerHTML = `
+        <div class="va-mini-greeting">
+          <div class="va-mini-avatar">${AVATAR_SVG}</div>
+          <p>Ask me anything about <strong>Oat Lord's</strong> last 6 months of marketing data.</p>
+        </div>
+        <div class="va-mini-chips">
+          <button class="chip" data-vaq="0">Why did revenue drop last week?</button>
+          <button class="chip" data-vaq="1">What are my top 3 products?</button>
+          <button class="chip" data-vaq="2">Forecast next month's revenue</button>
+        </div>
+        <div class="va-mini-input">
+          <input type="text" placeholder="Or type your own question…" id="vaInput" />
+          <button id="vaSend">Send</button>
+        </div>
+        <div class="va-fold-cta">
+          <a href="#playground">Try the full experience with charts ↓</a>
+        </div>
+      `;
+      bindVariantAControls();
+    }
+
+    function bindVariantAControls() {
+      document.querySelectorAll('.va-mini-chips .chip').forEach(c => {
+        c.addEventListener('click', () => vaAsk(parseInt(c.dataset.vaq)));
+      });
+      const vaSend = document.getElementById('vaSend');
+      if (vaSend) vaSend.addEventListener('click', () => vaAsk(0));
+    }
+    bindVariantAControls();
 
     // ----- Variant B interactivity (same chip → scroll to full playground) -----
     document.querySelectorAll('[data-vbq]').forEach(c => {
@@ -2270,6 +2833,176 @@
         document.querySelector('#playground').scrollIntoView({ behavior: 'smooth' });
       });
     });
+
+    /* ============================================================
+       Variant C — cinematic autoplay scene controller
+       ============================================================ */
+    (function vcController() {
+      const stage = document.getElementById('vcStage');
+      const dots  = document.getElementById('vcDots');
+      const demo  = document.getElementById('vcDemo');
+      if (!stage || !dots || !demo) return;
+
+      let idx = 0;
+      let running = false;
+      let paused = false;
+      let nextTimer = null;
+      let activeTimers = [];
+      const SCENE_DURATION = 8500;
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function clearTimers() {
+        activeTimers.forEach(clearTimeout);
+        activeTimers = [];
+        if (nextTimer) { clearTimeout(nextTimer); nextTimer = null; }
+      }
+      function track(t) { activeTimers.push(t); return t; }
+
+      function typewrite(el, text, speed) {
+        return new Promise(resolve => {
+          let i = 0;
+          el.innerHTML = '<span class="text"></span><span class="caret"></span>';
+          const target = el.querySelector('.text');
+          function tick() {
+            target.textContent = text.slice(0, ++i);
+            if (i >= text.length) {
+              const caret = el.querySelector('.caret');
+              if (caret) track(setTimeout(() => caret.remove(), 350));
+              resolve();
+              return;
+            }
+            track(setTimeout(tick, speed));
+          }
+          tick();
+        });
+      }
+
+      function playScene(i) {
+        clearTimers();
+        idx = ((i % SCENES.length) + SCENES.length) % SCENES.length;
+        const scene = SCENES[idx];
+        // update dots
+        dots.querySelectorAll('button').forEach((b, k) => b.classList.toggle('active', k === idx));
+        // mount scene
+        stage.innerHTML = `
+          <div class="vc-scene entering">
+            <div class="vc-q-row"><div class="vc-q-typing"></div></div>
+            <div class="vc-thinking-row">
+              <div class="ava">${AVATAR_SVG}</div>
+              <div class="body" data-ai-body>
+                <div class="mc-thinking"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+        `;
+        const sceneEl = stage.querySelector('.vc-scene');
+        const qEl = stage.querySelector('.vc-q-typing');
+        const aiBody = stage.querySelector('[data-ai-body]');
+
+        // Fade-in
+        requestAnimationFrame(() => sceneEl.classList.remove('entering'));
+
+        if (reduce) {
+          // No motion path: render the entire scene at once
+          qEl.innerHTML = `<span class="text">${scene.q}</span>`;
+          aiBody.innerHTML = `<p class="mc-answer">${scene.a}</p>`;
+          const card = document.createElement('div');
+          card.className = 'mc-chart-card';
+          card.style.animation = 'none';
+          card.style.opacity = '1';
+          card.style.transform = 'none';
+          card.innerHTML = renderChart(scene.chart);
+          sceneEl.appendChild(card);
+          if (scene.chart.type === 'donut') activateDonut(card);
+          const ins = document.createElement('div');
+          ins.className = 'mc-insight';
+          ins.style.animation = 'none';
+          ins.style.opacity = '1';
+          ins.innerHTML = scene.insight;
+          sceneEl.appendChild(ins);
+          const btn = document.createElement('button');
+          btn.className = 'mc-action-btn';
+          btn.style.animation = 'none';
+          btn.style.opacity = '1';
+          btn.innerHTML = scene.action;
+          sceneEl.appendChild(btn);
+          return;
+        }
+
+        // 1) Typewriter the question
+        const speed = Math.max(18, Math.min(34, 1200 / scene.q.length));
+        typewrite(qEl, scene.q, speed).then(() => {
+          // 2) Brief thinking pause then stream answer
+          track(setTimeout(() => {
+            aiBody.innerHTML = `<p class="mc-answer">${streamHTML(scene.a)}</p>`;
+          }, 700));
+          // 3) Render chart card
+          track(setTimeout(() => {
+            const card = document.createElement('div');
+            card.className = 'mc-chart-card';
+            card.innerHTML = renderChart(scene.chart);
+            sceneEl.appendChild(card);
+            if (scene.chart.type === 'donut') activateDonut(card);
+          }, 1500));
+          // 4) Insight + action
+          track(setTimeout(() => {
+            const ins = document.createElement('div');
+            ins.className = 'mc-insight';
+            ins.innerHTML = scene.insight;
+            sceneEl.appendChild(ins);
+            const btn = document.createElement('button');
+            btn.className = 'mc-action-btn';
+            btn.innerHTML = scene.action + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+            btn.addEventListener('click', () => document.querySelector('#playground').scrollIntoView({ behavior: 'smooth' }));
+            sceneEl.appendChild(btn);
+          }, 2300));
+        });
+
+        // Schedule next scene
+        nextTimer = setTimeout(() => {
+          if (!running) return;
+          if (paused) {
+            // re-check periodically
+            nextTimer = setTimeout(() => playScene(idx + 1), 1500);
+            return;
+          }
+          // Fade out current scene then play next
+          if (sceneEl) sceneEl.classList.add('exiting');
+          track(setTimeout(() => playScene(idx + 1), 280));
+        }, SCENE_DURATION);
+      }
+
+      function start() { if (running) return; running = true; playScene(0); }
+      function stop()  { running = false; clearTimers(); }
+      window.__vcStart = start;
+      window.__vcStop  = stop;
+
+      // Pause on hover (but keep current scene visible)
+      demo.addEventListener('mouseenter', () => { paused = true; });
+      demo.addEventListener('mouseleave', () => { paused = false; });
+
+      // Click a dot → jump to that scene
+      dots.querySelectorAll('button').forEach((b, i) => {
+        b.addEventListener('click', () => {
+          if (!running) running = true;
+          playScene(i);
+        });
+      });
+
+      // Start when in view; stop when out (saves CPU)
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) start();
+            else stop();
+          });
+        }, { threshold: 0.30 });
+        io.observe(demo);
+      } else {
+        start();
+      }
+    })();
   })();
 </script>
 
@@ -3087,7 +3820,7 @@
     const persona = personas[currentPersona];
     const items = persona.questions.map((qa, i) => `<button class="chip" data-idx="${i}">${qa.q}</button>`).join('');
     suggestedQuestions.innerHTML = `<span class="label">Suggested questions</span>${items}`;
-    document.querySelectorAll('.chip').forEach(chip => {
+    suggestedQuestions.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => askQuestion(parseInt(chip.dataset.idx)));
     });
   }
