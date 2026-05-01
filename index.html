@@ -923,9 +923,86 @@
   .feature-img-overlay .ai-tag svg { width: 11px; height: 11px; color: var(--mc-cta); }
   .feature-img-overlay .insight-line { font-size: 13px; font-weight: 600; color: var(--mc-text); line-height: 1.4; }
 
-  /* ---------- Testimonial ---------- */
-  .testimonial-section { background: var(--mc-bg-soft); padding: 100px 32px; }
-  .testimonial-section .container { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  /* ---------- Testimonials (3-up editorial grid) ---------- */
+  .testimonial-section { background: var(--mc-bg-soft); padding: 120px 32px; }
+  .testimonial-section .testimonial-intro {
+    max-width: 1280px; margin: 0 auto 64px;
+    text-align: center;
+  }
+  .testimonial-section .testimonial-intro .eyebrow {
+    color: var(--mc-cta); margin-bottom: 12px; display: block;
+  }
+  .testimonial-section .testimonial-intro h2 {
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
+    font-size: 48px; letter-spacing: -0.01em; line-height: 1.05;
+    color: var(--mc-text); margin: 0 0 12px;
+  }
+  .testimonial-section .testimonial-intro p {
+    font-size: 17px; color: var(--mc-text-secondary); max-width: 600px;
+    margin: 0 auto;
+  }
+  .testimonial-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .testimonial-card {
+    background: white;
+    border-radius: 18px;
+    padding: 36px 32px 32px;
+    border: 1px solid var(--mc-border);
+    display: flex; flex-direction: column;
+    transition: all 0.25s;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .testimonial-card .quote-mark {
+    font-family: 'Cooper Light', 'Georgia', serif;
+    font-size: 80px; line-height: 0.6;
+    color: var(--mc-yellow);
+    margin-bottom: 6px;
+    letter-spacing: -0.04em;
+  }
+  .testimonial-card .quote-text {
+    font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif;
+    font-size: 22px; font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--mc-text);
+    margin-bottom: 28px;
+    flex: 1;
+  }
+  .testimonial-attr-row {
+    display: flex; align-items: center; gap: 14px;
+    padding-top: 24px;
+    border-top: 1px solid var(--mc-border);
+  }
+  .testimonial-photo {
+    width: 52px; height: 52px; border-radius: 50%;
+    background-size: cover; background-position: center;
+    flex-shrink: 0;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .testimonial-attr-text { flex: 1; min-width: 0; }
+  .testimonial-attr-text .name {
+    font-size: 14px; font-weight: 700; color: var(--mc-text);
+  }
+  .testimonial-attr-text .role {
+    font-size: 12px; color: var(--mc-text-muted);
+    line-height: 1.4; margin-top: 2px;
+  }
+  .testimonial-attr-text .role .company {
+    color: var(--mc-text); font-weight: 600;
+  }
+
+  @media (max-width: 960px) {
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .testimonial-section .testimonial-intro h2 { font-size: 36px; }
+  }
+
+  /* (legacy single testimonial — kept for fallback) */
   .testimonial-quote {
     font-size: 26px; font-weight: 600; line-height: 1.4; letter-spacing: -0.01em;
     color: var(--mc-text); margin-bottom: 24px;
@@ -1488,8 +1565,9 @@
         <p>Excel (.xlsx, .xls), CSV, or TSV. Up to 50MB. Your data stays in your browser — nothing is uploaded to our servers in this demo.</p>
         <div class="or-line">
           <button class="browse-btn" id="browseBtn">Browse files</button>
-          <span>or</span>
-          <a href="sample-mailchimp-campaigns.csv" download class="download-sample">Download sample CSV →</a>
+          <span>or download a sample:</span>
+          <a href="sample-mailchimp-campaigns.xlsx" download class="download-sample">Excel (.xlsx) ↓</a>
+          <a href="sample-mailchimp-campaigns.csv" download class="download-sample">CSV ↓</a>
         </div>
       </div>
       <div class="ds-error" id="uploadError"></div>
@@ -1513,6 +1591,7 @@
         </div>
         <div class="help">
           Make sure your sheet is set to <code>Anyone with the link can view</code>. We use Google's CSV export endpoint — no OAuth required for read-only public sheets.
+          Don't have one? <a href="sample-mailchimp-campaigns.xlsx" download style="color:#a89aff;text-decoration:underline;">Download the sample Excel</a> and upload it instead.
         </div>
       </div>
       <div class="ds-error" id="gsheetError"></div>
@@ -1767,25 +1846,51 @@
   </div>
 </section>
 
-<!-- ===== TESTIMONIAL ===== -->
+<!-- ===== TESTIMONIALS — 3-up editorial grid ===== -->
 <section class="testimonial-section">
-  <div class="container">
-    <div>
-      <span class="eyebrow">Customer Story</span>
-      <p class="testimonial-quote">"Mailchimp's reporting tools were a big part of what motivated me to change our email strategy. It made it easier to see our performance and act on it."</p>
-      <p class="testimonial-attr">
-        <strong>Lauren Korus</strong>
-        Content Manager, Vacation Races
-      </p>
-      <a href="#" style="color: var(--mc-cta); font-weight: 600; text-decoration: none;">Read the case study →</a>
-    </div>
-    <div class="testimonial-video" style="background-image: url('assets/testimonial-person.jpg');">
-      <div class="play-btn">▶</div>
-      <div class="testimonial-caption">
-        Lauren Korus, Vacation Races
-        <div class="duration">▶ Watch the 2-min story</div>
+  <div class="testimonial-intro">
+    <span class="eyebrow">Customer stories</span>
+    <h2>What real teams are saying.</h2>
+    <p>Marketers, founders, and operators are using Analytics AI to replace hours of manual reporting with answers they can act on.</p>
+  </div>
+  <div class="testimonial-grid">
+
+    <div class="testimonial-card">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="quote-text">Quarterly performance reviews used to take me 4&ndash;6 hours. With Analytics AI, I get the same insights in minutes.</p>
+      <div class="testimonial-attr-row">
+        <div class="testimonial-photo" style="background-image: url('assets/testimonial-anuj.jpg');"></div>
+        <div class="testimonial-attr-text">
+          <div class="name">Anuj Chaudhry</div>
+          <div class="role">Chief Growth Officer<br><span class="company">Faris Team Real Estate Brokerage</span></div>
+        </div>
       </div>
     </div>
+
+    <div class="testimonial-card">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="quote-text">Analytics AI gave me a marketing plan I could act on. Instead of constantly chasing my audience, I can focus on my work &mdash; it felt like an exhale.</p>
+      <div class="testimonial-attr-row">
+        <div class="testimonial-photo" style="background-image: url('assets/testimonial-suskia.jpg');"></div>
+        <div class="testimonial-attr-text">
+          <div class="name">Suskia Strafella</div>
+          <div class="role">Founder<br><span class="company">I Am Wild Woman</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="quote-text">It&rsquo;s like getting to hire a marketing specialist &mdash; for free.</p>
+      <div class="testimonial-attr-row">
+        <div class="testimonial-photo" style="background-image: url('assets/testimonial-damon.jpg');"></div>
+        <div class="testimonial-attr-text">
+          <div class="name">Damon Runnals</div>
+          <div class="role">CEO and Owner<br><span class="company">Minnesota Playlist</span></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
