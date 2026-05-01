@@ -3368,344 +3368,356 @@
   </div>
 </section>
 
-<!-- ===== AGENT INTELLIGENCE v3 — Cinematic Sticky-Scroll ===== -->
-<section class="ai3" id="agent-intel">
+<!-- ===== AGENT INTELLIGENCE v4 — Feature Theater ===== -->
+<section class="ft" id="agent-intel">
   <style>
-    .ai3 {
+    .ft {
       background: var(--mc-pep-deep);
       color: rgba(255,255,255,0.85);
       padding: 0; position: relative; overflow: hidden;
     }
 
     /* --- Stats counter --- */
-    .ai3-stats { display:flex; justify-content:center; gap:48px; padding:80px 32px 48px; max-width:1000px; margin:0 auto; }
-    .ai3-stat-n { font-size:42px; font-weight:700; color:var(--mc-teal); font-variant-numeric:tabular-nums; line-height:1; }
-    .ai3-stat-l { font-size:12px; color:rgba(255,255,255,0.4); margin-top:6px; letter-spacing:.04em; }
-    .ai3-sep { width:1px; background:rgba(255,255,255,0.08); }
+    .ft-stats { display:flex; justify-content:center; gap:48px; padding:80px 32px 40px; max-width:1000px; margin:0 auto; }
+    .ft-stat-n { font-size:42px; font-weight:700; color:var(--mc-teal); font-variant-numeric:tabular-nums; line-height:1; }
+    .ft-stat-l { font-size:12px; color:rgba(255,255,255,0.4); margin-top:6px; letter-spacing:.04em; }
+    .ft-sep { width:1px; background:rgba(255,255,255,0.08); }
 
     /* --- Header --- */
-    .ai3-hd { text-align:center; padding:32px 32px 56px; max-width:680px; margin:0 auto; }
-    .ai3-ey { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--mc-teal); margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px; }
-    .ai3-ey .dot { width:6px; height:6px; border-radius:50%; background:var(--mc-teal); animation:ai3p 2s ease-in-out infinite; }
-    @keyframes ai3p { 0%,100%{opacity:.3} 50%{opacity:1} }
-    .ai3-hd h2 { font-family:'Cooper Light','Cooper Lt BT',Georgia,serif; font-size:48px; font-weight:300; line-height:1.08; color:white; margin-bottom:18px; }
-    .ai3-hd p { font-size:17px; color:rgba(255,255,255,0.5); line-height:1.6; }
+    .ft-hd { text-align:center; padding:24px 32px 48px; max-width:680px; margin:0 auto; }
+    .ft-ey { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--mc-teal); margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .ft-ey .dot { width:6px; height:6px; border-radius:50%; background:var(--mc-teal); animation:ftp 2s ease-in-out infinite; }
+    @keyframes ftp { 0%,100%{opacity:.3} 50%{opacity:1} }
+    .ft-hd h2 { font-family:'Cooper Light','Cooper Lt BT',Georgia,serif; font-size:46px; font-weight:300; line-height:1.08; color:white; margin-bottom:16px; }
+    .ft-hd p { font-size:16px; color:rgba(255,255,255,0.5); line-height:1.6; }
 
-    /* --- Sticky layout: 60/40 split --- */
-    .ai3-wrap { display:grid; grid-template-columns:3fr 2fr; max-width:1360px; margin:0 auto; min-height:100vh; padding:0 40px; }
+    /* --- Theater layout --- */
+    .ft-theater { max-width:1320px; margin:0 auto; padding:0 32px 80px; display:grid; grid-template-columns:280px 1fr 56px; gap:0; align-items:center; min-height:520px; }
 
-    /* LEFT — large sticky product screen */
-    .ai3-screen-col { position:sticky; top:70px; height:calc(100vh - 90px); display:flex; align-items:center; padding:20px 40px 20px 0; }
-    .ai3-screen {
-      width:100%; height:100%; max-height:600px;
-      background:var(--mc-pep); border:1px solid rgba(255,255,255,0.07);
-      border-radius:16px; overflow:hidden; display:flex; flex-direction:column;
-    }
-    .ai3-screen-bar {
-      display:flex; align-items:center; gap:8px; padding:14px 18px;
-      background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.06);
-    }
-    .ai3-screen-bar .dot { width:8px; height:8px; border-radius:50%; }
-    .ai3-screen-bar .title { font-size:12px; color:rgba(255,255,255,0.35); margin-left:8px; flex:1; }
-    .ai3-screen-bar .live { width:6px; height:6px; border-radius:50%; background:var(--mc-sage); animation:ai3p 1.5s ease-in-out infinite; }
+    /* Left text panel */
+    .ft-text { padding-right:36px; position:relative; min-height:360px; }
+    .ft-slide { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; opacity:0; transform:translateX(-20px); transition:opacity 0.4s ease, transform 0.4s ease; pointer-events:none; }
+    .ft-slide.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+    .ft-pct { display:inline-flex; font-size:11px; font-weight:700; color:var(--mc-teal); background:rgba(0,185,166,0.1); padding:4px 12px; border-radius:10px; margin-bottom:16px; align-self:flex-start; }
+    .ft-old { font-size:11px; color:rgba(255,255,255,0.3); margin-bottom:20px; }
+    .ft-old .s { text-decoration:line-through; }
+    .ft-slide h4 { font-size:24px; font-weight:600; color:white; line-height:1.25; margin-bottom:12px; }
+    .ft-slide p { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.6; margin-bottom:18px; }
+    .ft-quote { font-size:13px; color:rgba(255,255,255,0.45); font-style:italic; line-height:1.5; padding:12px 16px; border-left:2px solid var(--mc-teal); background:rgba(0,185,166,0.04); border-radius:0 8px 8px 0; }
 
-    .ai3-screen-body { flex:1; position:relative; overflow:hidden; }
-    .ai3-viz {
-      position:absolute; inset:0; padding:28px; display:flex; flex-direction:column;
-      opacity:0; transform:scale(0.97); transition:opacity 0.5s ease, transform 0.5s ease;
-    }
-    .ai3-viz.active { opacity:1; transform:scale(1); }
+    /* Center viz stage */
+    .ft-stage { position:relative; background:var(--mc-pep); border:1px solid rgba(255,255,255,0.07); border-radius:16px; overflow:hidden; min-height:480px; }
+    .ft-stage-bar { display:flex; align-items:center; gap:8px; padding:14px 18px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.06); }
+    .ft-stage-bar .d { width:8px; height:8px; border-radius:50%; }
+    .ft-stage-bar .t { font-size:12px; color:rgba(255,255,255,0.35); margin-left:8px; flex:1; }
+    .ft-stage-bar .live { width:6px; height:6px; border-radius:50%; background:var(--mc-sage); animation:ftp 1.5s ease-in-out infinite; }
+    .ft-stage-body { position:relative; min-height:430px; }
+    .ft-viz { position:absolute; inset:0; padding:28px; display:flex; flex-direction:column; opacity:0; transform:scale(0.96); transition:opacity 0.5s ease, transform 0.5s ease; }
+    .ft-viz.active { opacity:1; transform:scale(1); }
 
-    /* Viz shared elements */
-    .ai3-viz-q {
-      font-size:12px; color:var(--mc-teal); font-weight:600; margin-bottom:6px;
-      display:flex; align-items:center; gap:6px;
-    }
-    .ai3-viz-q svg { width:14px; height:14px; }
-    .ai3-viz-title { font-size:18px; font-weight:600; color:white; margin-bottom:20px; }
-    .ai3-viz-table {
-      display:grid; gap:0; font-size:12px; font-variant-numeric:tabular-nums; flex:0;
-    }
-    .ai3-viz-table .row {
-      display:grid; grid-template-columns:2fr 1fr 1fr; padding:8px 12px; gap:8px;
-      border-bottom:1px solid rgba(255,255,255,0.05); align-items:center;
-    }
-    .ai3-viz-table .row.header { color:rgba(255,255,255,0.35); font-weight:700; text-transform:uppercase; letter-spacing:.06em; font-size:10px; }
-    .ai3-viz-table .row .name { color:rgba(255,255,255,0.75); }
-    .ai3-viz-table .row .val { color:white; font-weight:600; text-align:right; }
-    .ai3-viz-table .row .highlight { color:var(--mc-teal); }
+    /* Shared viz elements */
+    .ft-viz-label { font-size:11px; color:var(--mc-teal); font-weight:600; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+    .ft-viz-label svg { width:14px; height:14px; }
+    .ft-viz-title { font-size:20px; font-weight:600; color:white; margin-bottom:20px; }
+    .ft-rec { margin-top:auto; padding:14px 16px; border-radius:10px; background:rgba(0,185,166,0.07); border:1px solid rgba(0,185,166,0.12); font-size:13px; color:rgba(255,255,255,0.65); line-height:1.55; display:flex; align-items:flex-start; gap:10px; }
+    .ft-rec svg { flex-shrink:0; color:var(--mc-teal); margin-top:2px; }
+    .ft-rec strong { color:var(--mc-teal); }
 
     /* Bar chart */
-    .ai3-bars { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
-    .ai3-bar-row { display:flex; align-items:center; gap:10px; }
-    .ai3-bar-label { width:100px; font-size:12px; color:rgba(255,255,255,0.55); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .ai3-bar-track { flex:1; height:24px; background:rgba(255,255,255,0.04); border-radius:6px; overflow:hidden; }
-    .ai3-bar-fill { height:100%; border-radius:6px; width:0; transition:width 1.2s cubic-bezier(.22,1,.36,1); }
-    .ai3-bar-val { width:50px; font-size:13px; font-weight:700; color:white; font-variant-numeric:tabular-nums; }
+    .ft-bars { display:flex; flex-direction:column; gap:10px; }
+    .ft-bar-r { display:flex; align-items:center; gap:10px; }
+    .ft-bar-l { width:110px; font-size:12px; color:rgba(255,255,255,0.55); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ft-bar-t { flex:1; height:26px; background:rgba(255,255,255,0.04); border-radius:6px; overflow:hidden; }
+    .ft-bar-f { height:100%; border-radius:6px; width:0; transition:width 1.2s cubic-bezier(.22,1,.36,1); }
+    .ft-bar-v { width:48px; font-size:13px; font-weight:700; color:white; font-variant-numeric:tabular-nums; }
+
+    /* Table */
+    .ft-tbl { font-size:12px; font-variant-numeric:tabular-nums; }
+    .ft-tbl .r { display:grid; grid-template-columns:2fr 1fr 1fr; padding:10px 14px; gap:8px; border-bottom:1px solid rgba(255,255,255,0.05); align-items:center; }
+    .ft-tbl .r.hd { color:rgba(255,255,255,0.35); font-weight:700; text-transform:uppercase; letter-spacing:.06em; font-size:10px; }
+    .ft-tbl .r .nm { color:rgba(255,255,255,0.75); }
+    .ft-tbl .r .v { color:white; font-weight:600; text-align:right; }
+    .ft-tbl .r .hi { color:var(--mc-teal); }
+
+    /* Day-of-week bars */
+    .ft-dow { display:flex; gap:8px; align-items:flex-end; height:150px; padding:12px 0; }
+    .ft-dow-b { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; justify-content:flex-end; height:100%; }
+    .ft-dow-f { width:100%; border-radius:6px; transition:height 1s cubic-bezier(.22,1,.36,1); }
+    .ft-dow-l { font-size:11px; color:rgba(255,255,255,0.35); }
+    .ft-dow-b.best .ft-dow-l { color:var(--mc-teal); font-weight:700; }
 
     /* Gauge */
-    .ai3-gauge-area { display:flex; align-items:center; gap:32px; padding:12px 0; }
-    .ai3-gauge { position:relative; width:140px; height:140px; flex-shrink:0; }
-    .ai3-gauge svg { width:140px; height:140px; transform:rotate(-90deg); }
-    .ai3-gauge .ring-bg { fill:none; stroke:rgba(255,255,255,0.06); stroke-width:10; }
-    .ai3-gauge .ring-val { fill:none; stroke:var(--mc-teal); stroke-width:10; stroke-linecap:round; stroke-dasharray:377; stroke-dashoffset:377; transition:stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1); }
-    .ai3-gauge .center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .ai3-gauge .center .big { font-size:32px; font-weight:700; color:white; }
-    .ai3-gauge .center .sub { font-size:11px; color:rgba(255,255,255,0.4); }
-    .ai3-gauge-detail { display:flex; flex-direction:column; gap:10px; }
-    .ai3-gauge-detail .line { font-size:14px; color:rgba(255,255,255,0.6); line-height:1.5; }
-    .ai3-gauge-detail .line strong { color:var(--mc-teal); }
+    .ft-gauge-area { display:flex; align-items:center; gap:32px; padding:12px 0; }
+    .ft-gauge { position:relative; width:150px; height:150px; flex-shrink:0; }
+    .ft-gauge svg { width:150px; height:150px; transform:rotate(-90deg); }
+    .ft-gauge .bg { fill:none; stroke:rgba(255,255,255,0.06); stroke-width:10; }
+    .ft-gauge .val { fill:none; stroke:var(--mc-teal); stroke-width:10; stroke-linecap:round; stroke-dasharray:377; stroke-dashoffset:377; transition:stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1); }
+    .ft-gauge .ctr { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ft-gauge .ctr .big { font-size:36px; font-weight:700; color:white; }
+    .ft-gauge .ctr .sub { font-size:11px; color:rgba(255,255,255,0.4); }
+    .ft-gauge-detail { display:flex; flex-direction:column; gap:10px; }
+    .ft-gauge-detail .ln { font-size:14px; color:rgba(255,255,255,0.6); line-height:1.5; }
+    .ft-gauge-detail .ln strong { color:var(--mc-teal); }
 
     /* Donut */
-    .ai3-donut-area { display:flex; align-items:center; gap:28px; padding:8px 0; }
-    .ai3-donut { width:140px; height:140px; flex-shrink:0; position:relative; }
-    .ai3-donut svg { width:140px; height:140px; transform:rotate(-90deg); }
-    .ai3-donut .bg { fill:none; stroke:rgba(255,255,255,0.05); stroke-width:16; }
-    .ai3-donut .seg { fill:none; stroke-width:16; stroke-linecap:round; stroke-dasharray:339; stroke-dashoffset:339; transition:stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1); }
-    .ai3-donut .center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .ai3-donut .center .big { font-size:22px; font-weight:700; color:white; }
-    .ai3-donut .center .sub { font-size:10px; color:rgba(255,255,255,0.4); }
-    .ai3-donut-legend { display:flex; flex-direction:column; gap:12px; }
-    .ai3-donut-legend .item { display:flex; align-items:center; gap:10px; font-size:14px; color:rgba(255,255,255,0.65); }
-    .ai3-donut-legend .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-    .ai3-donut-legend strong { color:white; }
+    .ft-donut-area { display:flex; align-items:center; gap:28px; padding:8px 0; }
+    .ft-donut { width:150px; height:150px; flex-shrink:0; position:relative; }
+    .ft-donut svg { width:150px; height:150px; transform:rotate(-90deg); }
+    .ft-donut .dbg { fill:none; stroke:rgba(255,255,255,0.05); stroke-width:16; }
+    .ft-donut .seg { fill:none; stroke-width:16; stroke-linecap:round; stroke-dasharray:339; stroke-dashoffset:339; transition:stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1); }
+    .ft-donut .ctr { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ft-donut .ctr .big { font-size:24px; font-weight:700; color:white; }
+    .ft-donut .ctr .sub { font-size:10px; color:rgba(255,255,255,0.4); }
+    .ft-legend { display:flex; flex-direction:column; gap:12px; }
+    .ft-legend .it { display:flex; align-items:center; gap:10px; font-size:14px; color:rgba(255,255,255,0.65); }
+    .ft-legend .dt { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .ft-legend strong { color:white; }
 
-    /* Recommendation callout in viz */
-    .ai3-rec {
-      margin-top:auto; padding:14px 16px; border-radius:10px;
-      background:rgba(0,185,166,0.07); border:1px solid rgba(0,185,166,0.12);
-      font-size:13px; color:rgba(255,255,255,0.65); line-height:1.55;
-      display:flex; align-items:flex-start; gap:10px;
-    }
-    .ai3-rec svg { flex-shrink:0; color:var(--mc-teal); margin-top:2px; }
-    .ai3-rec strong { color:var(--mc-teal); }
+    /* Right nav */
+    .ft-nav { display:flex; flex-direction:column; gap:6px; padding-left:20px; }
+    .ft-nav-dot { width:40px; height:40px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:rgba(255,255,255,0.3); font-size:12px; font-weight:700; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; }
+    .ft-nav-dot:hover { border-color:rgba(255,255,255,0.15); color:rgba(255,255,255,0.6); }
+    .ft-nav-dot.active { background:var(--mc-teal); border-color:var(--mc-teal); color:white; }
 
-    /* Day-of-week mini chart */
-    .ai3-dow { display:flex; gap:8px; align-items:flex-end; height:140px; padding:16px 0; }
-    .ai3-dow-bar { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; justify-content:flex-end; height:100%; }
-    .ai3-dow-fill { width:100%; border-radius:6px; transition:height 1s cubic-bezier(.22,1,.36,1); }
-    .ai3-dow-lbl { font-size:11px; color:rgba(255,255,255,0.35); }
-    .ai3-dow-bar.best .ai3-dow-lbl { color:var(--mc-teal); font-weight:700; }
-
-    /* RIGHT — feature cards */
-    .ai3-feat-col { padding:40px 0 140px 36px; }
-    .ai3-feat {
-      padding:48px 0; border-bottom:1px solid rgba(255,255,255,0.06);
-      opacity:0; transform:translateY(30px);
-      transition:opacity 0.6s ease, transform 0.6s ease;
-    }
-    .ai3-feat.visible { opacity:1; transform:translateY(0); }
-    .ai3-feat:last-child { border-bottom:none; }
-    .ai3-feat-top { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-    .ai3-feat-pct { font-size:11px; font-weight:700; color:var(--mc-teal); background:rgba(0,185,166,0.1); padding:3px 10px; border-radius:10px; }
-    .ai3-feat-old { font-size:11px; color:rgba(255,255,255,0.3); }
-    .ai3-feat-old .s { text-decoration:line-through; }
-    .ai3-feat h4 { font-size:22px; font-weight:600; color:white; line-height:1.3; margin-bottom:10px; }
-    .ai3-feat p { font-size:15px; color:rgba(255,255,255,0.5); line-height:1.6; margin-bottom:14px; }
-    .ai3-feat-quote { font-size:13px; color:rgba(255,255,255,0.45); font-style:italic; line-height:1.5; padding-left:14px; border-left:2px solid var(--mc-teal); }
+    /* Bottom controls */
+    .ft-controls { display:flex; align-items:center; justify-content:center; gap:16px; padding:28px 32px 60px; }
+    .ft-arrow { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); background:transparent; color:rgba(255,255,255,0.4); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+    .ft-arrow:hover { border-color:var(--mc-teal); color:var(--mc-teal); }
+    .ft-dots { display:flex; gap:6px; }
+    .ft-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.12); border:none; cursor:pointer; padding:0; transition:all 0.3s; }
+    .ft-dot.active { background:var(--mc-teal); width:24px; border-radius:4px; }
 
     @media (max-width:1000px) {
-      .ai3-stats { flex-wrap:wrap; gap:24px; padding:48px 24px 32px; }
-      .ai3-sep { display:none; }
-      .ai3-hd h2 { font-size:34px; }
-      .ai3-wrap { grid-template-columns:1fr; padding:0 20px; }
-      .ai3-screen-col { position:relative; top:auto; height:400px; padding:0 0 24px; }
-      .ai3-feat-col { padding:0 0 60px; }
+      .ft-stats { flex-wrap:wrap; gap:24px; padding:48px 24px 32px; }
+      .ft-sep { display:none; }
+      .ft-hd h2 { font-size:34px; }
+      .ft-theater { grid-template-columns:1fr; gap:32px; padding:0 20px 60px; }
+      .ft-text { position:relative; min-height:auto; }
+      .ft-slide { position:relative; transform:none; opacity:1; display:none; }
+      .ft-slide.active { display:flex; }
+      .ft-stage { min-height:380px; }
+      .ft-nav { flex-direction:row; justify-content:center; padding:0; }
     }
   </style>
 
   <!-- Stats -->
-  <div class="ai3-stats">
-    <div style="text-align:center"><div class="ai3-stat-n" data-countup="29588">0</div><div class="ai3-stat-l">Conversations analyzed</div></div>
-    <div class="ai3-sep"></div>
-    <div style="text-align:center"><div class="ai3-stat-n" data-countup="12431">0</div><div class="ai3-stat-l">Customers served</div></div>
-    <div class="ai3-sep"></div>
-    <div style="text-align:center"><div class="ai3-stat-n" data-countup="93" data-suffix="%">0%</div><div class="ai3-stat-l">Structured reports</div></div>
-    <div class="ai3-sep"></div>
-    <div style="text-align:center"><div class="ai3-stat-n" data-countup="54" data-suffix="%">0%</div><div class="ai3-stat-l">With recommendations</div></div>
+  <div class="ft-stats">
+    <div style="text-align:center"><div class="ft-stat-n" data-countup="29588">0</div><div class="ft-stat-l">Conversations analyzed</div></div>
+    <div class="ft-sep"></div>
+    <div style="text-align:center"><div class="ft-stat-n" data-countup="12431">0</div><div class="ft-stat-l">Customers served</div></div>
+    <div class="ft-sep"></div>
+    <div style="text-align:center"><div class="ft-stat-n" data-countup="93" data-suffix="%">0%</div><div class="ft-stat-l">Structured reports</div></div>
+    <div class="ft-sep"></div>
+    <div style="text-align:center"><div class="ft-stat-n" data-countup="54" data-suffix="%">0%</div><div class="ft-stat-l">With recommendations</div></div>
   </div>
 
   <!-- Header -->
-  <div class="ai3-hd">
-    <div class="ai3-ey"><span class="dot"></span> Proven in production</div>
+  <div class="ft-hd">
+    <div class="ft-ey"><span class="dot"></span> Proven in production</div>
     <h2>Not a dashboard.<br>An analyst who works&nbsp;for&nbsp;you.</h2>
-    <p>Every capability below was extracted from real conversations. Scroll to see the agent in action.</p>
+    <p>Scroll through what the agent actually does — every example below is from a real customer conversation.</p>
   </div>
 
-  <div class="ai3-wrap">
-    <!-- LEFT: Large sticky product screen -->
-    <div class="ai3-screen-col">
-      <div class="ai3-screen">
-        <div class="ai3-screen-bar">
-          <div class="dot" style="background:#FF5F57"></div>
-          <div class="dot" style="background:#FFBD2E"></div>
-          <div class="dot" style="background:#28CA42"></div>
-          <span class="title">Analytics AI &mdash; Agent Response</span>
-          <span class="live"></span>
-        </div>
-        <div class="ai3-screen-body" id="ai3Body">
+  <!-- Feature Theater -->
+  <div class="ft-theater">
 
-          <!-- VIZ 0: Campaign performance table -->
-          <div class="ai3-viz active" data-viz="0">
-            <div class="ai3-viz-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg> Agent response</div>
-            <div class="ai3-viz-title">Campaign Performance &mdash; Last 30 Days</div>
-            <div class="ai3-bars" id="viz0bars">
-              <div class="ai3-bar-row"><span class="ai3-bar-label">Holiday Flash</span><div class="ai3-bar-track"><div class="ai3-bar-fill" style="background:var(--mc-teal);" data-w="92"></div></div><span class="ai3-bar-val">46%</span></div>
-              <div class="ai3-bar-row"><span class="ai3-bar-label">Summer Drop</span><div class="ai3-bar-track"><div class="ai3-bar-fill" style="background:var(--mc-teal);" data-w="76"></div></div><span class="ai3-bar-val">38%</span></div>
-              <div class="ai3-bar-row"><span class="ai3-bar-label">VIP Early Access</span><div class="ai3-bar-track"><div class="ai3-bar-fill" style="background:var(--mc-cta);" data-w="70"></div></div><span class="ai3-bar-val">35%</span></div>
-              <div class="ai3-bar-row"><span class="ai3-bar-label">New Arrivals</span><div class="ai3-bar-track"><div class="ai3-bar-fill" style="background:var(--mc-cta);" data-w="58"></div></div><span class="ai3-bar-val">29%</span></div>
-              <div class="ai3-bar-row"><span class="ai3-bar-label">Weekly Digest</span><div class="ai3-bar-track"><div class="ai3-bar-fill" style="background:rgba(255,255,255,0.15);" data-w="44"></div></div><span class="ai3-bar-val">22%</span></div>
-            </div>
-            <div class="ai3-rec" style="margin-top:24px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Geo-targeted subject lines dominate your top performers. Consider A/B testing <strong>location-specific vs. generic</strong> headers.</span></div>
-          </div>
-
-          <!-- VIZ 1: Engagement metrics table -->
-          <div class="ai3-viz" data-viz="1">
-            <div class="ai3-viz-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Agent response</div>
-            <div class="ai3-viz-title">Top Campaigns by Engagement</div>
-            <div class="ai3-viz-table">
-              <div class="row header"><span>Campaign</span><span style="text-align:right">Open %</span><span style="text-align:right">Click %</span></div>
-              <div class="row"><span class="name">Holiday Flash Sale</span><span class="val highlight">46.2%</span><span class="val">8.4%</span></div>
-              <div class="row"><span class="name">Summer Drop</span><span class="val highlight">38.1%</span><span class="val">6.2%</span></div>
-              <div class="row"><span class="name">Back to School</span><span class="val">31.5%</span><span class="val highlight">9.1%</span></div>
-              <div class="row"><span class="name">VIP Early Access</span><span class="val">35.0%</span><span class="val">5.8%</span></div>
-              <div class="row"><span class="name">Weekly Digest #12</span><span class="val">22.4%</span><span class="val">3.1%</span></div>
-            </div>
-            <div class="ai3-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Your CTOR averages <strong>18.4%</strong> &mdash; solid for ecommerce. Campaigns with preview text outperform by <strong>12%</strong>.</span></div>
-          </div>
-
-          <!-- VIZ 2: Recommendation with day chart -->
-          <div class="ai3-viz" data-viz="2">
-            <div class="ai3-viz-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Agent recommendation</div>
-            <div class="ai3-viz-title">Recommended Actions</div>
-            <div style="background:rgba(0,185,166,0.06); border:1px solid rgba(0,185,166,0.12); border-radius:10px; padding:16px 18px; margin-bottom:16px;">
-              <div style="font-size:14px; color:rgba(255,255,255,0.75); line-height:1.6;">
-                <strong style="color:var(--mc-teal);">1.</strong> Suppress contacts inactive 90+ days<br>
-                <strong style="color:var(--mc-teal);">2.</strong> Test emoji + geo subject lines<br>
-                <strong style="color:var(--mc-teal);">3.</strong> Reduce "All Subscribers" to 2x/week max<br>
-                <strong style="color:var(--mc-teal);">4.</strong> Switch send time to <strong style="color:white;">Tuesday 9 AM</strong>
-              </div>
-            </div>
-            <div class="ai3-dow" id="viz2dow">
-              <div class="ai3-dow-bar"><div class="ai3-dow-fill" data-h="30" style="background:rgba(255,255,255,0.08);"></div><span class="ai3-dow-lbl">Mon</span></div>
-              <div class="ai3-dow-bar best"><div class="ai3-dow-fill" data-h="90" style="background:var(--mc-teal);"></div><span class="ai3-dow-lbl">Tue</span></div>
-              <div class="ai3-dow-bar"><div class="ai3-dow-fill" data-h="45" style="background:rgba(255,255,255,0.08);"></div><span class="ai3-dow-lbl">Wed</span></div>
-              <div class="ai3-dow-bar"><div class="ai3-dow-fill" data-h="25" style="background:rgba(255,255,255,0.08);"></div><span class="ai3-dow-lbl">Thu</span></div>
-              <div class="ai3-dow-bar"><div class="ai3-dow-fill" data-h="20" style="background:rgba(255,255,255,0.08);"></div><span class="ai3-dow-lbl">Fri</span></div>
-              <div class="ai3-dow-bar"><div class="ai3-dow-fill" data-h="10" style="background:rgba(255,255,255,0.05);"></div><span class="ai3-dow-lbl">Sat</span></div>
-              <div class="ai3-dow-bar"><div class="ai3-dow-fill" data-h="8" style="background:rgba(255,255,255,0.05);"></div><span class="ai3-dow-lbl">Sun</span></div>
-            </div>
-            <div class="ai3-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Switching to <strong>Tuesday 9 AM</strong> should lift opens by approximately <strong>22%</strong> based on 90-day engagement patterns.</span></div>
-          </div>
-
-          <!-- VIZ 3: Benchmark gauge -->
-          <div class="ai3-viz" data-viz="3">
-            <div class="ai3-viz-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Benchmark analysis</div>
-            <div class="ai3-viz-title">Your Open Rate vs. Industry</div>
-            <div class="ai3-gauge-area">
-              <div class="ai3-gauge">
-                <svg viewBox="0 0 140 140"><circle class="ring-bg" cx="70" cy="70" r="60"/><circle class="ring-val" cx="70" cy="70" r="60" id="gaugeRing"/></svg>
-                <div class="center"><span class="big">28%</span><span class="sub">Open rate</span></div>
-              </div>
-              <div class="ai3-gauge-detail">
-                <div class="line">Your open rate: <strong>28%</strong></div>
-                <div class="line">Ecommerce average: 22%</div>
-                <div class="line">Top quartile: 34%</div>
-                <div class="line" style="color:var(--mc-sage); margin-top:6px;">+6pp above average</div>
-              </div>
-            </div>
-            <div class="ai3-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Strong opens. Shift focus to <strong>click-through rate</strong> &mdash; yours is 1.2pp below benchmark.</span></div>
-          </div>
-
-          <!-- VIZ 4: Revenue donut -->
-          <div class="ai3-viz" data-viz="4">
-            <div class="ai3-viz-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Revenue attribution</div>
-            <div class="ai3-viz-title">Email Revenue &mdash; April 2026</div>
-            <div class="ai3-donut-area">
-              <div class="ai3-donut">
-                <svg viewBox="0 0 140 140">
-                  <circle class="bg" cx="70" cy="70" r="54"/>
-                  <circle class="seg" cx="70" cy="70" r="54" style="stroke:var(--mc-cta);" data-off="129" id="seg1"/>
-                  <circle class="seg" cx="70" cy="70" r="54" style="stroke:var(--mc-teal);" data-off="241" id="seg2"/>
-                  <circle class="seg" cx="70" cy="70" r="54" style="stroke:var(--mc-gold);" data-off="308" id="seg3"/>
-                </svg>
-                <div class="center"><span class="big">$84.2K</span><span class="sub">Total revenue</span></div>
-              </div>
-              <div class="ai3-donut-legend">
-                <div class="item"><span class="dot" style="background:var(--mc-cta)"></span>Campaigns <strong>$52.4K</strong> (62%)</div>
-                <div class="item"><span class="dot" style="background:var(--mc-teal)"></span>Automations <strong>$24.1K</strong> (29%)</div>
-                <div class="item"><span class="dot" style="background:var(--mc-gold)"></span>Journeys <strong>$7.7K</strong> (9%)</div>
-              </div>
-            </div>
-            <div class="ai3-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Abandoned-cart automation drives <strong>$4.2K/week</strong>. Adding a post-purchase sequence could add <strong>$6-8K/month</strong>.</span></div>
-          </div>
-
-          <!-- VIZ 5: Root cause diagnostic -->
-          <div class="ai3-viz" data-viz="5">
-            <div class="ai3-viz-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Root cause analysis</div>
-            <div class="ai3-viz-title">Why Does the Dashboard Show 27%?</div>
-            <div style="display:flex; flex-direction:column; gap:16px; margin-top:8px;">
-              <div style="padding:16px 18px; background:rgba(255,107,71,0.06); border:1px solid rgba(255,107,71,0.12); border-radius:10px;">
-                <div style="font-size:12px; font-weight:700; color:var(--mc-coral); margin-bottom:6px;">Issue 1 &mdash; Bot opens inflating baseline</div>
-                <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5;">Apple MPP accounts for ~22% of your "opens." Your real human open rate is closer to <strong style="color:white;">21%</strong>.</div>
-              </div>
-              <div style="padding:16px 18px; background:rgba(244,161,0,0.06); border:1px solid rgba(244,161,0,0.12); border-radius:10px;">
-                <div style="font-size:12px; font-weight:700; color:var(--mc-gold); margin-bottom:6px;">Issue 2 &mdash; Unique vs. total confusion</div>
-                <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5;">Dashboard shows unique opens (27%). Variant report shows total opens (can exceed 100% with re-opens).</div>
-              </div>
-              <div style="padding:16px 18px; background:rgba(0,185,166,0.06); border:1px solid rgba(0,185,166,0.12); border-radius:10px;">
-                <div style="font-size:12px; font-weight:700; color:var(--mc-teal); margin-bottom:6px;">Issue 3 &mdash; A/B variant view</div>
-                <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5;">Each A/B variant reports its own rate. Combined rate is a weighted average of all variants.</div>
-              </div>
-            </div>
-            <div class="ai3-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Filter by <strong>"Excluding bot activity"</strong> in your next report for accurate human engagement metrics.</span></div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT: Feature cards -->
-    <div class="ai3-feat-col">
-      <div class="ai3-feat" data-feat="0">
-        <div class="ai3-feat-top"><span class="ai3-feat-pct">93% of responses</span><span class="ai3-feat-old"><span class="s">45 min in spreadsheets</span> &rarr; 10 seconds</span></div>
+    <!-- LEFT: Text slides -->
+    <div class="ft-text" id="ftText">
+      <div class="ft-slide active" data-i="0">
+        <span class="ft-pct">93% of responses</span>
+        <div class="ft-old"><span class="s">45 min in spreadsheets</span> &rarr; 10 seconds</div>
         <h4>Instant structured reports</h4>
-        <p>Ask any question and get a formatted report with metrics, tables, commentary, and key insights. Ready to paste into Slack or a client deck.</p>
-        <div class="ai3-feat-quote">"Summarize my campaign performance in the last 30 days"</div>
+        <p>Ask any question and get a formatted report with metrics, tables, and key insights — ready to paste into Slack or a client deck.</p>
+        <div class="ft-quote">"Summarize my campaign performance in the last 30 days"</div>
       </div>
-      <div class="ai3-feat" data-feat="1">
-        <div class="ai3-feat-top"><span class="ai3-feat-pct">63% of responses</span><span class="ai3-feat-old"><span class="s">Manual CSV analysis</span> &rarr; Ask in English</span></div>
+      <div class="ft-slide" data-i="1">
+        <span class="ft-pct">63% of responses</span>
+        <div class="ft-old"><span class="s">Manual CSV analysis</span> &rarr; Ask in English</div>
         <h4>Engagement metrics on demand</h4>
         <p>Open, click, CTR, bounce, and unsubscribe rates across any time window and campaign set — in plain language.</p>
-        <div class="ai3-feat-quote">"Which campaigns had the highest open and click rates?"</div>
+        <div class="ft-quote">"Which campaigns had the highest open and click rates?"</div>
       </div>
-      <div class="ai3-feat" data-feat="2">
-        <div class="ai3-feat-top"><span class="ai3-feat-pct">54% of responses</span><span class="ai3-feat-old"><span class="s">Data without direction</span> &rarr; Clear next steps</span></div>
+      <div class="ft-slide" data-i="2">
+        <span class="ft-pct">54% of responses</span>
+        <div class="ft-old"><span class="s">Data without direction</span> &rarr; Clear next steps</div>
         <h4>Concrete next-step recommendations</h4>
         <p>The agent tells you exactly what to do: resend to non-openers, test subject lines, prune contacts, shift your send window.</p>
-        <div class="ai3-feat-quote">"Why are my open rates dropping? What should I do?"</div>
+        <div class="ft-quote">"Why are my open rates dropping? What should I do?"</div>
       </div>
-      <div class="ai3-feat" data-feat="3">
-        <div class="ai3-feat-top"><span class="ai3-feat-pct">48% of responses</span><span class="ai3-feat-old"><span class="s">Google industry reports</span> &rarr; Instant context</span></div>
+      <div class="ft-slide" data-i="3">
+        <span class="ft-pct">48% of responses</span>
+        <div class="ft-old"><span class="s">Google industry reports</span> &rarr; Instant context</div>
         <h4>Industry benchmarking</h4>
-        <p>Your vertical's benchmark (restaurants ~12%, pro services ~34%) positioned against your number. Know instantly if it's a crisis or normal.</p>
-        <div class="ai3-feat-quote">"How does my open rate compare to the industry?"</div>
+        <p>Your vertical's benchmark positioned against your number. Know instantly if it's a crisis or normal for your industry.</p>
+        <div class="ft-quote">"How does my open rate compare to the industry?"</div>
       </div>
-      <div class="ai3-feat" data-feat="4">
-        <div class="ai3-feat-top"><span class="ai3-feat-pct">35% of responses</span><span class="ai3-feat-old"><span class="s">Stitch 3 tools</span> &rarr; One answer</span></div>
+      <div class="ft-slide" data-i="4">
+        <span class="ft-pct">35% of responses</span>
+        <div class="ft-old"><span class="s">Stitch 3 tools</span> &rarr; One answer</div>
         <h4>Revenue attribution</h4>
-        <p>Ties campaigns to revenue, orders, AOV, and ROI. Answers "is email making us money?" without leaving the tool.</p>
-        <div class="ai3-feat-quote">"How much revenue did email generate this month?"</div>
+        <p>Ties campaigns to revenue, orders, and ROI. Answers "is email making us money?" without leaving the tool.</p>
+        <div class="ft-quote">"How much revenue did email generate this month?"</div>
       </div>
-      <div class="ai3-feat" data-feat="5">
-        <div class="ai3-feat-top"><span class="ai3-feat-pct">17% of responses</span><span class="ai3-feat-old"><span class="s">Guess and wait</span> &rarr; Root cause in seconds</span></div>
+      <div class="ft-slide" data-i="5">
+        <span class="ft-pct">17% of responses</span>
+        <div class="ft-old"><span class="s">Guess and wait</span> &rarr; Root cause in seconds</div>
         <h4>Root cause diagnosis</h4>
         <p>Converts symptoms into diagnosis — bot opens, list fatigue, deliverability — with the likely cause and a step-by-step fix.</p>
-        <div class="ai3-feat-quote">"Why does the dashboard show 27% but I expected higher?"</div>
+        <div class="ft-quote">"Why does the dashboard show 27% but I expected higher?"</div>
       </div>
     </div>
+
+    <!-- CENTER: Visualization stage -->
+    <div class="ft-stage">
+      <div class="ft-stage-bar">
+        <div class="d" style="background:#FF5F57"></div>
+        <div class="d" style="background:#FFBD2E"></div>
+        <div class="d" style="background:#28CA42"></div>
+        <span class="t">Analytics AI &mdash; Agent Response</span>
+        <span class="live"></span>
+      </div>
+      <div class="ft-stage-body" id="ftStage">
+
+        <!-- VIZ 0: Bar chart -->
+        <div class="ft-viz active" data-v="0">
+          <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>Agent response</div>
+          <div class="ft-viz-title">Campaign Performance &mdash; Last 30 Days</div>
+          <div class="ft-bars" id="ftBars">
+            <div class="ft-bar-r"><span class="ft-bar-l">Holiday Flash</span><div class="ft-bar-t"><div class="ft-bar-f" style="background:var(--mc-teal);" data-w="92"></div></div><span class="ft-bar-v">46%</span></div>
+            <div class="ft-bar-r"><span class="ft-bar-l">Summer Drop</span><div class="ft-bar-t"><div class="ft-bar-f" style="background:var(--mc-teal);" data-w="76"></div></div><span class="ft-bar-v">38%</span></div>
+            <div class="ft-bar-r"><span class="ft-bar-l">VIP Early Access</span><div class="ft-bar-t"><div class="ft-bar-f" style="background:var(--mc-cta);" data-w="70"></div></div><span class="ft-bar-v">35%</span></div>
+            <div class="ft-bar-r"><span class="ft-bar-l">New Arrivals</span><div class="ft-bar-t"><div class="ft-bar-f" style="background:var(--mc-cta);" data-w="58"></div></div><span class="ft-bar-v">29%</span></div>
+            <div class="ft-bar-r"><span class="ft-bar-l">Weekly Digest</span><div class="ft-bar-t"><div class="ft-bar-f" style="background:rgba(255,255,255,0.15);" data-w="44"></div></div><span class="ft-bar-v">22%</span></div>
+          </div>
+          <div class="ft-rec" style="margin-top:24px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Geo-targeted subject lines dominate your top performers. Consider A/B testing <strong>location-specific vs. generic</strong> headers.</span></div>
+        </div>
+
+        <!-- VIZ 1: Table -->
+        <div class="ft-viz" data-v="1">
+          <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Agent response</div>
+          <div class="ft-viz-title">Top Campaigns by Engagement</div>
+          <div class="ft-tbl">
+            <div class="r hd"><span>Campaign</span><span style="text-align:right">Open %</span><span style="text-align:right">Click %</span></div>
+            <div class="r"><span class="nm">Holiday Flash Sale</span><span class="v hi">46.2%</span><span class="v">8.4%</span></div>
+            <div class="r"><span class="nm">Summer Drop</span><span class="v hi">38.1%</span><span class="v">6.2%</span></div>
+            <div class="r"><span class="nm">Back to School</span><span class="v">31.5%</span><span class="v hi">9.1%</span></div>
+            <div class="r"><span class="nm">VIP Early Access</span><span class="v">35.0%</span><span class="v">5.8%</span></div>
+            <div class="r"><span class="nm">Weekly Digest #12</span><span class="v">22.4%</span><span class="v">3.1%</span></div>
+          </div>
+          <div class="ft-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Your CTOR averages <strong>18.4%</strong> &mdash; solid for ecommerce. Campaigns with preview text outperform by <strong>12%</strong>.</span></div>
+        </div>
+
+        <!-- VIZ 2: Actions + day chart -->
+        <div class="ft-viz" data-v="2">
+          <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Agent recommendation</div>
+          <div class="ft-viz-title">Recommended Actions</div>
+          <div style="background:rgba(0,185,166,0.06); border:1px solid rgba(0,185,166,0.12); border-radius:10px; padding:16px 18px; margin-bottom:16px;">
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7;">
+              <strong style="color:var(--mc-teal);">1.</strong> Suppress contacts inactive 90+ days<br>
+              <strong style="color:var(--mc-teal);">2.</strong> Test emoji + geo subject lines<br>
+              <strong style="color:var(--mc-teal);">3.</strong> Reduce "All Subscribers" to 2x/week max<br>
+              <strong style="color:var(--mc-teal);">4.</strong> Switch send time to <strong style="color:white;">Tuesday 9 AM</strong>
+            </div>
+          </div>
+          <div class="ft-dow" id="ftDow">
+            <div class="ft-dow-b"><div class="ft-dow-f" data-h="30" style="background:rgba(255,255,255,0.08);"></div><span class="ft-dow-l">Mon</span></div>
+            <div class="ft-dow-b best"><div class="ft-dow-f" data-h="90" style="background:var(--mc-teal);"></div><span class="ft-dow-l">Tue</span></div>
+            <div class="ft-dow-b"><div class="ft-dow-f" data-h="45" style="background:rgba(255,255,255,0.08);"></div><span class="ft-dow-l">Wed</span></div>
+            <div class="ft-dow-b"><div class="ft-dow-f" data-h="25" style="background:rgba(255,255,255,0.08);"></div><span class="ft-dow-l">Thu</span></div>
+            <div class="ft-dow-b"><div class="ft-dow-f" data-h="20" style="background:rgba(255,255,255,0.08);"></div><span class="ft-dow-l">Fri</span></div>
+            <div class="ft-dow-b"><div class="ft-dow-f" data-h="10" style="background:rgba(255,255,255,0.05);"></div><span class="ft-dow-l">Sat</span></div>
+            <div class="ft-dow-b"><div class="ft-dow-f" data-h="8" style="background:rgba(255,255,255,0.05);"></div><span class="ft-dow-l">Sun</span></div>
+          </div>
+          <div class="ft-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Switching to <strong>Tuesday 9 AM</strong> should lift opens by approximately <strong>22%</strong>.</span></div>
+        </div>
+
+        <!-- VIZ 3: Gauge -->
+        <div class="ft-viz" data-v="3">
+          <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Benchmark analysis</div>
+          <div class="ft-viz-title">Your Open Rate vs. Industry</div>
+          <div class="ft-gauge-area">
+            <div class="ft-gauge">
+              <svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="60"/><circle class="val" cx="75" cy="75" r="60" id="ftGauge"/></svg>
+              <div class="ctr"><span class="big">28%</span><span class="sub">Open rate</span></div>
+            </div>
+            <div class="ft-gauge-detail">
+              <div class="ln">Your open rate: <strong>28%</strong></div>
+              <div class="ln">Ecommerce average: 22%</div>
+              <div class="ln">Top quartile: 34%</div>
+              <div class="ln" style="color:var(--mc-sage); margin-top:6px;">+6pp above average</div>
+            </div>
+          </div>
+          <div class="ft-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Strong opens. Shift focus to <strong>click-through rate</strong> &mdash; yours is 1.2pp below benchmark.</span></div>
+        </div>
+
+        <!-- VIZ 4: Donut -->
+        <div class="ft-viz" data-v="4">
+          <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Revenue attribution</div>
+          <div class="ft-viz-title">Email Revenue &mdash; April 2026</div>
+          <div class="ft-donut-area">
+            <div class="ft-donut">
+              <svg viewBox="0 0 150 150"><circle class="dbg" cx="75" cy="75" r="54"/><circle class="seg" cx="75" cy="75" r="54" style="stroke:var(--mc-cta);" data-off="129" id="ftSeg1"/><circle class="seg" cx="75" cy="75" r="54" style="stroke:var(--mc-teal);" data-off="241" id="ftSeg2"/><circle class="seg" cx="75" cy="75" r="54" style="stroke:var(--mc-gold);" data-off="308" id="ftSeg3"/></svg>
+              <div class="ctr"><span class="big">$84.2K</span><span class="sub">Total revenue</span></div>
+            </div>
+            <div class="ft-legend">
+              <div class="it"><span class="dt" style="background:var(--mc-cta)"></span>Campaigns <strong>$52.4K</strong> (62%)</div>
+              <div class="it"><span class="dt" style="background:var(--mc-teal)"></span>Automations <strong>$24.1K</strong> (29%)</div>
+              <div class="it"><span class="dt" style="background:var(--mc-gold)"></span>Journeys <strong>$7.7K</strong> (9%)</div>
+            </div>
+          </div>
+          <div class="ft-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Abandoned-cart automation drives <strong>$4.2K/week</strong>. Adding a post-purchase sequence could add <strong>$6-8K/month</strong>.</span></div>
+        </div>
+
+        <!-- VIZ 5: Root cause -->
+        <div class="ft-viz" data-v="5">
+          <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Root cause analysis</div>
+          <div class="ft-viz-title">Why Does the Dashboard Show 27%?</div>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:4px;">
+            <div style="padding:16px 18px; background:rgba(255,107,71,0.06); border:1px solid rgba(255,107,71,0.12); border-radius:10px;">
+              <div style="font-size:12px; font-weight:700; color:var(--mc-coral); margin-bottom:4px;">Issue 1 &mdash; Bot opens inflating baseline</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5;">Apple MPP accounts for ~22% of opens. Real human rate is closer to <strong style="color:white;">21%</strong>.</div>
+            </div>
+            <div style="padding:16px 18px; background:rgba(244,161,0,0.06); border:1px solid rgba(244,161,0,0.12); border-radius:10px;">
+              <div style="font-size:12px; font-weight:700; color:var(--mc-gold); margin-bottom:4px;">Issue 2 &mdash; Unique vs. total confusion</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5;">Dashboard shows unique opens (27%). Variant report shows total opens (can exceed 100%).</div>
+            </div>
+            <div style="padding:16px 18px; background:rgba(0,185,166,0.06); border:1px solid rgba(0,185,166,0.12); border-radius:10px;">
+              <div style="font-size:12px; font-weight:700; color:var(--mc-teal); margin-bottom:4px;">Issue 3 &mdash; A/B variant view</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5;">Each variant reports its own rate. Combined rate is a weighted average.</div>
+            </div>
+          </div>
+          <div class="ft-rec" style="margin-top:auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9Z"/></svg><span>Filter by <strong>"Excluding bot activity"</strong> for accurate human engagement metrics.</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Numbered nav -->
+    <div class="ft-nav" id="ftNav">
+      <button class="ft-nav-dot active" data-i="0">1</button>
+      <button class="ft-nav-dot" data-i="1">2</button>
+      <button class="ft-nav-dot" data-i="2">3</button>
+      <button class="ft-nav-dot" data-i="3">4</button>
+      <button class="ft-nav-dot" data-i="4">5</button>
+      <button class="ft-nav-dot" data-i="5">6</button>
+    </div>
+  </div>
+
+  <!-- Bottom controls -->
+  <div class="ft-controls">
+    <button class="ft-arrow" id="ftPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="ft-dots" id="ftDots">
+      <button class="ft-dot active" data-i="0"></button>
+      <button class="ft-dot" data-i="1"></button>
+      <button class="ft-dot" data-i="2"></button>
+      <button class="ft-dot" data-i="3"></button>
+      <button class="ft-dot" data-i="4"></button>
+      <button class="ft-dot" data-i="5"></button>
+    </div>
+    <button class="ft-arrow" id="ftNext"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
   </div>
 </section>
+
 
 <!-- ===== HOW IT WORKS — editorial showcase ===== -->
 <section class="how-section">
@@ -5107,7 +5119,7 @@
   })();
 </script>
 
-<!-- ===== Agent Intelligence v3: cinematic scroll controller ===== -->
+<!-- ===== Feature Theater v4: controller ===== -->
 <script>
 (function() {
   /* --- Count-up --- */
@@ -5126,63 +5138,88 @@
   }, { threshold: 0.3 });
   if (statEls.length) sObs.observe(statEls[0].parentElement.parentElement);
 
-  /* --- Feature reveal --- */
-  const feats = document.querySelectorAll('.ai3-feat');
-  const fObs = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-  feats.forEach(f => fObs.observe(f));
+  /* --- Feature Theater --- */
+  const slides = document.querySelectorAll('.ft-slide');
+  const vizs = document.querySelectorAll('.ft-viz');
+  const navDots = document.querySelectorAll('.ft-nav-dot');
+  const botDots = document.querySelectorAll('.ft-dot');
+  const total = slides.length;
+  let cur = 0, timer = null;
 
-  /* --- Viz switcher --- */
-  const vizs = document.querySelectorAll('.ai3-viz');
-  let curViz = 0;
-
-  function showViz(idx) {
-    if (idx === curViz && vizs[idx].classList.contains('active')) return;
-    curViz = idx;
+  function goTo(idx) {
+    if (idx === cur && slides[idx].classList.contains('active')) return;
+    cur = idx;
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
     vizs.forEach((v, i) => v.classList.toggle('active', i === idx));
+    navDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    botDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    animateViz(idx);
+  }
 
-    // Animate bars in viz 0
+  function animateViz(idx) {
     if (idx === 0) {
+      document.querySelectorAll('#ftBars .ft-bar-f').forEach(b => { b.style.width = '0'; });
       setTimeout(() => {
-        document.querySelectorAll('#viz0bars .ai3-bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
-      }, 200);
+        document.querySelectorAll('#ftBars .ft-bar-f').forEach(b => { b.style.width = b.dataset.w + '%'; });
+      }, 100);
     }
-    // Animate day bars in viz 2
     if (idx === 2) {
+      document.querySelectorAll('#ftDow .ft-dow-f').forEach(b => { b.style.height = '0'; });
       setTimeout(() => {
-        document.querySelectorAll('#viz2dow .ai3-dow-fill').forEach(b => { b.style.height = b.dataset.h + '%'; });
-      }, 200);
+        document.querySelectorAll('#ftDow .ft-dow-f').forEach(b => { b.style.height = b.dataset.h + '%'; });
+      }, 100);
     }
-    // Animate gauge in viz 3
     if (idx === 3) {
-      const ring = document.getElementById('gaugeRing');
-      if (ring) setTimeout(() => { ring.style.strokeDashoffset = 377 - (377 * 0.28 / 0.5); }, 200);
+      const g = document.getElementById('ftGauge');
+      if (g) { g.style.strokeDashoffset = '377'; setTimeout(() => { g.style.strokeDashoffset = String(377 - (377 * 0.28 / 0.5)); }, 100); }
     }
-    // Animate donut in viz 4
     if (idx === 4) {
-      ['seg1','seg2','seg3'].forEach(id => {
+      ['ftSeg1','ftSeg2','ftSeg3'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) setTimeout(() => { el.style.strokeDashoffset = el.dataset.off; }, 200);
+        if (el) { el.style.strokeDashoffset = '339'; setTimeout(() => { el.style.strokeDashoffset = el.dataset.off; }, 100); }
       });
     }
   }
 
-  // Reset bar widths for re-animation
-  document.querySelectorAll('#viz0bars .ai3-bar-fill').forEach(b => { b.style.width = '0'; });
-  document.querySelectorAll('#viz2dow .ai3-dow-fill').forEach(b => { b.style.height = '0'; });
+  function next() { goTo((cur + 1) % total); }
+  function prev() { goTo((cur - 1 + total) % total); }
+  function startTimer() { timer = setInterval(next, 5000); }
+  function stopTimer() { clearInterval(timer); }
+  function resetTimer() { stopTimer(); startTimer(); }
 
-  const vizObs = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) showViz(+e.target.dataset.feat); });
-  }, { threshold: 0.4, rootMargin: '-15% 0px -35% 0px' });
-  feats.forEach(f => vizObs.observe(f));
+  // Nav dots
+  navDots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
+  botDots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
 
-  // Show first viz on section enter
-  const secObs = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) { showViz(0); secObs.disconnect(); } });
-  }, { threshold: 0.05 });
+  // Arrows
+  const prevBtn = document.getElementById('ftPrev');
+  const nextBtn = document.getElementById('ftNext');
+  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetTimer(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetTimer(); });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    const sec = document.getElementById('agent-intel');
+    if (!sec) return;
+    const r = sec.getBoundingClientRect();
+    if (r.top > window.innerHeight || r.bottom < 0) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { next(); resetTimer(); e.preventDefault(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { prev(); resetTimer(); e.preventDefault(); }
+  });
+
+  // Pause on hover
+  const theater = document.querySelector('.ft-theater');
+  if (theater) {
+    theater.addEventListener('mouseenter', stopTimer);
+    theater.addEventListener('mouseleave', startTimer);
+  }
+
+  // Init: animate first viz + start auto-play
+  const initObs = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { animateViz(0); startTimer(); initObs.disconnect(); } });
+  }, { threshold: 0.1 });
   const sec = document.getElementById('agent-intel');
-  if (sec) secObs.observe(sec);
+  if (sec) initObs.observe(sec);
 })();
 </script>
 
