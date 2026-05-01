@@ -2307,7 +2307,7 @@
     <div class="va-mini-playground">
       <div class="va-mini-toolbar">
         <span class="va-mini-pill">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/><path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/></svg>
           Analytics AI
         </span>
         <span class="va-status">Live demo · Oat Lord sample</span>
@@ -2315,7 +2315,7 @@
       <div class="va-mini-body">
         <div class="va-mini-greeting">
           <div class="va-mini-avatar">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/><path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/></svg>
           </div>
           <p>Ask me anything about <strong>Oat Lord's</strong> last 6 months of marketing data.</p>
         </div>
@@ -2356,7 +2356,7 @@
     <div class="vc-demo" id="vcDemo">
       <div class="vc-demo-toolbar">
         <span class="vc-pill">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/><path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/></svg>
           Analytics AI
         </span>
         <span class="vc-status">Live</span>
@@ -2421,7 +2421,7 @@
        Shared dazzle: scene catalogue + chart renderers used by
        Variant A (interactive) and Variant C (cinematic autoplay)
        ============================================================ */
-    const AVATAR_SVG = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/></svg>';
+    const AVATAR_SVG = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white"/><path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.85"/></svg>';
 
     const SCENES = [
       {
@@ -3143,8 +3143,9 @@
           <div class="chart-canvas" id="chartCanvas">
             <div class="chart-empty">
               <div class="small-spark">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/>
+                  <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.7"/>
                 </svg>
               </div>
               <span>Ask a question to see live data</span>
@@ -3818,8 +3819,9 @@
     chartCanvas.innerHTML = `
       <div class="chart-empty">
         <div class="small-spark">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/>
+            <path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.7"/>
           </svg>
         </div>
         <span>Ask a question to see live data</span>
@@ -4360,7 +4362,7 @@
     chartCanvas.innerHTML = `
       <div class="chart-empty">
         <div class="small-spark">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L13.5 9L20 10.5L13.5 12L12 19L10.5 12L4 10.5L10.5 9L12 2Z" fill="white" opacity="0.9"/><path d="M19 14L19.7 16.5L22 17L19.7 17.5L19 20L18.3 17.5L16 17L18.3 16.5L19 14Z" fill="white" opacity="0.7"/></svg>
         </div>
         <span>Ask a question to see live data</span>
       </div>`;
