@@ -1077,11 +1077,20 @@
     transform: translateX(4px);
   }
   .trust-point .ico {
-    width: 44px; height: 44px; flex-shrink: 0;
+    width: 64px; height: 64px; flex-shrink: 0;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(0,124,137,0.18), rgba(0,185,166,0.18));
-    border: 1px solid rgba(0,124,137,0.25);
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(255,255,255,0.18);
     display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .trust-point:hover .ico {
+    transform: rotate(-3deg) scale(1.05);
+  }
+  .trust-point .ico img {
+    width: 100%; height: 100%; object-fit: contain;
+    padding: 6px;
   }
   .trust-point .ico svg {
     width: 22px; height: 22px;
@@ -1468,7 +1477,7 @@
 
   /* ---------- Integrations (streaming banner) ---------- */
   .integrations-section {
-    background: var(--mc-bg-soft); padding: 40px 0; overflow: hidden;
+    background: var(--mc-bg-soft); padding: 40px 0 32px; overflow: hidden;
     border-top: 1px solid var(--mc-border); border-bottom: 1px solid var(--mc-border);
   }
   .integrations-section .int-header {
@@ -1485,8 +1494,10 @@
     display: flex; width: max-content;
     animation: intScroll 30s linear infinite;
   }
+  .int-marquee.reverse { animation: intScrollR 35s linear infinite; }
   .int-marquee:hover { animation-play-state: paused; }
   @keyframes intScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  @keyframes intScrollR { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
   .int-set { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
   .int-logo {
     display: flex; align-items: center; justify-content: center;
@@ -1503,6 +1514,26 @@
     display: flex; align-items: center; gap: 6px; padding: 0 24px; flex-shrink: 0;
     font-size: 13px; font-weight: 700; color: var(--mc-cta); white-space: nowrap;
   }
+  /* Customer brand logos (second marquee, larger) */
+  .int-divider {
+    text-align: center; margin: 24px auto 16px; padding: 0 32px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    max-width: 600px;
+  }
+  .int-divider::before, .int-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--mc-border);
+  }
+  .int-divider span {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--mc-text-muted);
+  }
+  .cust-logo {
+    display: flex; align-items: center; justify-content: center;
+    height: 56px; padding: 0 36px; flex-shrink: 0;
+    opacity: 0.7; transition: opacity 0.3s;
+  }
+  .cust-logo:hover { opacity: 1; }
+  .cust-logo img { height: 32px; width: auto; max-width: 140px; object-fit: contain; }
   /* Legacy grid styles removed — now using marquee */
   .integration-grid { display: none; }
   .integration-logo.more::before {
@@ -1875,9 +1906,32 @@
       </div>
       <!-- Cavendish-yellow accent dot -->
       <div class="hero-yellow-dot"></div>
+      <!-- Mailchimp hand-drawn ink illustration accent -->
+      <div class="hero-spot-illo" aria-hidden="true">
+        <img src="assets/mc-brand/spot-magicbear.jpg" alt=""/>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .hero-spot-illo {
+    position: absolute; bottom: -32px; left: -56px;
+    width: 140px; height: 140px;
+    background: var(--mc-bg);
+    border: 4px solid var(--mc-yellow);
+    border-radius: 50%; padding: 12px;
+    z-index: 3;
+    transform: rotate(-8deg);
+    animation: hero-illo-bob 4s ease-in-out infinite;
+  }
+  .hero-spot-illo img { width: 100%; height: 100%; object-fit: contain; }
+  @keyframes hero-illo-bob {
+    0%, 100% { transform: rotate(-8deg) translateY(0); }
+    50% { transform: rotate(-5deg) translateY(-8px); }
+  }
+  @media (max-width: 900px) { .hero-spot-illo { display: none; } }
+</style>
 
 <style>
   /* Hero monitor mockup styles */
@@ -3414,6 +3468,14 @@
     .ft-stage-body { position:relative; min-height:430px; }
     .ft-viz { position:absolute; inset:0; padding:28px; display:flex; flex-direction:column; opacity:0; transform:scale(0.96); transition:opacity 0.5s ease, transform 0.5s ease; }
     .ft-viz.active { opacity:1; transform:scale(1); }
+    /* Brand illustration watermark — bottom-right corner of stage */
+    .ft-spot { position:absolute; bottom:14px; right:18px; width:64px; height:64px;
+      opacity:0; transform:translateY(8px) rotate(-4deg);
+      transition:opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+      pointer-events:none; z-index:1; }
+    .ft-viz.active .ft-spot { opacity:0.18; transform:translateY(0) rotate(-4deg); }
+    .ft-spot img { width:100%; height:100%; object-fit:contain;
+      filter:invert(1) brightness(2); }
 
     /* Shared viz elements */
     .ft-viz-label { font-size:11px; color:var(--mc-teal); font-weight:600; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
@@ -3589,6 +3651,7 @@
 
         <!-- VIZ 0: Bar chart -->
         <div class="ft-viz active" data-v="0">
+          <div class="ft-spot"><img src="assets/mc-brand/spot-magicbear.jpg" alt=""/></div>
           <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>Agent response</div>
           <div class="ft-viz-title">Campaign Performance &mdash; Last 30 Days</div>
           <div class="ft-bars" id="ftBars">
@@ -3603,6 +3666,7 @@
 
         <!-- VIZ 1: Table -->
         <div class="ft-viz" data-v="1">
+          <div class="ft-spot"><img src="assets/mc-brand/spot-multitasking.jpg" alt=""/></div>
           <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Agent response</div>
           <div class="ft-viz-title">Top Campaigns by Engagement</div>
           <div class="ft-tbl">
@@ -3618,6 +3682,7 @@
 
         <!-- VIZ 2: Actions + day chart -->
         <div class="ft-viz" data-v="2">
+          <div class="ft-spot"><img src="assets/mc-brand/spot-conversation.jpg" alt=""/></div>
           <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Agent recommendation</div>
           <div class="ft-viz-title">Recommended Actions</div>
           <div style="background:rgba(0,185,166,0.06); border:1px solid rgba(0,185,166,0.12); border-radius:10px; padding:16px 18px; margin-bottom:16px;">
@@ -3642,6 +3707,7 @@
 
         <!-- VIZ 3: Gauge -->
         <div class="ft-viz" data-v="3">
+          <div class="ft-spot"><img src="assets/mc-brand/spot-vip.jpg" alt=""/></div>
           <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Benchmark analysis</div>
           <div class="ft-viz-title">Your Open Rate vs. Industry</div>
           <div class="ft-gauge-area">
@@ -3661,6 +3727,7 @@
 
         <!-- VIZ 4: Donut -->
         <div class="ft-viz" data-v="4">
+          <div class="ft-spot"><img src="assets/mc-brand/spot-optimize.jpg" alt=""/></div>
           <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Revenue attribution</div>
           <div class="ft-viz-title">Email Revenue &mdash; April 2026</div>
           <div class="ft-donut-area">
@@ -3679,6 +3746,7 @@
 
         <!-- VIZ 5: Root cause -->
         <div class="ft-viz" data-v="5">
+          <div class="ft-spot"><img src="assets/mc-brand/spot-lighthouse.jpg" alt=""/></div>
           <div class="ft-viz-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Root cause analysis</div>
           <div class="ft-viz-title">Why Does the Dashboard Show 27%?</div>
           <div style="display:flex; flex-direction:column; gap:14px; margin-top:4px;">
@@ -3806,10 +3874,7 @@
     <div class="trust-points">
       <div class="trust-point">
         <div class="ico">
-          <!-- Lucide: shopping-bag -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
+          <img src="assets/mc-brand/spot-vip.jpg" alt="Ecommerce illustration"/>
         </div>
         <div>
           <h4>Ecommerce founders</h4>
@@ -3818,10 +3883,7 @@
       </div>
       <div class="trust-point">
         <div class="ico">
-          <!-- Lucide: users -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
+          <img src="assets/mc-brand/spot-multitasking.jpg" alt="Agency illustration"/>
         </div>
         <div>
           <h4>Agency owners</h4>
@@ -3830,10 +3892,7 @@
       </div>
       <div class="trust-point">
         <div class="ico">
-          <!-- Lucide: heart -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
+          <img src="assets/mc-brand/spot-lighthouse.jpg" alt="Nonprofit illustration"/>
         </div>
         <div>
           <h4>Nonprofit directors</h4>
@@ -4068,6 +4127,27 @@
       <div class="int-logo"><img src="assets/logos/hubspot.svg" alt=""/></div><div class="int-sep"></div>
       <div class="int-logo"><img src="assets/logos/canva.svg" alt=""/></div><div class="int-sep"></div>
       <div class="int-badge">300+ integrations</div><div class="int-sep"></div>
+    </div>
+  </div>
+
+  <!-- Customer brand logos -->
+  <div class="int-divider"><span>Trusted by brands like</span></div>
+  <div class="int-marquee reverse">
+    <div class="int-set">
+      <div class="cust-logo" title="Entra Homes"><img src="assets/mc-brand/customers/entra-homes.png" alt="Entra Homes"/></div>
+      <div class="cust-logo" title="Farrow Heights"><img src="assets/mc-brand/customers/farrow-heights.svg" alt="Farrow Heights"/></div>
+      <div class="cust-logo" title="Halwell &amp; Associates"><img src="assets/mc-brand/customers/halwell.png" alt="Halwell"/></div>
+      <div class="cust-logo" title="Escultura"><img src="assets/mc-brand/customers/escultura.png" alt="Escultura"/></div>
+      <div class="cust-logo" title="Flexstart"><img src="assets/mc-brand/customers/flexstart.png" alt="Flexstart"/></div>
+      <div class="cust-logo" title="Canopy Coalition"><img src="assets/mc-brand/customers/canopy-coalition.png" alt="Canopy Coalition"/></div>
+    </div>
+    <div class="int-set" aria-hidden="true">
+      <div class="cust-logo"><img src="assets/mc-brand/customers/entra-homes.png" alt=""/></div>
+      <div class="cust-logo"><img src="assets/mc-brand/customers/farrow-heights.svg" alt=""/></div>
+      <div class="cust-logo"><img src="assets/mc-brand/customers/halwell.png" alt=""/></div>
+      <div class="cust-logo"><img src="assets/mc-brand/customers/escultura.png" alt=""/></div>
+      <div class="cust-logo"><img src="assets/mc-brand/customers/flexstart.png" alt=""/></div>
+      <div class="cust-logo"><img src="assets/mc-brand/customers/canopy-coalition.png" alt=""/></div>
     </div>
   </div>
 </section>
