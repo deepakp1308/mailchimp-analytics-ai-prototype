@@ -163,6 +163,62 @@
   }
   .btn-secondary:hover { background: var(--mc-text); color: white; }
 
+  /* Animated brand-gradient CTA — primary moment-of-action in the hero */
+  .btn-spin {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 22px;
+    border-radius: 12px;
+    border: none;
+    font-family: inherit; font-weight: 700; font-size: 15px;
+    color: #15100A;
+    cursor: pointer; text-decoration: none;
+    position: relative; overflow: hidden; isolation: isolate;
+    background: linear-gradient(110deg,
+      #FFE01B 0%,
+      #00B9A6 28%,
+      #FFE01B 55%,
+      #F4A100 80%,
+      #FFE01B 100%
+    );
+    background-size: 300% 100%;
+    animation: btnSpinFlow 6s linear infinite;
+    box-shadow: 0 8px 28px -10px rgba(255, 224, 27, 0.55);
+    transition: transform 220ms ease, box-shadow 220ms ease, animation-duration 220ms ease;
+  }
+  .btn-spin > span { display: inline-block; transition: transform 220ms ease; }
+  .btn-spin:hover > span { transform: translateY(2px); }
+  @keyframes btnSpinFlow {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  .btn-spin::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(110deg,
+      transparent 30%,
+      rgba(255,255,255,0.55) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    animation: btnSpinShimmer 3.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes btnSpinShimmer {
+    0%, 30%   { transform: translateX(-100%); }
+    60%, 100% { transform: translateX(100%); }
+  }
+  .btn-spin:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px -8px rgba(255, 224, 27, 0.70);
+    animation-duration: 4s;
+  }
+  .btn-spin:focus-visible {
+    outline: 2px solid #15100A; outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-spin, .btn-spin::after { animation: none !important; }
+    .btn-spin { background: #FFE01B; }
+  }
+
   /* ---------- Hero animated demo ---------- */
   .hero-demo {
     background: white;
@@ -1213,16 +1269,20 @@
     padding: 28px 32px 0;
     box-shadow: 0 30px 80px -40px rgba(0,0,0,0.6);
     opacity: 0;
-    transform: translateY(8px);
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 380ms cubic-bezier(.2,.7,.2,1), transform 380ms cubic-bezier(.2,.7,.2,1);
     display: flex; flex-direction: column;
   }
   .role-panel.is-active {
     opacity: 1;
-    transform: translateY(0);
+    visibility: visible;
     pointer-events: auto;
     z-index: 2;
+    animation: roleFadeIn 380ms cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes roleFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   .role-panel-head {
@@ -1481,7 +1541,7 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .role-panel { transition: none; }
+    .role-panel.is-active { animation: none; }
     .role-tabs:not(.is-static) .role-tab.is-active .role-tab-progress::after {
       animation: none; width: 100%;
     }
@@ -2578,7 +2638,7 @@
       <p class="lead">Go from high-level trends to granular insights. Ask in plain English. Analytics AI delivers charts, insights, and what to do next, in seconds.</p>
       <div class="cta-row">
         <a href="#pricing" class="btn-primary">Get Started</a>
-        <a href="#playground" class="btn-secondary">Try the live demo ↓</a>
+        <a href="#playground" class="btn-spin">Take Analytics AI for a spin <span aria-hidden="true">↓</span></a>
       </div>
     </div>
 
