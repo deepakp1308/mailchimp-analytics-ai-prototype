@@ -2733,11 +2733,62 @@
   .dossier-donut-legend .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
   .dossier-donut-legend em { font-style: normal; font-weight: 700; color: white; font-variant-numeric: tabular-nums; }
 
-  /* Forecast (scene 3) reuses .mc-line/.mc-band/.mc-forecast-line via the shared SVG defs */
-  .dossier-forecast-end-label {
-    font-size: 12px; font-weight: 800; fill: #FFE01B;
-    paint-order: stroke; stroke: rgba(20,16,10,0.85); stroke-width: 3px;
+  /* Forecast (scene 3) — particle stream visualization (Option D)
+     Canvas-driven: past zone teal, forecast zone gold/yellow, calm left-to-right flow */
+  .ps-stage {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    background:
+      linear-gradient(to right,
+        rgba(0,124,137,0.06) 0%,
+        rgba(0,124,137,0.04) 54%,
+        rgba(244,161,0,0.04) 56%,
+        rgba(244,161,0,0.10) 100%);
   }
+  .ps-canvas {
+    position: absolute; inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .ps-axis-labels {
+    position: absolute;
+    top: 6px; left: 10px; right: 10px;
+    display: flex; justify-content: space-between;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .ps-axis-labels .ps-axis-future { color: rgba(255,224,27,0.45); }
+  .ps-pin {
+    position: absolute;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(20, 16, 10, 0.78);
+    -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.10);
+    font-size: 11px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: white;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    animation: psPinIn 420ms cubic-bezier(.2,.7,.2,1) 600ms forwards;
+    white-space: nowrap;
+  }
+  @keyframes psPinIn { to { opacity: 1; } }
+  .ps-pin-april { left: 16%; bottom: 14px; }
+  .ps-pin-may   { right: 10px; top: 22px; animation-delay: 900ms; border-color: rgba(255,224,27,0.35); }
+  .ps-pin-dot   { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .ps-pin-dot-teal { background: #00b9a6; box-shadow: 0 0 8px rgba(0,185,166,0.65); }
+  .ps-pin-dot-gold { background: #FFE01B; box-shadow: 0 0 10px rgba(255,224,27,0.7); }
 
   /* 3) KPI tile row */
   .dossier-kpis {
@@ -2973,11 +3024,10 @@
         q: "Forecast next month's revenue",
         headline: { plain: 'May forecast: ', accent: '$94K', accentClass: 'accent', tail: ' (+8% over April). Confidence 94%.' },
         chart: {
-          type: 'forecast',
-          actuals: [62, 71, 78, 87],
-          forecast: [89, 91, 94],
-          labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-          confidence: 6,
+          type: 'particle-stream',
+          todayFraction: 0.55,
+          pastLabel: 'April · $87K',
+          futureLabel: 'May · $94K',
           title: 'Revenue · actuals + forecast',
           meta: '$K monthly · band ±$6K'
         },
@@ -3104,58 +3154,30 @@
       `;
     }
 
-    /* Scene 3 — Forecast line. Title at bottom; the $94K endpoint label sits
-       INLINE next to the data point (offset to avoid colliding with the band). */
-    function renderForecast(c) {
-      const w = 460, h = 150, px = 18, pyTop = 16, pyBot = 18;
-      const innerW = w - px * 2;
-      const innerH = h - pyTop - pyBot;
-      const all = c.actuals.concat(c.forecast);
-      const max = Math.max(...all) * 1.10;
-      const min = Math.min(...all) * 0.80;
-      const N = all.length;
-      const xAt = (i) => px + (i / (N - 1)) * innerW;
-      const yAt = (v) => pyTop + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
-      const aPts = c.actuals.map((v, i) => [xAt(i), yAt(v)]);
-      const aLast = aPts[aPts.length - 1];
-      const fPts = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v)]);
-      const upper = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v + c.confidence)]);
-      const lower = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v - c.confidence)]);
-      const actualPath = aPts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
-      const forecastPath = `M${aLast[0].toFixed(1)},${aLast[1].toFixed(1)} ` + fPts.map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
-      const bandPath =
-        `M${aLast[0].toFixed(1)},${aLast[1].toFixed(1)} ` +
-        upper.map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ') + ' ' +
-        `L${lower[lower.length - 1][0].toFixed(1)},${lower[lower.length - 1][1].toFixed(1)} ` +
-        lower.slice().reverse().map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ') + ' Z';
-      const last = fPts[fPts.length - 1];
-      const ptDots = aPts.map((p, i) => `<circle class="mc-pt p${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3"/>`).join('');
-
-      const labelOffsetX = -8;
-      const labelOffsetY = -14;
-
+    /* Scene 3 — Particle stream forecast (Option D).
+       A canvas of ~110 particles flowing left-to-right. The left half (past)
+       is teal at settled density. The right half (forecast) is gold/yellow
+       with denser, slightly faster, brighter particles. A faint dashed
+       vertical "TODAY" marker divides the two zones. The actual numbers
+       ($87K April, $94K May) are pinned as small HTML chips so the panel
+       still reads as a forecast at a glance. */
+    function renderParticleStream(c) {
       return `
-        <svg class="dossier-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="mcLineGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#007C89" stop-opacity="0.45"/>
-              <stop offset="100%" stop-color="#007C89" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <line class="grid" x1="${px}" y1="${(pyTop + innerH * 0.5).toFixed(1)}" x2="${(px + innerW).toFixed(1)}" y2="${(pyTop + innerH * 0.5).toFixed(1)}"/>
-          <path class="mc-band" d="${bandPath}"/>
-          <path class="mc-line" d="${actualPath}"/>
-          ${ptDots}
-          <path class="mc-forecast-line" d="${forecastPath}"/>
-          <g class="mc-forecast-end" transform="translate(${last[0].toFixed(1)} ${last[1].toFixed(1)})">
-            <circle r="5" fill="none" stroke="#FFE01B" stroke-width="1.5">
-              <animate attributeName="r" from="5" to="18" dur="1.8s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" from="0.6" to="0" dur="1.8s" repeatCount="indefinite"/>
-            </circle>
-            <circle r="4.5" fill="#FFE01B"/>
-            <text class="dossier-forecast-end-label" x="${labelOffsetX}" y="${labelOffsetY}" text-anchor="end">$94K</text>
-          </g>
-        </svg>
+        <div class="ps-stage" data-ps-stage>
+          <canvas class="ps-canvas" data-ps-canvas></canvas>
+          <div class="ps-axis-labels">
+            <span class="ps-axis-history">&larr; History</span>
+            <span class="ps-axis-future">Forecast &rarr;</span>
+          </div>
+          <div class="ps-pin ps-pin-april">
+            <span class="ps-pin-dot ps-pin-dot-teal"></span>
+            <span>${escapeAttr(c.pastLabel || 'April · $87K')}</span>
+          </div>
+          <div class="ps-pin ps-pin-may">
+            <span class="ps-pin-dot ps-pin-dot-gold"></span>
+            <span>${escapeAttr(c.futureLabel || 'May · $94K')}</span>
+          </div>
+        </div>
         <div class="dossier-chart-foot">
           <span class="dossier-chart-title">${escapeAttr(c.title)}</span>
           <span class="dossier-chart-meta">${escapeAttr(c.meta)}</span>
@@ -3163,10 +3185,165 @@
       `;
     }
 
+    /* Initializes the particle stream canvas inside `scope` (the chart cell)
+       and starts a requestAnimationFrame loop. Returns a cleanup function
+       that the cinematic scene controller MUST call on scene exit so the
+       rAF loop never leaks while scenes 1 or 2 are showing. */
+    function activateParticleStream(scope, opts) {
+      const canvas = scope.querySelector('[data-ps-canvas]');
+      if (!canvas || !canvas.getContext) return function noop(){};
+      const ctx = canvas.getContext('2d');
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const todayFraction = (opts && typeof opts.todayFraction === 'number') ? opts.todayFraction : 0.55;
+
+      function sizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const w = Math.max(1, Math.floor(rect.width  * dpr));
+        const h = Math.max(1, Math.floor(rect.height * dpr));
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width  = w;
+          canvas.height = h;
+        }
+      }
+      sizeCanvas();
+
+      const PAST_COUNT   = 70;
+      const FUTURE_COUNT = 50;
+      const PARTICLES    = [];
+
+      function W() { return canvas.width;  }
+      function H() { return canvas.height; }
+      function todayX() { return W() * todayFraction; }
+
+      function spawn(p, opts2) {
+        opts2 = opts2 || {};
+        const w = W(), h = H();
+        const inFuture = !!opts2.future;
+        const initialX = (typeof opts2.x === 'number')
+          ? opts2.x
+          : (inFuture
+              ? (todayX() + Math.random() * (w - todayX()))
+              : (Math.random() * todayX()));
+        p.x = initialX;
+        p.y = Math.random() * h;
+        const baseSpeed = inFuture ? (0.55 + Math.random() * 0.40) : (0.30 + Math.random() * 0.25);
+        p.vx = baseSpeed * dpr;
+        p.vy = (Math.random() - 0.5) * 0.05 * dpr;
+        p.r  = ((inFuture ? 1.0 : 0.7) + Math.random() * 1.4) * dpr;
+        p.alpha = 0.30 + Math.random() * 0.55;
+        p.shade = Math.random();
+        p.future = inFuture;
+      }
+
+      for (let i = 0; i < PAST_COUNT;   i++) { const p = {}; spawn(p, { future: false, x: Math.random() * todayX() }); PARTICLES.push(p); }
+      for (let i = 0; i < FUTURE_COUNT; i++) { const p = {}; spawn(p, { future: true,  x: todayX() + Math.random() * (W() - todayX()) }); PARTICLES.push(p); }
+
+      function colorAt(p) {
+        const tx = todayX();
+        if (p.x < tx) {
+          return p.shade < 0.7 ? '0, 185, 166' : '91, 224, 200';
+        } else {
+          return p.shade < 0.7 ? '255, 224, 27' : '244, 161, 0';
+        }
+      }
+
+      function drawFrame() {
+        const w = W(), h = H();
+        const tx = todayX();
+
+        ctx.fillStyle = 'rgba(21, 16, 10, 0.22)';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+        ctx.lineWidth = 1 * dpr;
+        ctx.beginPath();
+        ctx.moveTo(0, h / 2);
+        ctx.lineTo(w, h / 2);
+        ctx.stroke();
+
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+        ctx.lineWidth = 1 * dpr;
+        ctx.setLineDash([4 * dpr, 4 * dpr]);
+        ctx.beginPath();
+        ctx.moveTo(tx, 4 * dpr);
+        ctx.lineTo(tx, h - 4 * dpr);
+        ctx.stroke();
+        ctx.restore();
+
+        for (let i = 0; i < PARTICLES.length; i++) {
+          const p = PARTICLES[i];
+          const inFuture = p.x >= tx;
+          const col = colorAt(p);
+
+          const trailLen = (6 + p.r * 4) * (inFuture ? 1.15 : 1.0);
+          const grad = ctx.createLinearGradient(p.x - trailLen, p.y, p.x, p.y);
+          grad.addColorStop(0, 'rgba(' + col + ', 0)');
+          grad.addColorStop(1, 'rgba(' + col + ', ' + (p.alpha * 0.65).toFixed(3) + ')');
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = Math.max(0.6, p.r * 0.8);
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(p.x - trailLen, p.y);
+          ctx.lineTo(p.x, p.y);
+          ctx.stroke();
+
+          ctx.fillStyle = 'rgba(' + col + ', ' + p.alpha.toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (inFuture) {
+            ctx.fillStyle = 'rgba(' + col + ', ' + (p.alpha * 0.18).toFixed(3) + ')';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * 2.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y < 2 * dpr || p.y > h - 2 * dpr) p.vy *= -1;
+          if (p.x > w + trailLen) {
+            const beFuture = i < PAST_COUNT ? false : true;
+            spawn(p, { future: beFuture, x: -trailLen });
+          }
+        }
+      }
+
+      let raf = 0;
+      let stopped = false;
+      function loop() {
+        if (stopped) return;
+        drawFrame();
+        raf = requestAnimationFrame(loop);
+      }
+
+      let resizeObs = null;
+      if ('ResizeObserver' in window) {
+        resizeObs = new ResizeObserver(function() { sizeCanvas(); });
+        resizeObs.observe(canvas);
+      }
+
+      if (reduceMotion) {
+        ctx.fillStyle = 'rgba(21,16,10,1)';
+        ctx.fillRect(0, 0, W(), H());
+        drawFrame();
+      } else {
+        raf = requestAnimationFrame(loop);
+      }
+
+      return function cleanup() {
+        stopped = true;
+        if (raf) cancelAnimationFrame(raf);
+        if (resizeObs) { try { resizeObs.disconnect(); } catch(e){} }
+      };
+    }
+
     function renderChart(cfg) {
-      if (cfg.type === 'bars-anomaly') return renderBarsAnomaly(cfg);
-      if (cfg.type === 'donut')        return renderDonut(cfg);
-      if (cfg.type === 'forecast')     return renderForecast(cfg);
+      if (cfg.type === 'bars-anomaly')    return renderBarsAnomaly(cfg);
+      if (cfg.type === 'donut')           return renderDonut(cfg);
+      if (cfg.type === 'particle-stream') return renderParticleStream(cfg);
       return '';
     }
 
@@ -3249,6 +3426,9 @@
       let paused = false;
       let nextTimer = null;
       let activeTimers = [];
+      // Per-scene cleanup hook (e.g. stops the particle-stream rAF on scene 3
+      // exit so we never burn CPU while scene 1 or 2 is on screen).
+      let sceneCleanup = null;
       const SCENE_DURATION = 9200;
 
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3257,6 +3437,7 @@
         activeTimers.forEach(clearTimeout);
         activeTimers = [];
         if (nextTimer) { clearTimeout(nextTimer); nextTimer = null; }
+        if (sceneCleanup) { try { sceneCleanup(); } catch(e){} sceneCleanup = null; }
       }
       function track(t) { activeTimers.push(t); return t; }
 
@@ -3447,6 +3628,9 @@
           chartEl.innerHTML = renderChart(scene.chart);
           ['headline','chart','kpis','rootcause','action'].forEach(s => revealStep(sceneEl, s));
           if (scene.chart.type === 'donut') activateDonut(chartEl);
+          if (scene.chart.type === 'particle-stream') {
+            sceneCleanup = activateParticleStream(chartEl, { todayFraction: scene.chart.todayFraction });
+          }
           // Snap KPI tiles to final values
           kpisEl.querySelectorAll('[data-kpi-num]').forEach(el => {
             const to = parseFloat(el.getAttribute('data-to') || '0');
@@ -3473,6 +3657,13 @@
             chartEl.innerHTML = renderChart(scene.chart);
             revealStep(sceneEl, 'chart');
             if (scene.chart.type === 'donut') activateDonut(chartEl);
+            if (scene.chart.type === 'particle-stream') {
+              // getBoundingClientRect (called inside) forces layout, so the
+              // canvas measures correctly even on the same frame as the
+              // innerHTML mount. Assign synchronously so cleanup tracking
+              // can never race with a scene change.
+              sceneCleanup = activateParticleStream(chartEl, { todayFraction: scene.chart.todayFraction });
+            }
           }, 1100));
 
           // 3) KPI tiles slide in and start counting up
