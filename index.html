@@ -331,7 +331,7 @@
     .trust-live::before { animation: none !important; }
   }
 
-  /* ---------- AI agent avatars: official Intuit Intelligence brand mark ---------- */
+  /* ---------- AI agent avatars: Intuit Intelligence wheel (transparent, animated) ---------- */
   .ai-avatar img,
   .vc-a .ava img,
   .vc-thinking-row .ava img,
@@ -343,6 +343,28 @@
     width: 13px; height: 13px; display: inline-block; flex-shrink: 0;
   }
   .chart-empty .small-spark img { width: 100%; height: 100%; display: block; }
+  /* Spin every wheel mark (transparent PNG) — Mailchimp brand wheel */
+  .ai-avatar img,
+  .vc-a .ava img,
+  .vc-thinking-row .ava img,
+  .message.ai .ai-avatar img,
+  .ia-pill img,
+  .vc-demo-toolbar .vc-pill img,
+  .ai-wheel {
+    animation: aiWheelSpin 6s linear infinite;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  @keyframes aiWheelSpin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-avatar img,
+    .vc-a .ava img,
+    .vc-thinking-row .ava img,
+    .message.ai .ai-avatar img,
+    .ia-pill img,
+    .vc-demo-toolbar .vc-pill img,
+    .ai-wheel { animation: none !important; }
+  }
 
   /* ---------- Intuit Assist sparkle (multi-pointed star) ---------- */
   .ia-spark {
@@ -1040,97 +1062,255 @@
   }
   .how-step p { color: var(--mc-text-secondary); font-size: 15px; line-height: 1.6; }
 
-  /* ---------- Privacy & Trust (premium editorial) ---------- */
-  .trust-section {
+  /* ============================================================ */
+  /* ===== "Built for your role" v2 — stack-aware + before/after === */
+  /* ============================================================ */
+  .bfr2-section {
     background: #0d0a08;
     padding: 120px 32px;
     color: white;
     position: relative;
     overflow: hidden;
   }
-  .trust-section::before {
+  .bfr2-section::before {
     content: ''; position: absolute; inset: 0;
     background-image: url('assets/privacy-hero.jpg');
     background-size: cover; background-position: center;
-    opacity: 0.18;
-    filter: saturate(0.6);
+    opacity: 0.10; filter: saturate(0.5);
+    pointer-events: none;
   }
-  .trust-section::after {
+  .bfr2-section::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(13,10,8,0.92) 0%, rgba(13,10,8,0.6) 60%, rgba(13,10,8,0.85) 100%);
+    background:
+      radial-gradient(80% 60% at 50% 0%, rgba(0,124,137,0.22), transparent 60%),
+      linear-gradient(180deg, rgba(13,10,8,0.85) 0%, rgba(13,10,8,0.95) 100%);
+    pointer-events: none;
   }
-  .trust-section .container {
-    position: relative; z-index: 2;
-    display: grid; grid-template-columns: 1fr 1.4fr; gap: 96px; align-items: center;
-    max-width: 1280px;
+  .bfr2-inner { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; }
+
+  /* Section header */
+  .bfr2-intro { max-width: 880px; margin: 0 auto 48px; text-align: center; }
+  .bfr2-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    background: rgba(0,185,166,0.10); color: #5be0c8;
+    border: 1px solid rgba(0,185,166,0.25);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 20px;
   }
-  .trust-section .eyebrow {
-    color: #007C89;
-    margin-bottom: 16px; display: block;
+  .bfr2-eyebrow::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #5be0c8; box-shadow: 0 0 8px #5be0c8;
   }
-  .trust-section h2 {
+  .bfr2-intro h2 {
     font-family: 'Cooper Light', 'Cooper Lt BT', 'Georgia', serif; font-weight: 300;
-    font-size: 56px; letter-spacing: -0.01em; margin-bottom: 20px; line-height: 1.05;
-    color: white;
+    font-size: 60px; letter-spacing: -0.015em; line-height: 1.05;
+    color: white; margin-bottom: 20px;
   }
-  .trust-section p.sub {
-    color: rgba(255,255,255,0.7); font-size: 17px; line-height: 1.6;
-    margin-bottom: 32px;
+  .bfr2-intro h2 .bfr2-accent {
+    background: linear-gradient(120deg, #5be0c8 0%, #FFE01B 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
   }
-  .trust-section .compliance-row {
-    display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
-    padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);
+  .bfr2-sub {
+    font-size: 18px; line-height: 1.6;
+    color: rgba(255,255,255,0.72); max-width: 720px; margin: 0 auto;
   }
-  .compliance-badge {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.55);
-    text-transform: uppercase;
+  .bfr2-stat-row {
+    display: inline-flex; gap: 0; margin-top: 36px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px; padding: 4px;
+  }
+  .bfr2-stat {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: 999px;
+    font-size: 13px; color: rgba(255,255,255,0.78);
+  }
+  .bfr2-stat strong { color: white; font-weight: 700; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .bfr2-stat + .bfr2-stat { border-left: 1px solid rgba(255,255,255,0.08); }
+
+  /* 3-card grid */
+  .bfr2-grid {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    max-width: 1180px; margin: 0 auto;
+  }
+  .bfr2-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .bfr2-card:hover {
+    border-color: rgba(0,185,166,0.28);
+    transform: translateY(-2px);
+  }
+  .bfr2-card-head {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 22px 28px 18px;
+    border-bottom: 1px dashed rgba(255,255,255,0.08);
+  }
+  .bfr2-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+  .bfr2-card-head h3 {
+    font-size: 20px; font-weight: 600; color: white;
+    letter-spacing: -0.01em; line-height: 1.4;
+    flex: 1; min-width: 0;
+  }
+  .bfr2-card-head h3 em {
+    font-style: normal; color: rgba(255,255,255,0.55); font-weight: 400;
   }
 
-  .trust-points {
-    display: grid; gap: 12px;
+  /* Split: before / after */
+  .bfr2-split {
+    display: grid; grid-template-columns: 1fr 1px 1.15fr;
+    align-items: stretch;
   }
-  .trust-point {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 24px 28px;
-    border-radius: 14px;
-    display: flex; gap: 20px; align-items: flex-start;
-    backdrop-filter: blur(20px);
-    transition: all 0.2s;
+  .bfr2-divider-line {
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.10), transparent);
   }
-  .trust-point:hover {
+  .bfr2-side {
+    padding: 22px 28px 24px;
+    display: flex; flex-direction: column; gap: 14px;
+    position: relative;
+  }
+  .bfr2-side-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .bfr2-after .bfr2-side-label {
+    color: #5be0c8;
+  }
+  .bfr2-after::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(120% 80% at 100% 0%, rgba(0,185,166,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .bfr2-after > * { position: relative; }
+
+  /* "Before" steps list */
+  .bfr2-steps {
+    list-style: none; counter-reset: bfrStep; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .bfr2-steps li {
+    counter-increment: bfrStep;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13.5px; line-height: 1.5;
+    color: rgba(255,255,255,0.72);
+  }
+  .bfr2-steps li::before {
+    content: counter(bfrStep);
+    flex-shrink: 0;
+    width: 18px; height: 18px; border-radius: 50%;
     background: rgba(255,255,255,0.06);
-    border-color: rgba(0,124,137,0.25);
-    transform: translateX(4px);
-  }
-  .trust-point .ico {
-    width: 64px; height: 64px; flex-shrink: 0;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.92);
-    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.55);
+    font-size: 10px; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    transition: transform 0.3s ease;
+    margin-top: 1px;
   }
-  .trust-point:hover .ico {
-    transform: rotate(-3deg) scale(1.05);
+
+  /* "After" — source pills + answer chip */
+  .bfr2-sources {
+    display: flex; flex-wrap: wrap; gap: 6px;
   }
-  .trust-point .ico img {
-    width: 100%; height: 100%; object-fit: contain;
-    padding: 6px;
+  .bfr2-sources .src {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px; border-radius: 7px;
+    background: rgba(91,224,200,0.08);
+    border: 1px solid rgba(91,224,200,0.20);
+    color: rgba(255,255,255,0.92);
+    font-size: 12px; font-weight: 600;
+    transition: transform 0.3s, background 0.3s;
   }
-  .trust-point .ico svg {
-    width: 22px; height: 22px;
-    color: #007C89;
+  .bfr2-sources .src::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: #5be0c8;
   }
-  .trust-point h4 {
-    font-size: 17px; margin-bottom: 6px;
-    color: white; font-weight: 600;
-    letter-spacing: -0.01em;
+  .bfr2-card:hover .bfr2-sources .src:nth-child(1) { transform: translateY(-1px); }
+  .bfr2-card:hover .bfr2-sources .src:nth-child(2) { transform: translateY(-1px); transition-delay: 50ms; }
+  .bfr2-card:hover .bfr2-sources .src:nth-child(3) { transform: translateY(-1px); transition-delay: 100ms; }
+  .bfr2-card:hover .bfr2-sources .src:nth-child(4) { transform: translateY(-1px); transition-delay: 150ms; }
+
+  .bfr2-answer {
+    background: linear-gradient(135deg, rgba(91,224,200,0.10) 0%, rgba(255,224,27,0.08) 100%);
+    border: 1px solid rgba(91,224,200,0.22);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px; line-height: 1.55;
+    color: rgba(255,255,255,0.92);
   }
-  .trust-point p {
-    font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6;
+  .bfr2-answer strong { color: #FFE01B; font-weight: 700; }
+
+  /* Time badges */
+  .bfr2-time {
+    align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 11px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    margin-top: auto;
+  }
+  .bfr2-time-before {
+    background: rgba(255,107,71,0.10);
+    color: #ff9a7d;
+    border: 1px solid rgba(255,107,71,0.25);
+  }
+  .bfr2-time-before::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: #ff6b47;
+  }
+  .bfr2-time-after {
+    background: linear-gradient(135deg, rgba(91,224,200,0.18), rgba(255,224,27,0.18));
+    color: white;
+    border: 1px solid rgba(91,224,200,0.35);
+    box-shadow: 0 0 24px -8px rgba(91,224,200,0.5);
+  }
+  .bfr2-time-after::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: #5be0c8; box-shadow: 0 0 6px #5be0c8;
+    animation: bfrPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes bfrPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
+
+  /* Bottom proof */
+  .bfr2-proof {
+    margin: 48px auto 0; max-width: 880px; padding: 28px 32px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid #5be0c8;
+    border-radius: 14px;
+    text-align: center;
+  }
+  .bfr2-proof p {
+    font-size: 17px; line-height: 1.55;
+    color: rgba(255,255,255,0.88);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .bfr2-proof .bfr2-quote-attr {
+    font-size: 12px; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.55);
+    font-style: normal;
+  }
+
+  @media (max-width: 880px) {
+    .bfr2-section { padding: 80px 20px; }
+    .bfr2-intro h2 { font-size: 40px; }
+    .bfr2-stat-row { display: grid; grid-template-columns: 1fr; border-radius: 14px; }
+    .bfr2-stat + .bfr2-stat { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+    .bfr2-split { grid-template-columns: 1fr; }
+    .bfr2-divider-line {
+      height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+    .bfr2-card-head h3 { font-size: 17px; }
   }
 
   /* ---------- Features (Bento + live demos) ---------- */
@@ -1808,7 +1988,7 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width: 960px) {
-    .hero-grid, .testimonial-section .container, .trust-section .container { grid-template-columns: 1fr; gap: 32px; }
+    .hero-grid, .testimonial-section .container { grid-template-columns: 1fr; gap: 32px; }
     h1 { font-size: 36px; }
     .features-section { padding: 88px 20px 100px; }
     .features-section h2 { font-size: 38px; }
@@ -2214,7 +2394,7 @@
     <div class="vc-demo" id="vcDemo">
       <div class="vc-demo-toolbar">
         <span class="vc-pill">
-          <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
+          <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
           Analytics AI
         </span>
         <span class="vc-status">Live</span>
@@ -2249,7 +2429,7 @@
        Shared dazzle: scene catalogue + chart renderers used by
        Variant C (cinematic autoplay)
        ============================================================ */
-    const AVATAR_SVG = '<img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>';
+    const AVATAR_SVG = '<img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>';
 
     const SCENES = [
       {
@@ -2807,7 +2987,7 @@
         <div class="toolbar-dots"><span></span><span></span><span></span></div>
         <div class="playground-title">
           <span class="ia-pill">
-            <img src="assets/intuit-intelligence.png" alt="" aria-hidden="true"/>
+            <img src="assets/intuit-intelligence-wheel.png" alt="" aria-hidden="true"/>
             Analytics AI
           </span>
           <span id="playgroundTitle">Oat Lord · Live demo</span>
@@ -2819,7 +2999,7 @@
           <div class="chat-messages" id="chatMessages">
             <div class="message ai">
               <div class="ai-avatar">
-                <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
+                <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
               </div>
               <div class="bubble">
                 <p>I'm Analytics AI. I have access to <strong id="datasetName">Oat Lord's</strong> last 6 months of marketing data — campaigns, audience segments, revenue, automations.</p>
@@ -3408,48 +3588,129 @@
   </div>
 </section>
 
-<!-- ===== USE CASES BY ROLE ===== -->
-<section class="trust-section">
-  <div class="container">
-    <div>
-      <span class="eyebrow">Built for your role</span>
-      <h2>One agent.<br>Every marketing question.</h2>
-      <p class="sub">Whether you're a solo founder, an agency managing five accounts, or a nonprofit stretching every dollar — Analytics AI replaces hours of manual reporting with answers you can act on.</p>
-      <div class="compliance-row">
-        <span class="compliance-badge">Ecommerce</span>
-        <span class="compliance-badge">Agencies</span>
-        <span class="compliance-badge">Nonprofits</span>
-        <span class="compliance-badge">SaaS</span>
+<!-- ===== BUILT FOR YOUR ROLE — Stack-aware analyst + before/after (B+C) ===== -->
+<section class="bfr2-section">
+  <div class="bfr2-inner">
+    <header class="bfr2-intro">
+      <span class="bfr2-eyebrow">Built for your role</span>
+      <h2>Your whole stack.<br><span class="bfr2-accent">One answer.</span></h2>
+      <p class="bfr2-sub">Single-tool AI only sees what's inside that tool. Analytics AI joins data across Mailchimp, Shopify, Stripe, Salesforce, your ad platforms, and 300+ other sources — then reasons across all of it. The kind of answer your senior analyst would give. In seconds.</p>
+      <div class="bfr2-stat-row">
+        <div class="bfr2-stat"><strong>14s</strong><span>avg first answer</span></div>
+        <div class="bfr2-stat"><strong>4–6 hrs</strong><span>saved every week</span></div>
+        <div class="bfr2-stat"><strong>300+</strong><span>tools joined</span></div>
       </div>
+    </header>
+
+    <div class="bfr2-grid">
+
+      <!-- Card 1: Ecommerce -->
+      <article class="bfr2-card">
+        <header class="bfr2-card-head">
+          <span class="bfr2-pill">Ecommerce founders</span>
+          <h3>"How much did email actually drive last month?"</h3>
+        </header>
+        <div class="bfr2-split">
+          <div class="bfr2-side bfr2-before">
+            <div class="bfr2-side-label">Today · the spreadsheet way</div>
+            <ol class="bfr2-steps">
+              <li>Export Shopify orders by hand</li>
+              <li>Pull Mailchimp campaign report</li>
+              <li>Match orders to sends in Sheets</li>
+              <li>Eyeball trends, write the recap</li>
+            </ol>
+            <span class="bfr2-time bfr2-time-before">~3 hrs / week</span>
+          </div>
+          <div class="bfr2-divider-line" aria-hidden="true"></div>
+          <div class="bfr2-side bfr2-after">
+            <div class="bfr2-side-label">With Analytics AI</div>
+            <div class="bfr2-sources">
+              <span class="src">Shopify</span>
+              <span class="src">Mailchimp</span>
+              <span class="src">Stripe</span>
+              <span class="src">Meta Ads</span>
+            </div>
+            <div class="bfr2-answer">
+              <strong>$84.2K attributed</strong> · top SKU drove 38% of revenue · 2 post-purchase upsell recommendations queued.
+            </div>
+            <span class="bfr2-time bfr2-time-after">14 seconds</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: Agency -->
+      <article class="bfr2-card">
+        <header class="bfr2-card-head">
+          <span class="bfr2-pill">Agency owners</span>
+          <h3>"Which client had the worst week — and why?"</h3>
+        </header>
+        <div class="bfr2-split">
+          <div class="bfr2-side bfr2-before">
+            <div class="bfr2-side-label">Today</div>
+            <ol class="bfr2-steps">
+              <li>Pull each client's report individually</li>
+              <li>Build a cross-client deck for Monday</li>
+              <li>Surface deliverability issues by gut feel</li>
+              <li>Brace for the client question you missed</li>
+            </ol>
+            <span class="bfr2-time bfr2-time-before">~6 hrs / week</span>
+          </div>
+          <div class="bfr2-divider-line" aria-hidden="true"></div>
+          <div class="bfr2-side bfr2-after">
+            <div class="bfr2-side-label">With Analytics AI</div>
+            <div class="bfr2-sources">
+              <span class="src">17 client accts</span>
+              <span class="src">Send infra</span>
+              <span class="src">CRM</span>
+              <span class="src">Billing</span>
+            </div>
+            <div class="bfr2-answer">
+              <strong>Acme Co — open rate ↓34%.</strong> Domain warm-up plan ready. Issue flagged before the Monday call.
+            </div>
+            <span class="bfr2-time bfr2-time-after">18 seconds</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3: Nonprofit -->
+      <article class="bfr2-card">
+        <header class="bfr2-card-head">
+          <span class="bfr2-pill">Nonprofit directors</span>
+          <h3>"Which appeal moved the most donations?"</h3>
+        </header>
+        <div class="bfr2-split">
+          <div class="bfr2-side bfr2-before">
+            <div class="bfr2-side-label">Today</div>
+            <ol class="bfr2-steps">
+              <li>Reconcile CRM + donation processor</li>
+              <li>Pull email engagement from Mailchimp</li>
+              <li>Match by appeal × segment in Sheets</li>
+              <li>Build the board deck the night before</li>
+            </ol>
+            <span class="bfr2-time bfr2-time-before">~4 hrs / month</span>
+          </div>
+          <div class="bfr2-divider-line" aria-hidden="true"></div>
+          <div class="bfr2-side bfr2-after">
+            <div class="bfr2-side-label">With Analytics AI</div>
+            <div class="bfr2-sources">
+              <span class="src">CRM</span>
+              <span class="src">Mailchimp</span>
+              <span class="src">Donation processor</span>
+              <span class="src">Events</span>
+            </div>
+            <div class="bfr2-answer">
+              <strong>Story-led emails to lapsed donors lifted gifts 2.4×.</strong> Rebuild segment + reuse template — one click.
+            </div>
+            <span class="bfr2-time bfr2-time-after">14 seconds</span>
+          </div>
+        </div>
+      </article>
+
     </div>
-    <div class="trust-points">
-      <div class="trust-point">
-        <div class="ico">
-          <img src="assets/mc-brand/spot-vip.jpg" alt="Ecommerce illustration"/>
-        </div>
-        <div>
-          <h4>Ecommerce founders</h4>
-          <p>"How much revenue did email drive this month?" — get attributed revenue, top products, and a post-purchase upsell recommendation in one answer. No stitching Shopify + Mailchimp + a spreadsheet.</p>
-        </div>
-      </div>
-      <div class="trust-point">
-        <div class="ico">
-          <img src="assets/mc-brand/spot-multitasking.jpg" alt="Agency illustration"/>
-        </div>
-        <div>
-          <h4>Agency owners</h4>
-          <p>"Which client had the worst week?" — cross-client performance ranked in one table. Spot deliverability issues before your client does, and show up to the Monday call with answers, not excuses.</p>
-        </div>
-      </div>
-      <div class="trust-point">
-        <div class="ico">
-          <img src="assets/mc-brand/spot-lighthouse.jpg" alt="Nonprofit illustration"/>
-        </div>
-        <div>
-          <h4>Nonprofit directors</h4>
-          <p>"Which campaign drove the most donations?" — see exactly which appeal, segment, and send time moved the needle. Stretch your budget with data, not guesswork.</p>
-        </div>
-      </div>
+
+    <div class="bfr2-proof">
+      <p>"Analytics AI replaced about a half-day of work every Monday. The agent doesn't just answer — it ships the action."</p>
+      <span class="bfr2-quote-attr">— Sarah K. · Director of Marketing · mid-market DTC brand</span>
     </div>
   </div>
 </section>
@@ -4104,7 +4365,7 @@
     chatMessages.innerHTML = `
       <div class="message ai">
         <div class="ai-avatar">
-          <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
+          <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
         </div>
         <div class="bubble">
           <p>I'm Analytics AI. I have access to <strong>${personas[p].dataset}</strong> last 6 months of marketing data — campaigns, audience segments, revenue, automations.</p>
@@ -4136,7 +4397,7 @@
     aiMsg.className = 'message ai';
     aiMsg.innerHTML = `
       <div class="ai-avatar">
-        <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
+        <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
       </div>
       <div class="bubble"><span class="typing-cursor"></span></div>`;
     chatMessages.appendChild(aiMsg);
@@ -4631,7 +4892,7 @@
     chatMessages.innerHTML = `
       <div class="message ai">
         <div class="ai-avatar">
-          <img src="assets/intuit-intelligence.png" alt="Intuit Intelligence"/>
+          <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
         </div>
         <div class="bubble">
           <p>Connected to <strong>${escapeHtml(sourceName)}</strong>. I detected <strong>${cols.length} columns</strong> across <strong>${rows.length} rows</strong>, including ${cols.slice(0, 4).map(c => `<code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;">${escapeHtml(c)}</code>`).join(', ')}${cols.length > 4 ? ', and more' : ''}.</p>
