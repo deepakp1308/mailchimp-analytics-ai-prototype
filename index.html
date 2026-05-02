@@ -2500,9 +2500,9 @@
   /* ===================================================== */
   /* ===== VARIANT C — Cinematic scene controller ========= */
   /* ===================================================== */
-  .vc-scene-stage { position: relative; min-height: 360px; }
+  .vc-scene-stage { position: relative; min-height: 510px; }
   .vc-scene {
-    padding: 24px 28px 28px;
+    padding: 18px 24px 22px;
     transition: opacity 320ms ease, transform 320ms ease;
   }
   .vc-scene.exiting { opacity: 0; transform: translateY(-6px); pointer-events: none; }
@@ -2618,6 +2618,271 @@
   }
   .vc-tryself a { color: #007C89; text-decoration: none; font-weight: 600; }
 
+  /* ===================================================== */
+  /* ===== VARIANT C — Rich answer dossier (Option C) ===== */
+  /* ===================================================== */
+
+  /* Compact question echo at the top of each dossier */
+  .dossier-q-row {
+    display: flex; justify-content: flex-end; margin-bottom: 10px;
+  }
+  .dossier-q {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px 12px;
+    border-radius: 14px 14px 4px 14px;
+    font-size: 12.5px; color: rgba(255,255,255,0.82);
+    max-width: 85%;
+    min-height: 18px;
+    display: inline-block;
+  }
+  .dossier-q .caret {
+    display: inline-block; width: 2px; height: 12px;
+    background: #00b9a6; margin-left: 2px; vertical-align: -2px;
+    animation: mcCaret 0.9s steps(1) infinite;
+  }
+
+  /* 5-step dossier shell */
+  .dossier {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .dossier > .dossier-step {
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 360ms cubic-bezier(.2,.7,.2,1), transform 360ms cubic-bezier(.2,.7,.2,1);
+  }
+  .dossier > .dossier-step.in { opacity: 1; transform: none; }
+
+  /* 1) Headline takeaway */
+  .dossier-headline {
+    font-family: 'Cooper Std', 'Cooper Black', 'Georgia', serif;
+    font-size: 24px; line-height: 1.18; font-weight: 700;
+    color: white;
+    letter-spacing: -0.005em;
+    min-height: 28px;
+  }
+  .dossier-headline .accent {
+    background: linear-gradient(120deg, #FFE01B 0%, #F4A100 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+  .dossier-headline .accent-down {
+    background: linear-gradient(120deg, #FF8A6B 0%, #FF6B47 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+  .dossier-headline .caret {
+    display: inline-block; width: 2px; height: 22px;
+    background: #FFE01B; margin-left: 3px; vertical-align: -3px;
+    animation: mcCaret 0.9s steps(1) infinite;
+  }
+
+  /* 2) Chart card (title pinned at bottom; in-chart labels) */
+  .dossier-chart {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 10px 12px 8px;
+    position: relative; overflow: hidden;
+  }
+  .dossier-chart::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(70% 90% at 100% 0%, rgba(0,124,137,0.10), transparent 60%);
+  }
+  .dossier-chart-svg { width: 100%; height: 150px; display: block; overflow: visible; }
+  .dossier-chart-svg .grid { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+  .dossier-chart-foot {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    margin-top: 6px; padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .dossier-chart-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.10em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  .dossier-chart-meta {
+    font-size: 11px; color: rgba(255,255,255,0.55); font-variant-numeric: tabular-nums;
+  }
+
+  /* Bar chart (scene 1) */
+  .dossier-bar { transform-origin: bottom; transform: scaleY(0); animation: dosBarGrow 720ms cubic-bezier(.2,.8,.25,1) forwards; }
+  @keyframes dosBarGrow { to { transform: scaleY(1); } }
+  .dossier-bar.bar-anomaly { fill: url(#dosBarRed); filter: drop-shadow(0 0 8px rgba(255,107,71,0.45)); }
+  .dossier-bar-base { fill: url(#dosBarTeal); }
+  .dossier-bar-shockwave {
+    opacity: 0; animation: dosShockwaveIn 380ms ease 950ms forwards;
+  }
+  @keyframes dosShockwaveIn { to { opacity: 1; } }
+  .dossier-inchart-label {
+    font-size: 12px; font-weight: 800; fill: #FF6B47;
+    paint-order: stroke; stroke: rgba(20,16,10,0.85); stroke-width: 3px;
+    opacity: 0; animation: dosShockwaveIn 380ms ease 1100ms forwards;
+  }
+  .dossier-inchart-label.gold { fill: #FFE01B; }
+  .dossier-inchart-callout {
+    fill: rgba(255,107,71,0.95);
+    opacity: 0; animation: dosShockwaveIn 380ms ease 1100ms forwards;
+  }
+  .dossier-inchart-callout.gold { fill: rgba(255,224,27,0.95); }
+  .dossier-bar-label {
+    font-size: 10px; font-weight: 700; fill: rgba(255,255,255,0.55);
+    text-anchor: middle;
+  }
+
+  /* Donut sized for dossier (scene 2) */
+  .dossier-donut-wrap { display: flex; align-items: center; gap: 18px; }
+  .dossier-donut-stage { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+  .dossier-donut-svg { width: 132px; height: 132px; transform: rotate(-90deg); }
+  .dossier-donut-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 16; }
+  .dossier-donut-arc {
+    fill: none; stroke-width: 16; stroke-linecap: butt;
+    transition: stroke-dasharray 900ms cubic-bezier(.2,.7,.2,1);
+  }
+  .dossier-donut-center {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; pointer-events: none;
+  }
+  .dossier-donut-pct {
+    font-size: 28px; font-weight: 800; color: white; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .dossier-donut-sub { font-size: 9.5px; color: rgba(255,255,255,0.55); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .dossier-donut-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; flex: 1; min-width: 0; }
+  .dossier-donut-legend li {
+    display: grid; grid-template-columns: 10px 1fr auto;
+    align-items: center; gap: 9px;
+    font-size: 12.5px; color: rgba(255,255,255,0.85);
+    opacity: 0; transform: translateX(8px);
+    animation: mcLegendIn 480ms cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .dossier-donut-legend li:nth-child(1) { animation-delay: 700ms; }
+  .dossier-donut-legend li:nth-child(2) { animation-delay: 880ms; }
+  .dossier-donut-legend li:nth-child(3) { animation-delay: 1060ms; }
+  .dossier-donut-legend li:nth-child(4) { animation-delay: 1240ms; }
+  .dossier-donut-legend .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .dossier-donut-legend em { font-style: normal; font-weight: 700; color: white; font-variant-numeric: tabular-nums; }
+
+  /* Forecast (scene 3) reuses .mc-line/.mc-band/.mc-forecast-line via the shared SVG defs */
+  .dossier-forecast-end-label {
+    font-size: 12px; font-weight: 800; fill: #FFE01B;
+    paint-order: stroke; stroke: rgba(20,16,10,0.85); stroke-width: 3px;
+  }
+
+  /* 3) KPI tile row */
+  .dossier-kpis {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  }
+  .dossier-kpi {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 9px 10px 10px;
+    min-width: 0;
+  }
+  .dossier-kpi-label {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dossier-kpi-value {
+    font-size: 16px; font-weight: 700; color: white;
+    font-variant-numeric: tabular-nums; line-height: 1.1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dossier-kpi-value .delta-down { color: #FF8A6B; font-weight: 700; }
+  .dossier-kpi-value .delta-up { color: #00b9a6; font-weight: 700; }
+  .dossier-kpi-meta {
+    font-size: 11px; color: rgba(255,255,255,0.55);
+    margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* 4) Root-cause / insight card */
+  .dossier-rootcause {
+    background: rgba(255,224,27,0.07);
+    border: 1px solid rgba(255,224,27,0.20);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12.5px; line-height: 1.45;
+    color: rgba(255,255,255,0.86);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .dossier-rootcause-icon {
+    width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px;
+    color: #FFE01B;
+  }
+  .dossier-rootcause strong { color: #FFE01B; font-weight: 700; }
+
+  /* 5) Action row */
+  .dossier-action-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding-top: 2px;
+  }
+  .dossier-confidence {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,185,166,0.10);
+    border: 1px solid rgba(0,185,166,0.28);
+    color: #5CE0CB;
+    padding: 5px 10px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .dossier-confidence::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #00b9a6;
+    box-shadow: 0 0 8px #00b9a6;
+  }
+  .dossier-action-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, #FFE01B, #FFC700);
+    color: #241c15;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-weight: 700; font-size: 12.5px;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 8px 24px -8px rgba(255,224,27,0.45);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    animation: dosPulse 2.4s ease-in-out infinite;
+  }
+  .dossier-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px -8px rgba(255,224,27,0.55);
+    animation-play-state: paused;
+  }
+  .dossier-action-btn svg { width: 12px; height: 12px; }
+  @keyframes dosPulse {
+    0%, 100% { box-shadow: 0 8px 24px -8px rgba(255,224,27,0.45), 0 0 0 0 rgba(255,224,27,0.45); }
+    50%      { box-shadow: 0 10px 28px -8px rgba(255,224,27,0.55), 0 0 0 8px rgba(255,224,27,0.00); }
+  }
+
+  /* Mobile: stack KPI tiles below 720px */
+  @media (max-width: 720px) {
+    .dossier-kpis { grid-template-columns: 1fr; gap: 6px; }
+    .dossier-headline { font-size: 20px; }
+    .dossier-action-row { flex-wrap: wrap; }
+    .dossier-action-btn { width: 100%; justify-content: center; }
+    .dossier-donut-wrap { flex-direction: column; align-items: stretch; gap: 12px; }
+    .dossier-donut-stage { margin: 0 auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dossier > .dossier-step { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .dossier-bar { animation: none !important; transform: none !important; }
+    .dossier-bar-shockwave,
+    .dossier-inchart-label,
+    .dossier-inchart-callout,
+    .dossier-action-btn { animation: none !important; opacity: 1 !important; }
+    .dossier-donut-legend li { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .dossier-headline .caret,
+    .dossier-q .caret { animation: none !important; opacity: 0; }
+  }
+
   @media (max-width: 960px) {
     .vc-grid { grid-template-columns: 1fr; gap: 32px; }
   }
@@ -2682,99 +2947,160 @@
        ============================================================ */
     const AVATAR_SVG = '<img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>';
 
+    /* ============================================================
+       Dossier scene catalogue (Option C — Rich answer dossier)
+       Each scene renders a 5-step animated reveal:
+         1) HEADLINE TAKEAWAY (typewriter, accent gradient on key number)
+         2) CHART (title pinned at bottom, labels pinned to data point)
+         3) KPI TILE ROW (3 compact tiles with count-up numbers)
+         4) ROOT-CAUSE / INSIGHT CARD
+         5) ACTION ROW (confidence pill + pulsing action button)
+       ============================================================ */
     const SCENES = [
       {
         q: "Why did revenue drop last week?",
-        a: "Revenue dropped <strong>18% week-over-week</strong>, falling from $22.5K to $18.4K. The decline tracks closely with your <strong>abandoned-cart automation</strong> pausing on Tuesday. That single flow drives ~$4,200/wk.",
-        chart: { type: 'line-anomaly', data: [22.1, 21.4, 22.8, 22.5, 18.4], labels: ['W-4','W-3','W-2','W-1','This wk'], anomalyAt: 4, dropPct: -18, title: 'Weekly revenue · last 5 weeks', meta: '$K' },
-        insight: '<strong>Root cause.</strong> Tuesday 9:14am, automation paused after a template edit. Restart recovers ~$4.2K/wk.',
-        action: 'Restart abandoned-cart automation →'
+        headline: { plain: 'Revenue ', accent: 'down 18%', accentClass: 'accent-down', tail: ' W/W. Cause: Tuesday automation pause.' },
+        chart: {
+          type: 'bars-anomaly',
+          data: [22.1, 21.4, 22.8, 22.5, 18.4],
+          labels: ['W-4','W-3','W-2','W-1','This wk'],
+          anomalyAt: 4,
+          baselineFloor: 14,
+          inChartLabel: '-18%',
+          title: 'Weekly revenue · last 5 weeks',
+          meta: '$K · ' + 'Apr 1 to May 1'
+        },
+        kpis: [
+          { label: 'This week',    value: '$18.4K', meta: '−18% vs prior',   countTo: 18.4, prefix: '$', suffix: 'K', deltaTone: 'down' },
+          { label: '4-week avg',   value: '$22.2K', meta: 'Baseline',        countTo: 22.2, prefix: '$', suffix: 'K' },
+          { label: 'Recoverable',  value: '$4.2K', meta: 'If restarted',    countTo: 4.2,  prefix: '$', suffix: 'K/wk' }
+        ],
+        rootCause: '<strong>Root cause.</strong> Tuesday 9:14am, abandoned-cart automation paused after a template edit.',
+        confidence: 96,
+        action: 'Restart abandoned-cart automation'
       },
       {
         q: "What are my top 3 products?",
-        a: "Top 3: <strong>Oat Bowl Bundle ($8.2K)</strong>, Strawberry Smoothie ($5.4K), Recovery Granola ($4.1K). Together, <strong>43%</strong> of revenue from just 3 SKUs.",
+        headline: { plain: '', accent: '3 SKUs', accentClass: 'accent', tail: ' = 43% of revenue. Concentration risk.' },
         chart: {
           type: 'donut',
           segments: [
-            { label: 'Oat Bowl Bundle',    value: 8.2, color: '#FFE01B' },
+            { label: 'Oat Bowl Bundle',     value: 8.2, color: '#FFE01B' },
             { label: 'Strawberry Smoothie', value: 5.4, color: '#00b9a6' },
-            { label: 'Recovery Granola',   value: 4.1, color: '#F4A100' },
-            { label: 'Other 24 SKUs',      value: 23.8, color: 'rgba(255,255,255,0.10)' }
+            { label: 'Recovery Granola',    value: 4.1, color: '#F4A100' },
+            { label: 'Other 24 SKUs',       value: 23.8, color: 'rgba(255,255,255,0.10)' }
           ],
-          centerPct: 43, centerSub: 'from top 3', total: 41.5,
-          title: 'Top SKUs · this month', meta: '$41.5K total'
+          centerPct: 43,
+          centerSub: 'top 3 share',
+          title: 'Top SKUs · this month',
+          meta: '$41.5K total'
         },
-        insight: '<strong>Concentration risk.</strong> 43% of revenue from 3 SKUs. Test bundles or upsells to lift AOV.',
-        action: 'Build a Top-3 lookalike segment →'
+        kpis: [
+          { label: 'Top SKU',       value: '$8.2K',  meta: 'Oat Bowl Bundle',     countTo: 8.2,  prefix: '$', suffix: 'K' },
+          { label: 'Top 3 share',   value: '43%',    meta: 'of revenue',          countTo: 43,   suffix: '%' },
+          { label: 'Other 24 SKUs', value: '$23.8K', meta: '57% of revenue',      countTo: 23.8, prefix: '$', suffix: 'K' }
+        ],
+        rootCause: '<strong>High concentration.</strong> If any of these 3 SKUs falters, ~$17.7K/mo of revenue is at risk.',
+        confidence: 91,
+        action: 'Build Top-3 lookalike segment'
       },
       {
         q: "Forecast next month's revenue",
-        a: "May forecast: <strong>$94K (±$6K)</strong>. <strong>+8%</strong> over April, driven by Mother's Day campaign and 2 product launches mid-month.",
+        headline: { plain: 'May forecast: ', accent: '$94K', accentClass: 'accent', tail: ' (+8% over April). Confidence 94%.' },
         chart: {
           type: 'forecast',
-          actuals: [62, 71, 78, 85],
-          forecast: [88, 91, 94],
+          actuals: [62, 71, 78, 87],
+          forecast: [89, 91, 94],
           labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
           confidence: 6,
           title: 'Revenue · actuals + forecast',
-          meta: '±$6K confidence'
+          meta: '$K monthly · band ±$6K'
         },
-        insight: '<strong>Confidence: 94%.</strong> Last 6 forecasts averaged 94% accuracy. Spend window opens May 5.',
-        action: "Schedule Mother's Day campaign →"
+        kpis: [
+          { label: 'April actual', value: '$87.0K', meta: 'Closed',            countTo: 87.0, prefix: '$', suffix: 'K' },
+          { label: 'May forecast', value: '$94K',  meta: '±$6K band',          countTo: 94,   prefix: '$', suffix: 'K', deltaTone: 'up' },
+          { label: 'YoY lift',     value: '+12%',  meta: 'vs May last year',   countTo: 12,   prefix: '+', suffix: '%', deltaTone: 'up' }
+        ],
+        rootCause: "<strong>Driver.</strong> Mother's Day campaign plus 2 product launches mid-month. Past 6 forecasts averaged 94% accuracy.",
+        confidence: 94,
+        action: "Schedule Mother's Day campaign"
       }
     ];
 
-    /* ---------- chart renderers ---------- */
+    /* ---------- chart renderers (dossier-shaped) ---------- */
     function escapeAttr(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
 
-    function renderLineAnomaly(c) {
-      const w = 480, h = 140, px = 24, py = 18;
-      const innerW = w - px * 2, innerH = h - py * 2;
-      const max = Math.max(...c.data) * 1.05;
-      const min = Math.min(...c.data) * 0.7;
-      const pts = c.data.map((v, i) => {
-        const x = px + (i / (c.data.length - 1)) * innerW;
-        const y = py + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
-        return [x, y];
-      });
-      const linePath = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
-      const areaPath = linePath + ' L' + pts[pts.length - 1][0].toFixed(1) + ',' + (h - py) + ' L' + pts[0][0].toFixed(1) + ',' + (h - py) + ' Z';
-      const a = pts[c.anomalyAt];
-      const ptDots = pts.map((p, i) => `<circle class="mc-pt p${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3"/>`).join('');
+    /* Scene 1 — Bars with dramatic anomaly plunge (in-chart label).
+       Uses a non-zero baselineFloor so the visual drop reads as a true plunge
+       (~50% of axis), not the previous "barely dips" line. */
+    function renderBarsAnomaly(c) {
+      const w = 460, h = 150, px = 14, pyTop = 24, pyBot = 14;
+      const innerW = w - px * 2;
+      const innerH = h - pyTop - pyBot;
+      const N = c.data.length;
+      const max = Math.max(...c.data) * 1.06;
+      const min = (typeof c.baselineFloor === 'number') ? c.baselineFloor : 0;
+      const slot = innerW / N;
+      const barW = slot * 0.66;
+      const yAt = (v) => pyTop + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
+
+      const bars = c.data.map((v, i) => {
+        const x = px + slot * i + (slot - barW) / 2;
+        const y = yAt(v);
+        const bh = Math.max(2, (pyTop + innerH) - y);
+        const isAnom = (i === c.anomalyAt);
+        const cls = 'dossier-bar ' + (isAnom ? 'bar-anomaly' : 'dossier-bar-base');
+        const delay = 320 + i * 110;
+        return `<rect class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="3" style="animation-delay:${delay}ms; transform-origin: ${x.toFixed(1)}px ${(pyTop + innerH).toFixed(1)}px;"/>`;
+      }).join('');
+
+      const labels = c.labels.map((lbl, i) => {
+        const x = px + slot * i + slot / 2;
+        const y = h - 2;
+        return `<text class="dossier-bar-label" x="${x.toFixed(1)}" y="${y.toFixed(1)}">${escapeAttr(lbl)}</text>`;
+      }).join('');
+
+      const a = c.anomalyAt;
+      const ax = px + slot * a + slot / 2;
+      const ay = yAt(c.data[a]);
+      const labelText = c.inChartLabel || '';
+      const labelX = ax;
+      const labelY = ay - 12;
 
       return `
-        <div class="mc-chart-head">
-          <span class="mc-chart-title">${escapeAttr(c.title)}</span>
-          <span class="mc-chart-meta">${escapeAttr(c.meta)}</span>
-        </div>
-        <svg class="mc-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+        <svg class="dossier-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
           <defs>
-            <linearGradient id="mcLineGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#007C89" stop-opacity="0.45"/>
-              <stop offset="100%" stop-color="#007C89" stop-opacity="0"/>
+            <linearGradient id="dosBarTeal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00b9a6" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#007C89" stop-opacity="0.85"/>
+            </linearGradient>
+            <linearGradient id="dosBarRed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF8A6B" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#FF6B47" stop-opacity="0.92"/>
             </linearGradient>
           </defs>
-          <line class="grid" x1="${px}" y1="${py + innerH/2}" x2="${px + innerW}" y2="${py + innerH/2}"/>
-          <path class="mc-area" d="${areaPath}"/>
-          <path class="mc-line" d="${linePath}"/>
-          ${ptDots}
-          <g class="mc-anomaly-group" transform="translate(${a[0].toFixed(1)} ${a[1].toFixed(1)})">
-            <circle r="14" fill="none" stroke="#FF6B47" stroke-width="1.5">
-              <animate attributeName="r" from="6" to="20" dur="1.6s" repeatCount="indefinite"/>
+          <line class="grid" x1="${px}" y1="${(pyTop + innerH * 0.5).toFixed(1)}" x2="${(px + innerW).toFixed(1)}" y2="${(pyTop + innerH * 0.5).toFixed(1)}"/>
+          ${bars}
+          <g class="dossier-bar-shockwave" transform="translate(${ax.toFixed(1)} ${ay.toFixed(1)})">
+            <circle r="10" fill="none" stroke="#FF6B47" stroke-width="1.5">
+              <animate attributeName="r" from="6" to="22" dur="1.6s" repeatCount="indefinite"/>
               <animate attributeName="opacity" from="0.55" to="0" dur="1.6s" repeatCount="indefinite"/>
             </circle>
-            <circle r="5" fill="#FF6B47"/>
-            <text class="mc-anomaly-label" x="0" y="-14" text-anchor="middle">${c.dropPct}%</text>
           </g>
+          <polygon class="dossier-inchart-callout" points="${(labelX - 4).toFixed(1)},${(labelY + 4).toFixed(1)} ${(labelX + 4).toFixed(1)},${(labelY + 4).toFixed(1)} ${labelX.toFixed(1)},${(labelY + 9).toFixed(1)}"/>
+          <text class="dossier-inchart-label" x="${labelX.toFixed(1)}" y="${labelY.toFixed(1)}" text-anchor="middle">${escapeAttr(labelText)}</text>
+          ${labels}
         </svg>
-        <div class="mc-anomaly-tip">
-          <span><strong>Tuesday 9:14am</strong>: abandoned-cart automation paused</span>
+        <div class="dossier-chart-foot">
+          <span class="dossier-chart-title">${escapeAttr(c.title)}</span>
+          <span class="dossier-chart-meta">${escapeAttr(c.meta)}</span>
         </div>
       `;
     }
 
+    /* Scene 2 — Donut sized for the dossier panel. */
     function renderDonut(c) {
-      const cx = 75, cy = 75, r = 56, sw = 18;
+      const cx = 66, cy = 66, r = 50;
       const C = 2 * Math.PI * r;
       const total = c.segments.reduce((s, x) => s + x.value, 0);
       let cum = 0;
@@ -2782,9 +3108,9 @@
         const offset = -C * cum / total;
         const dash = (seg.value / total) * C;
         cum += seg.value;
-        return `<circle class="mc-donut-arc" cx="${cx}" cy="${cy}" r="${r}" stroke="${seg.color}" stroke-dasharray="0 ${C}" stroke-dashoffset="${offset.toFixed(2)}" data-target-dash="${dash.toFixed(2)} ${(C - dash).toFixed(2)}" style="transition-delay:${600 + i * 180}ms;"/>`;
+        return `<circle class="dossier-donut-arc" cx="${cx}" cy="${cy}" r="${r}" stroke="${seg.color}" stroke-dasharray="0 ${C}" stroke-dashoffset="${offset.toFixed(2)}" data-target-dash="${dash.toFixed(2)} ${(C - dash).toFixed(2)}" style="transition-delay:${500 + i * 180}ms;"/>`;
       }).join('');
-      const legend = c.segments.map((seg, i) => `
+      const legend = c.segments.map((seg) => `
         <li>
           <span class="swatch" style="background:${seg.color};"></span>
           <span>${escapeAttr(seg.label)}</span>
@@ -2793,35 +3119,38 @@
       `).join('');
 
       return `
-        <div class="mc-chart-head">
-          <span class="mc-chart-title">${escapeAttr(c.title)}</span>
-          <span class="mc-chart-meta">${escapeAttr(c.meta)}</span>
-        </div>
-        <div class="mc-donut-wrap">
-          <div class="mc-donut-stage">
-            <svg class="mc-donut-svg" viewBox="0 0 150 150">
-              <circle class="mc-donut-bg" cx="${cx}" cy="${cy}" r="${r}"/>
+        <div class="dossier-donut-wrap">
+          <div class="dossier-donut-stage">
+            <svg class="dossier-donut-svg" viewBox="0 0 132 132">
+              <circle class="dossier-donut-bg" cx="${cx}" cy="${cy}" r="${r}"/>
               ${arcs}
             </svg>
-            <div class="mc-donut-center">
-              <div class="mc-donut-pct"><span data-cnt data-to="${c.centerPct}">0</span>%</div>
-              <div class="mc-donut-sub">${escapeAttr(c.centerSub)}</div>
+            <div class="dossier-donut-center">
+              <div class="dossier-donut-pct"><span data-cnt data-to="${c.centerPct}">0</span>%</div>
+              <div class="dossier-donut-sub">${escapeAttr(c.centerSub)}</div>
             </div>
           </div>
-          <ul class="mc-donut-legend">${legend}</ul>
+          <ul class="dossier-donut-legend">${legend}</ul>
+        </div>
+        <div class="dossier-chart-foot">
+          <span class="dossier-chart-title">${escapeAttr(c.title)}</span>
+          <span class="dossier-chart-meta">${escapeAttr(c.meta)}</span>
         </div>
       `;
     }
 
+    /* Scene 3 — Forecast line. Title at bottom; the $94K endpoint label sits
+       INLINE next to the data point (offset to avoid colliding with the band). */
     function renderForecast(c) {
-      const w = 480, h = 140, px = 24, py = 18;
-      const innerW = w - px * 2, innerH = h - py * 2;
+      const w = 460, h = 150, px = 18, pyTop = 16, pyBot = 18;
+      const innerW = w - px * 2;
+      const innerH = h - pyTop - pyBot;
       const all = c.actuals.concat(c.forecast);
-      const max = Math.max(...all) * 1.06;
+      const max = Math.max(...all) * 1.10;
       const min = Math.min(...all) * 0.80;
       const N = all.length;
       const xAt = (i) => px + (i / (N - 1)) * innerW;
-      const yAt = (v) => py + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
+      const yAt = (v) => pyTop + innerH - ((v - min) / Math.max(max - min, 0.0001)) * innerH;
       const aPts = c.actuals.map((v, i) => [xAt(i), yAt(v)]);
       const aLast = aPts[aPts.length - 1];
       const fPts = c.forecast.map((v, i) => [xAt(c.actuals.length + i), yAt(v)]);
@@ -2837,37 +3166,40 @@
       const last = fPts[fPts.length - 1];
       const ptDots = aPts.map((p, i) => `<circle class="mc-pt p${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3"/>`).join('');
 
+      const labelOffsetX = -8;
+      const labelOffsetY = -14;
+
       return `
-        <div class="mc-chart-head">
-          <span class="mc-chart-title">${escapeAttr(c.title)}</span>
-          <span class="mc-chart-meta">${escapeAttr(c.meta)}</span>
-        </div>
-        <svg class="mc-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+        <svg class="dossier-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
           <defs>
             <linearGradient id="mcLineGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#007C89" stop-opacity="0.45"/>
               <stop offset="100%" stop-color="#007C89" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <line class="grid" x1="${px}" y1="${py + innerH/2}" x2="${px + innerW}" y2="${py + innerH/2}"/>
+          <line class="grid" x1="${px}" y1="${(pyTop + innerH * 0.5).toFixed(1)}" x2="${(px + innerW).toFixed(1)}" y2="${(pyTop + innerH * 0.5).toFixed(1)}"/>
           <path class="mc-band" d="${bandPath}"/>
           <path class="mc-line" d="${actualPath}"/>
           ${ptDots}
           <path class="mc-forecast-line" d="${forecastPath}"/>
           <g class="mc-forecast-end" transform="translate(${last[0].toFixed(1)} ${last[1].toFixed(1)})">
-            <circle r="5" fill="none" stroke="#F4A100" stroke-width="1.5">
+            <circle r="5" fill="none" stroke="#FFE01B" stroke-width="1.5">
               <animate attributeName="r" from="5" to="18" dur="1.8s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" from="0.55" to="0" dur="1.8s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" from="0.6" to="0" dur="1.8s" repeatCount="indefinite"/>
             </circle>
-            <circle r="4" fill="#F4A100"/>
-            <text class="mc-forecast-end-label" x="0" y="-12" text-anchor="middle">$94K</text>
+            <circle r="4.5" fill="#FFE01B"/>
+            <text class="dossier-forecast-end-label" x="${labelOffsetX}" y="${labelOffsetY}" text-anchor="end">$94K</text>
           </g>
         </svg>
+        <div class="dossier-chart-foot">
+          <span class="dossier-chart-title">${escapeAttr(c.title)}</span>
+          <span class="dossier-chart-meta">${escapeAttr(c.meta)}</span>
+        </div>
       `;
     }
 
     function renderChart(cfg) {
-      if (cfg.type === 'line-anomaly') return renderLineAnomaly(cfg);
+      if (cfg.type === 'bars-anomaly') return renderBarsAnomaly(cfg);
       if (cfg.type === 'donut')        return renderDonut(cfg);
       if (cfg.type === 'forecast')     return renderForecast(cfg);
       return '';
@@ -2875,27 +3207,30 @@
 
     /* Trigger donut arcs to fill in once mounted (we use real stroke-dasharray instead of opacity) */
     function activateDonut(scope) {
-      const arcs = scope.querySelectorAll('.mc-donut-arc');
+      const arcs = scope.querySelectorAll('.dossier-donut-arc, .mc-donut-arc');
       requestAnimationFrame(() => {
         arcs.forEach(a => {
           a.setAttribute('stroke-dasharray', a.getAttribute('data-target-dash'));
         });
       });
-      const counters = scope.querySelectorAll('[data-cnt]');
-      counters.forEach((el, i) => setTimeout(() => animateCounter(el), 1100 + i * 150));
+      const counters = scope.querySelectorAll('.dossier-donut-pct [data-cnt], .mc-donut-pct [data-cnt]');
+      counters.forEach((el, i) => setTimeout(() => animateCounter(el), 700 + i * 150));
     }
 
-    function animateCounter(el) {
-      const to   = parseFloat(el.getAttribute('data-to')   || '0');
-      const from = parseFloat(el.getAttribute('data-from') || '0');
-      const dur  = parseFloat(el.getAttribute('data-dur')  || '1200');
-      const isFloat = String(to).indexOf('.') >= 0;
+    function animateCounter(el, opts) {
+      opts = opts || {};
+      const to   = parseFloat(el.getAttribute('data-to')   || opts.to   || '0');
+      const from = parseFloat(el.getAttribute('data-from') || opts.from || '0');
+      const dur  = parseFloat(el.getAttribute('data-dur')  || opts.dur  || '1100');
+      const decimals = (typeof opts.decimals === 'number')
+        ? opts.decimals
+        : (String(to).indexOf('.') >= 0 ? 1 : 0);
       const start = performance.now();
       function tick(now) {
         const t = Math.min(1, (now - start) / dur);
         const eased = 1 - Math.pow(1 - t, 3);
         const v = from + (to - from) * eased;
-        el.textContent = isFloat ? v.toFixed(1) : Math.round(v).toString();
+        el.textContent = v.toFixed(decimals);
         if (t < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -2949,7 +3284,7 @@
       let paused = false;
       let nextTimer = null;
       let activeTimers = [];
-      const SCENE_DURATION = 8500;
+      const SCENE_DURATION = 9200;
 
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -2960,16 +3295,21 @@
       }
       function track(t) { activeTimers.push(t); return t; }
 
-      function typewrite(el, text, speed) {
+      function typewrite(el, html, speed) {
         return new Promise(resolve => {
+          // Type into the element while preserving any preceding HTML structure
+          // already inside it. The text portion is appended at the end.
           let i = 0;
-          el.innerHTML = '<span class="text"></span><span class="caret"></span>';
-          const target = el.querySelector('.text');
+          const wrap = document.createElement('span');
+          wrap.className = 'text';
+          const caret = document.createElement('span');
+          caret.className = 'caret';
+          el.appendChild(wrap);
+          el.appendChild(caret);
           function tick() {
-            target.textContent = text.slice(0, ++i);
-            if (i >= text.length) {
-              const caret = el.querySelector('.caret');
-              if (caret) track(setTimeout(() => caret.remove(), 350));
+            wrap.textContent = html.slice(0, ++i);
+            if (i >= html.length) {
+              track(setTimeout(() => { try { caret.remove(); } catch(e){} }, 280));
               resolve();
               return;
             }
@@ -2979,96 +3319,224 @@
         });
       }
 
+      // Type a structured headline that has plain prefix, an accent span, and a tail.
+      // We render the static (non-typed) characters as the typewriter advances.
+      function typewriteHeadline(el, headline) {
+        return new Promise(resolve => {
+          const full = (headline.plain || '') + (headline.accent || '') + (headline.tail || '');
+          const accentStart = (headline.plain || '').length;
+          const accentEnd   = accentStart + (headline.accent || '').length;
+          const cls = headline.accentClass || 'accent';
+          const speed = Math.max(16, Math.min(28, 900 / full.length));
+          let i = 0;
+          el.innerHTML = '';
+          const txt = document.createElement('span');
+          txt.className = 'text';
+          const caret = document.createElement('span');
+          caret.className = 'caret';
+          el.appendChild(txt);
+          el.appendChild(caret);
+
+          function render(n) {
+            const before = full.slice(0, Math.min(n, accentStart));
+            const middle = full.slice(Math.min(n, accentStart), Math.min(n, accentEnd));
+            const after  = full.slice(Math.min(n, accentEnd), n);
+            txt.innerHTML =
+              escapeAttr(before) +
+              (middle ? `<span class="${cls}">${escapeAttr(middle)}</span>` : '') +
+              escapeAttr(after);
+          }
+
+          function tick() {
+            render(++i);
+            if (i >= full.length) {
+              track(setTimeout(() => { try { caret.remove(); } catch(e){} }, 280));
+              resolve();
+              return;
+            }
+            track(setTimeout(tick, speed));
+          }
+          tick();
+        });
+      }
+
+      function formatKpiNumber(v, k) {
+        const decimals = (typeof k.countTo === 'number' && String(k.countTo).indexOf('.') >= 0) ? 1 : 0;
+        const prefix = k.prefix || '';
+        const suffix = k.suffix || '';
+        return prefix + v.toFixed(decimals) + suffix;
+      }
+
+      function buildKpiTile(k) {
+        const tile = document.createElement('div');
+        tile.className = 'dossier-kpi';
+        const tone = k.deltaTone === 'down' ? 'delta-down'
+                    : k.deltaTone === 'up'   ? 'delta-up'
+                    : '';
+        const valueClass = tone ? ` class="${tone}"` : '';
+        // Initial value: 0 in the same shape as the final string
+        const startVal = (typeof k.countTo === 'number')
+          ? formatKpiNumber(0, k)
+          : k.value;
+        tile.innerHTML = `
+          <div class="dossier-kpi-label">${escapeAttr(k.label)}</div>
+          <div class="dossier-kpi-value"><span${valueClass} data-kpi-num data-to="${k.countTo}" data-prefix="${escapeAttr(k.prefix || '')}" data-suffix="${escapeAttr(k.suffix || '')}">${escapeAttr(startVal)}</span></div>
+          <div class="dossier-kpi-meta">${escapeAttr(k.meta)}</div>
+        `;
+        return tile;
+      }
+
+      function animateKpiTile(tile, k) {
+        const el = tile.querySelector('[data-kpi-num]');
+        if (!el) return;
+        const to = parseFloat(el.getAttribute('data-to') || '0');
+        const prefix = el.getAttribute('data-prefix') || '';
+        const suffix = el.getAttribute('data-suffix') || '';
+        const decimals = (String(to).indexOf('.') >= 0) ? 1 : 0;
+        const dur = 1100;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const v = to * eased;
+          el.textContent = prefix + v.toFixed(decimals) + suffix;
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function buildDossierShell(scene) {
+        // Returns the full DOM for one dossier scene with all 5 steps mounted
+        // but hidden (waiting for .in classes to be added in sequence).
+        const wrap = document.createElement('div');
+        wrap.className = 'vc-scene entering dossier-wrap';
+        wrap.innerHTML = `
+          <div class="dossier-q-row"><div class="dossier-q" data-dq></div></div>
+          <div class="dossier">
+            <div class="dossier-step dossier-headline" data-step="headline" aria-live="polite"></div>
+            <div class="dossier-step dossier-chart" data-step="chart"></div>
+            <div class="dossier-step dossier-kpis" data-step="kpis"></div>
+            <div class="dossier-step dossier-rootcause" data-step="rootcause">
+              <svg class="dossier-rootcause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>
+              </svg>
+              <span data-rc-text></span>
+            </div>
+            <div class="dossier-step dossier-action-row" data-step="action">
+              <span class="dossier-confidence" data-conf>Confidence: ${scene.confidence}%</span>
+              <button class="dossier-action-btn" data-action-btn>
+                <span data-action-label>${escapeAttr(scene.action)}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+        return wrap;
+      }
+
+      function revealStep(sceneEl, name) {
+        const step = sceneEl.querySelector(`[data-step="${name}"]`);
+        if (step) step.classList.add('in');
+      }
+
       function playScene(i) {
         clearTimers();
         idx = ((i % SCENES.length) + SCENES.length) % SCENES.length;
         const scene = SCENES[idx];
-        // update dots
-        dots.querySelectorAll('button').forEach((b, k) => b.classList.toggle('active', k === idx));
-        // mount scene
-        stage.innerHTML = `
-          <div class="vc-scene entering">
-            <div class="vc-q-row"><div class="vc-q-typing"></div></div>
-            <div class="vc-thinking-row">
-              <div class="ava">${AVATAR_SVG}</div>
-              <div class="body" data-ai-body>
-                <div class="mc-thinking"><span></span><span></span><span></span></div>
-              </div>
-            </div>
-          </div>
-        `;
-        const sceneEl = stage.querySelector('.vc-scene');
-        const qEl = stage.querySelector('.vc-q-typing');
-        const aiBody = stage.querySelector('[data-ai-body]');
 
-        // Fade-in
+        // Update dots
+        dots.querySelectorAll('button').forEach((b, k) => b.classList.toggle('active', k === idx));
+
+        // Mount the dossier shell
+        stage.innerHTML = '';
+        const sceneEl = buildDossierShell(scene);
+        stage.appendChild(sceneEl);
+        const qEl = sceneEl.querySelector('[data-dq]');
+        const headlineEl = sceneEl.querySelector('[data-step="headline"]');
+        const chartEl = sceneEl.querySelector('[data-step="chart"]');
+        const kpisEl  = sceneEl.querySelector('[data-step="kpis"]');
+        const rcEl    = sceneEl.querySelector('[data-rc-text]');
+        const actionBtn = sceneEl.querySelector('[data-action-btn]');
+
+        // Fade-in shell
         requestAnimationFrame(() => sceneEl.classList.remove('entering'));
 
+        // Wire action button → smooth scroll to playground
+        actionBtn.addEventListener('click', () => {
+          const tgt = document.querySelector('#playground');
+          if (tgt) tgt.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Fill text-only steps up front (no animation timing concern there)
+        rcEl.innerHTML = scene.rootCause;
+        scene.kpis.forEach(k => kpisEl.appendChild(buildKpiTile(k)));
+
         if (reduce) {
-          // No motion path: render the entire scene at once
-          qEl.innerHTML = `<span class="text">${scene.q}</span>`;
-          aiBody.innerHTML = `<p class="mc-answer">${scene.a}</p>`;
-          const card = document.createElement('div');
-          card.className = 'mc-chart-card';
-          card.style.animation = 'none';
-          card.style.opacity = '1';
-          card.style.transform = 'none';
-          card.innerHTML = renderChart(scene.chart);
-          sceneEl.appendChild(card);
-          if (scene.chart.type === 'donut') activateDonut(card);
-          const ins = document.createElement('div');
-          ins.className = 'mc-insight';
-          ins.style.animation = 'none';
-          ins.style.opacity = '1';
-          ins.innerHTML = scene.insight;
-          sceneEl.appendChild(ins);
-          const btn = document.createElement('button');
-          btn.className = 'mc-action-btn';
-          btn.style.animation = 'none';
-          btn.style.opacity = '1';
-          btn.innerHTML = scene.action;
-          sceneEl.appendChild(btn);
+          // No motion path: render question + reveal everything at once.
+          qEl.innerHTML = '<span class="text">' + escapeAttr(scene.q) + '</span>';
+          const h = scene.headline;
+          headlineEl.innerHTML =
+            escapeAttr(h.plain || '') +
+            `<span class="${h.accentClass || 'accent'}">${escapeAttr(h.accent || '')}</span>` +
+            escapeAttr(h.tail || '');
+          chartEl.innerHTML = renderChart(scene.chart);
+          ['headline','chart','kpis','rootcause','action'].forEach(s => revealStep(sceneEl, s));
+          if (scene.chart.type === 'donut') activateDonut(chartEl);
+          // Snap KPI tiles to final values
+          kpisEl.querySelectorAll('[data-kpi-num]').forEach(el => {
+            const to = parseFloat(el.getAttribute('data-to') || '0');
+            const prefix = el.getAttribute('data-prefix') || '';
+            const suffix = el.getAttribute('data-suffix') || '';
+            const decimals = (String(to).indexOf('.') >= 0) ? 1 : 0;
+            el.textContent = prefix + to.toFixed(decimals) + suffix;
+          });
           return;
         }
 
-        // 1) Typewriter the question
-        const speed = Math.max(18, Math.min(34, 1200 / scene.q.length));
-        typewrite(qEl, scene.q, speed).then(() => {
-          // 2) Brief thinking pause then stream answer
+        // ---- Animated 5-step reveal ----
+        // 0) Question types in (small bubble at top, ~600ms)
+        const qSpeed = Math.max(18, Math.min(28, 900 / scene.q.length));
+        typewrite(qEl, scene.q, qSpeed).then(() => {
+          // 1) Headline types in shortly after the question finishes
           track(setTimeout(() => {
-            aiBody.innerHTML = `<p class="mc-answer">${streamHTML(scene.a)}</p>`;
-          }, 700));
-          // 3) Render chart card
+            revealStep(sceneEl, 'headline');
+            typewriteHeadline(headlineEl, scene.headline);
+          }, 200));
+
+          // 2) Chart mounts (so its internal SVG animations start now) and reveals
           track(setTimeout(() => {
-            const card = document.createElement('div');
-            card.className = 'mc-chart-card';
-            card.innerHTML = renderChart(scene.chart);
-            sceneEl.appendChild(card);
-            if (scene.chart.type === 'donut') activateDonut(card);
-          }, 1500));
-          // 4) Insight + action
+            chartEl.innerHTML = renderChart(scene.chart);
+            revealStep(sceneEl, 'chart');
+            if (scene.chart.type === 'donut') activateDonut(chartEl);
+          }, 1100));
+
+          // 3) KPI tiles slide in and start counting up
           track(setTimeout(() => {
-            const ins = document.createElement('div');
-            ins.className = 'mc-insight';
-            ins.innerHTML = scene.insight;
-            sceneEl.appendChild(ins);
-            const btn = document.createElement('button');
-            btn.className = 'mc-action-btn';
-            btn.innerHTML = scene.action + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-            btn.addEventListener('click', () => document.querySelector('#playground').scrollIntoView({ behavior: 'smooth' }));
-            sceneEl.appendChild(btn);
-          }, 2300));
+            revealStep(sceneEl, 'kpis');
+            const tiles = kpisEl.querySelectorAll('.dossier-kpi');
+            tiles.forEach((tile, n) => {
+              setTimeout(() => animateKpiTile(tile, scene.kpis[n]), n * 130);
+            });
+          }, 2400));
+
+          // 4) Root-cause card slides in
+          track(setTimeout(() => {
+            revealStep(sceneEl, 'rootcause');
+          }, 3100));
+
+          // 5) Action row appears, button starts pulsing
+          track(setTimeout(() => {
+            revealStep(sceneEl, 'action');
+          }, 3450));
         });
 
         // Schedule next scene
         nextTimer = setTimeout(() => {
           if (!running) return;
           if (paused) {
-            // re-check periodically
             nextTimer = setTimeout(() => playScene(idx + 1), 1500);
             return;
           }
-          // Fade out current scene then play next
           if (sceneEl) sceneEl.classList.add('exiting');
           track(setTimeout(() => playScene(idx + 1), 280));
         }, SCENE_DURATION);
