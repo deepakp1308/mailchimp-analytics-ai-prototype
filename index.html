@@ -2128,6 +2128,12 @@
   }
   .price-card .features li.ai-feat::before { content: '✦'; color: var(--mc-teal-dark); }
   .price-card .features li.ai-feat strong { color: var(--mc-teal-dark); }
+  .price-card .features li.ai-feat-muted::before { content: '✦'; color: var(--mc-text-muted); opacity: 0.6; }
+  .price-card .features li.ai-feat-muted { color: var(--mc-text-muted); }
+  .price-card .price-helper { font-size: 13px; color: var(--mc-text-muted); margin-bottom: 16px; }
+  .price-card .contact-select-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--mc-text-muted); margin-bottom: 4px; }
+  .price-card .contact-select-spacer { height: 56px; margin-bottom: 16px; }
+  .price-card .price-prefix { font-size: 13px; color: var(--mc-text-muted); display: block; margin-bottom: 4px; }
   .price-card .btn-card {
     width: 100%; padding: 12px; border-radius: var(--radius-sm);
     font-weight: 600; font-size: 14px; cursor: pointer; border: none;
@@ -2175,7 +2181,8 @@
     max-width: 1200px; margin: 32px auto 0; max-height: 0; overflow: hidden;
     transition: max-height 0.5s;
   }
-  .compare-table-wrap.open { max-height: 1500px; }
+  .compare-table-wrap.open { max-height: 5000px; }
+  .compare-footnote { color: var(--mc-text-muted); font-size: 12px; text-align: center; margin: 16px auto 0; max-width: 1000px; line-height: 1.55; }
   .compare-table {
     width: 100%; background: white; border-radius: var(--radius-lg);
     border: 1px solid var(--mc-border); border-collapse: collapse; overflow: hidden;
@@ -4990,99 +4997,143 @@
   </div>
 </section>
 
-<!-- ===== IN-PAGE PRICING MODULE (QBO pattern) ===== -->
+<!-- ===== IN-PAGE PRICING MODULE ===== -->
 <section class="pricing-section" id="pricing">
   <h2>Find the right plan</h2>
-  <p class="sub">Try Analytics AI free for 14 days. Cancel or downgrade anytime.</p>
+  <p class="sub">Start free, scale as you grow. Every paid plan now includes Analytics AI with unlimited prompts.</p>
 
-  <div class="billing-toggle">
-    <button class="active" data-billing="annual">Annual <span class="save-badge">Save 20%</span></button>
-    <button data-billing="monthly">Monthly</button>
+  <div class="pricing-controls">
+    <div class="billing-toggle">
+      <button class="active" data-billing="annual">Annual <span class="save-badge">Save 20%</span></button>
+      <button data-billing="monthly">Monthly</button>
+    </div>
   </div>
 
   <div class="pricing-grid">
     <!-- Free -->
-    <div class="price-card">
+    <div class="price-card" data-tier="free">
       <div class="tier-name">Free</div>
-      <div class="tier-desc">Get started with the basics</div>
-      <div class="price-row"><span class="price">$0</span> <span class="price-period">/mo</span></div>
-      <select class="contact-select"><option>Up to 500 contacts</option></select>
+      <div class="tier-desc">Easily create email campaigns and learn more about your customers.</div>
+      <div class="price-row">
+        <span class="price">$0</span>
+        <span class="price-period">/month</span>
+      </div>
+      <div class="price-helper">Limit of 500 contacts</div>
+      <div class="contact-select-spacer"></div>
       <ul class="features">
-        <li>Email Marketing &amp; SMS</li>
-        <li>Basic reports</li>
-        <li>Pre-built templates</li>
-        <li>1 audience</li>
+        <li>1 audience, 1 user seat</li>
+        <li>1,000 monthly email sends, 500 per day</li>
+        <li>Pre-built email templates &amp; landing pages</li>
+        <li>Marketing CRM &amp; basic reporting</li>
+        <li>30 days of email support</li>
+        <li class="ai-feat-muted">Analytics AI: explore with sample data</li>
       </ul>
-      <a href="#" class="btn-card outline">Sign up free</a>
+      <a href="#" class="btn-card outline">Sign Up Free</a>
       <div class="btn-secondary-link">No credit card required</div>
     </div>
 
     <!-- Essentials -->
-    <div class="price-card">
+    <div class="price-card"
+         data-tier="essentials"
+         data-annual='{"500":"10.40","1500":"17.60","2500":"25.60","5000":"48","10000":"80"}'
+         data-monthly='{"500":"13","1500":"22","2500":"32","5000":"60","10000":"100"}'>
       <div class="tier-name">Essentials</div>
-      <div class="tier-desc">Email essentials for growing teams</div>
+      <div class="tier-desc">Send the right content at the right time with testing and scheduling features.</div>
       <div class="price-row">
         <span class="price-strike">$13</span>
-        <span class="price">$10.40</span> <span class="price-period">/mo</span>
+        <span class="price">$10.40</span>
+        <span class="price-period">/month</span>
       </div>
       <span class="save-tag">Save 20% with annual</span>
-      <select class="contact-select"><option>500 contacts</option><option>1,500 contacts</option><option>2,500 contacts</option></select>
+      <div class="contact-select-label">Contacts</div>
+      <select class="contact-select" aria-label="Essentials contact tier">
+        <option value="500">Up to 500</option>
+        <option value="1500">Up to 1,500</option>
+        <option value="2500">Up to 2,500</option>
+        <option value="5000">Up to 5,000</option>
+        <option value="10000">Up to 10,000</option>
+      </select>
       <ul class="features">
-        <li>All Free features</li>
-        <li>3 audiences</li>
-        <li>Email scheduling</li>
-        <li>Custom branding</li>
+        <li class="ai-feat"><strong>Analytics AI</strong> · unlimited prompts</li>
+        <li>3 audiences · 3 user seats</li>
+        <li>10x contacts in monthly email sends</li>
+        <li>A/B testing &amp; send time scheduling</li>
+        <li>Custom branding &amp; pre-built journeys</li>
+        <li>24/7 email &amp; chat support</li>
       </ul>
-      <a href="#" class="btn-card primary">Start Free Trial</a>
-      <div class="btn-secondary-link">Risk-free · No card required</div>
+      <a href="#" class="btn-card outline">Start Free Trial</a>
+      <div class="btn-secondary-link">14-day trial, no card required</div>
     </div>
 
     <!-- Standard (RECOMMENDED) -->
-    <div class="price-card recommended">
-      <div class="recommend-badge">✦ Recommended · AI included</div>
+    <div class="price-card recommended"
+         data-tier="standard"
+         data-annual='{"500":"16","1500":"24","2500":"36","5000":"60","10000":"108"}'
+         data-monthly='{"500":"20","1500":"30","2500":"45","5000":"75","10000":"135"}'>
+      <div class="recommend-badge">✦ Most popular</div>
       <div class="tier-name">Standard</div>
-      <div class="tier-desc">Smart marketing with AI built-in</div>
+      <div class="tier-desc">Sell more with personalization, optimization tools, and predictive Analytics AI.</div>
       <div class="price-row">
         <span class="price-strike">$20</span>
-        <span class="price">$16</span> <span class="price-period">/mo</span>
+        <span class="price">$16</span>
+        <span class="price-period">/month</span>
       </div>
       <span class="save-tag">Save 20% with annual</span>
-      <select class="contact-select"><option>500 contacts</option><option>1,500 contacts</option><option>5,000 contacts</option></select>
+      <div class="contact-select-label">Contacts</div>
+      <select class="contact-select" aria-label="Standard contact tier">
+        <option value="500">Up to 500</option>
+        <option value="1500">Up to 1,500</option>
+        <option value="2500">Up to 2,500</option>
+        <option value="5000">Up to 5,000</option>
+        <option value="10000">Up to 10,000</option>
+      </select>
       <ul class="features">
-        <li>All Essentials features</li>
-        <li class="ai-feat"><strong>Analytics AI</strong> (conversational Q&amp;A)</li>
-        <li class="ai-feat"><strong>Predictive insights</strong> &amp; forecasting</li>
-        <li>5 audiences · Custom reports</li>
-        <li>Dynamic content</li>
+        <li class="ai-feat"><strong>Analytics AI</strong> · unlimited prompts</li>
+        <li class="ai-feat"><strong>Predictive insights</strong> &amp; revenue forecasting</li>
+        <li>5 audiences · 5 user seats</li>
+        <li>12x contacts in monthly email sends</li>
+        <li>Customer journey builder &amp; dynamic content</li>
+        <li>Personalized onboarding session</li>
       </ul>
       <a href="#" class="btn-card primary">Start Free Trial</a>
-      <div class="btn-secondary-link">14-day trial · No card required</div>
+      <div class="btn-secondary-link">14-day trial, no card required</div>
     </div>
 
     <!-- Premium -->
-    <div class="price-card">
+    <div class="price-card"
+         data-tier="premium"
+         data-annual='{"10000":"280","50000":"640","100000":"1040","200000":"1840"}'
+         data-monthly='{"10000":"350","50000":"800","100000":"1300","200000":"2300"}'>
       <div class="tier-name">Premium</div>
-      <div class="tier-desc">Advanced controls for scale</div>
+      <div class="tier-desc">Our most advanced tools, unlimited contacts, and priority support, built for teams.</div>
       <div class="price-row">
         <span class="price-strike">$350</span>
-        <span class="price">$280</span> <span class="price-period">/mo</span>
+        <span class="price">$280</span>
+        <span class="price-period">/month</span>
       </div>
       <span class="save-tag">Save 20% with annual</span>
-      <select class="contact-select"><option>10,000 contacts</option><option>50,000 contacts</option><option>100,000+ contacts</option></select>
+      <div class="contact-select-label">Contacts</div>
+      <select class="contact-select" aria-label="Premium contact tier">
+        <option value="10000">Up to 10,000</option>
+        <option value="50000">Up to 50,000</option>
+        <option value="100000">Up to 100,000</option>
+        <option value="200000">Up to 200,000</option>
+      </select>
       <ul class="features">
-        <li>All Standard features</li>
-        <li class="ai-feat"><strong>Analytics AI Premium</strong> (free)</li>
-        <li>Unlimited audiences</li>
-        <li>Premium migration services</li>
-        <li>4 onboarding sessions</li>
+        <li class="ai-feat"><strong>Analytics AI</strong> · unlimited prompts</li>
+        <li class="ai-feat"><strong>Custom AI dashboards</strong> &amp; team workspaces</li>
+        <li>Unlimited audiences &amp; user seats</li>
+        <li>15x contacts in monthly email sends</li>
+        <li>Advanced segmentation &amp; multivariate testing</li>
+        <li>Phone &amp; priority support · 4 onboarding sessions</li>
       </ul>
-      <a href="#" class="btn-card primary">Buy now</a>
-      <div class="btn-secondary-link"><a href="#">Or request a demo →</a></div>
+      <a href="#" class="btn-card primary">Buy Now</a>
+      <div class="btn-secondary-link"><a href="#">Or talk to sales for custom pricing</a></div>
     </div>
   </div>
 
   <div class="pricing-footer">
-    <p>Risk-Free · No Credit Card Required · Cancel anytime</p>
+    <p>Risk free, no credit card required to try. Cancel or downgrade anytime.</p>
     <button class="compare-toggle" id="compareToggle">Compare all features ▾</button>
   </div>
 
@@ -5090,7 +5141,7 @@
     <table class="compare-table">
       <thead>
         <tr>
-          <th style="width:40%;">Feature</th>
+          <th style="width:36%;">Feature</th>
           <th>Free</th>
           <th>Essentials</th>
           <th>Standard</th>
@@ -5098,27 +5149,46 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="section-row"><td colspan="5">Core</td></tr>
-        <tr><td>Audiences</td><td>1</td><td>3</td><td>5</td><td>Unlimited</td></tr>
-        <tr><td>Users</td><td>1</td><td>3</td><td>5</td><td>Unlimited</td></tr>
-        <tr><td>Email scheduling</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
-
         <tr class="section-row"><td colspan="5">✦ Analytics AI</td></tr>
-        <tr><td>Conversational Q&amp;A</td><td class="no">—</td><td>Add-on (70% off)</td><td class="check">Included</td><td class="check">Included</td></tr>
-        <tr><td>Predictive insights</td><td class="no">—</td><td>Add-on</td><td class="check">✓</td><td class="check">✓</td></tr>
-        <tr><td>Revenue forecasting</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Conversational Q&amp;A, unlimited prompts</td><td class="no">Sample data only</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Predictive insights</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Revenue forecasting</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Auto-generated daily insight cards</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
         <tr><td>Custom AI dashboards</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td></tr>
+        <tr><td>Team workspaces &amp; saved prompt library</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td></tr>
 
-        <tr class="section-row"><td colspan="5">Reporting</td></tr>
-        <tr><td>Basic reports</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
-        <tr><td>Custom reports</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
-        <tr><td>A/B testing</td><td class="no">—</td><td>Limited</td><td class="check">Multivariate</td><td class="check">Multivariate</td></tr>
+        <tr class="section-row"><td colspan="5">Email &amp; SMS</td></tr>
+        <tr><td>Marketing emails</td><td>1,000 / month</td><td>10x contacts</td><td>12x contacts</td><td>15x contacts</td></tr>
+        <tr><td>Send time scheduling</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>SMS &amp; MMS</td><td class="no">—</td><td>SMS add-on</td><td>SMS &amp; MMS add-on</td><td>SMS &amp; MMS add-on</td></tr>
+        <tr><td>Pre-built &amp; custom templates</td><td>Pre-built only</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Custom-coded HTML templates</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
 
-        <tr class="section-row"><td colspan="5">Support</td></tr>
-        <tr><td>Onboarding sessions</td><td class="no">—</td><td class="no">—</td><td>1</td><td>4</td></tr>
-        <tr><td>24/7 support</td><td>Email</td><td>Email + chat</td><td class="check">All channels</td><td class="check">Phone + dedicated</td></tr>
+        <tr class="section-row"><td colspan="5">Audience &amp; segmentation</td></tr>
+        <tr><td>Audiences</td><td>1</td><td>3</td><td>5</td><td>Unlimited</td></tr>
+        <tr><td>User seats</td><td>1</td><td>3</td><td>5</td><td>Unlimited</td></tr>
+        <tr><td>Roles &amp; permissions</td><td class="no">—</td><td>2 roles</td><td>4 roles</td><td>5 roles</td></tr>
+        <tr><td>Predictive segmentation</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Advanced segmentation builder</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td></tr>
+
+        <tr class="section-row"><td colspan="5">Automation &amp; testing</td></tr>
+        <tr><td>Marketing automation flows</td><td>Up to 4 steps</td><td>Up to 200 flows</td><td>Up to 200 flows</td><td>Up to 200 flows</td></tr>
+        <tr><td>A/B testing</td><td class="no">—</td><td>Subject &amp; content</td><td class="check">Multivariate</td><td class="check">Multivariate</td></tr>
+        <tr><td>Dynamic content</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+
+        <tr class="section-row"><td colspan="5">Insights &amp; reporting</td></tr>
+        <tr><td>Marketing CRM &amp; basic reports</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Comparative reporting</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Custom reports &amp; ROI tracking</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+
+        <tr class="section-row"><td colspan="5">Support &amp; services</td></tr>
+        <tr><td>Email &amp; chat support</td><td>Email, first 30 days</td><td class="check">24/7 email &amp; chat</td><td class="check">24/7 email &amp; chat</td><td class="check">24/7 email &amp; chat</td></tr>
+        <tr><td>Phone &amp; priority support</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td></tr>
+        <tr><td>Personalized onboarding</td><td class="no">—</td><td class="no">—</td><td>1 session</td><td>4 sessions</td></tr>
+        <tr><td>Premium migration services</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="check">✓</td></tr>
       </tbody>
     </table>
+    <p class="compare-footnote">Prices shown in USD with annual billing discount applied where available. Plans for 200,000+ contacts are available, contact sales for a custom quote. Overages apply if contact or email send limits are exceeded.</p>
   </div>
 </section>
 
@@ -5532,35 +5602,64 @@
     if (e.key === 'Enter') document.getElementById('sendBtn').click();
   });
 
-  /* ============== Billing toggle ============== */
+  /* ============== Billing toggle + per-card contact-tier pricing ============== */
+  function isAnnualBilling() {
+    const activeBtn = document.querySelector('.billing-toggle button.active');
+    return !activeBtn || activeBtn.dataset.billing === 'annual';
+  }
+
+  function safeParseJSON(str) {
+    if (!str) return null;
+    try { return JSON.parse(str); } catch (e) { return null; }
+  }
+
+  function updatePriceCard(card) {
+    if (!card) return;
+    const annualMap = safeParseJSON(card.dataset.annual);
+    const monthlyMap = safeParseJSON(card.dataset.monthly);
+    if (!annualMap || !monthlyMap) return; // free or static cards: nothing to update
+    const select = card.querySelector('.contact-select');
+    const tier = select ? select.value : Object.keys(annualMap)[0];
+    const annualPrice = annualMap[tier];
+    const monthlyPrice = monthlyMap[tier];
+    if (annualPrice == null || monthlyPrice == null) return;
+    const annual = isAnnualBilling();
+    const priceEl = card.querySelector('.price');
+    const strikeEl = card.querySelector('.price-strike');
+    const saveTag = card.querySelector('.save-tag');
+    if (priceEl) priceEl.textContent = '$' + (annual ? annualPrice : monthlyPrice);
+    if (strikeEl) strikeEl.textContent = annual ? '$' + monthlyPrice : '';
+    if (saveTag) saveTag.style.display = annual ? 'inline-block' : 'none';
+  }
+
+  function updateAllPriceCards() {
+    document.querySelectorAll('.price-card').forEach(updatePriceCard);
+  }
+
   document.querySelectorAll('.billing-toggle button').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.billing-toggle button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const isAnnual = btn.dataset.billing === 'annual';
-      // Update prices (demo: just toggle visible amounts)
-      const priceCards = document.querySelectorAll('.price-card');
-      const annualPrices = ['$0', '$10.40', '$16', '$280'];
-      const monthlyPrices = ['$0', '$13', '$20', '$350'];
-      const strikePrices = ['', '$13', '$20', '$350'];
-      priceCards.forEach((card, i) => {
-        const priceEl = card.querySelector('.price');
-        const strikeEl = card.querySelector('.price-strike');
-        const saveTag = card.querySelector('.save-tag');
-        if (priceEl) priceEl.textContent = isAnnual ? annualPrices[i] : monthlyPrices[i];
-        if (strikeEl) strikeEl.textContent = isAnnual ? strikePrices[i] : '';
-        if (saveTag) saveTag.style.display = isAnnual ? 'inline-block' : 'none';
-      });
+      updateAllPriceCards();
     });
   });
 
-  /* ============== Compare features toggle ============== */
-  document.getElementById('compareToggle').addEventListener('click', () => {
-    const wrap = document.getElementById('compareTableWrap');
-    const btn = document.getElementById('compareToggle');
-    wrap.classList.toggle('open');
-    btn.textContent = wrap.classList.contains('open') ? 'Hide feature comparison ▴' : 'Compare all features ▾';
+  document.querySelectorAll('.price-card .contact-select').forEach(sel => {
+    sel.addEventListener('change', () => updatePriceCard(sel.closest('.price-card')));
   });
+
+  /* ============== Compare features toggle ============== */
+  const compareToggleBtn = document.getElementById('compareToggle');
+  if (compareToggleBtn) {
+    compareToggleBtn.addEventListener('click', () => {
+      const wrap = document.getElementById('compareTableWrap');
+      if (!wrap) return;
+      wrap.classList.toggle('open');
+      compareToggleBtn.textContent = wrap.classList.contains('open')
+        ? 'Hide feature comparison ▴'
+        : 'Compare all features ▾';
+    });
+  }
 
   /* ============== FAQ accordion ============== */
   document.querySelectorAll('.faq-item').forEach(item => {
