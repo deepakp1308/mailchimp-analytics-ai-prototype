@@ -387,40 +387,7 @@
     .trust-live::before { animation: none !important; }
   }
 
-  /* ---------- AI agent avatars: Intuit Intelligence wheel (transparent, animated) ---------- */
-  .ai-avatar img,
-  .vc-a .ava img,
-  .vc-thinking-row .ava img,
-  .message.ai .ai-avatar img {
-    width: 100%; height: 100%; display: block;
-  }
-  .ia-pill img,
-  .vc-demo-toolbar .vc-pill img {
-    width: 13px; height: 13px; display: inline-block; flex-shrink: 0;
-  }
   .chart-empty .small-spark img { width: 100%; height: 100%; display: block; }
-  /* Spin every wheel mark (transparent PNG) — Mailchimp brand wheel */
-  .ai-avatar img,
-  .vc-a .ava img,
-  .vc-thinking-row .ava img,
-  .message.ai .ai-avatar img,
-  .ia-pill img,
-  .vc-demo-toolbar .vc-pill img,
-  .ai-wheel {
-    animation: aiWheelSpin 6s linear infinite;
-    transform-origin: 50% 50%;
-    will-change: transform;
-  }
-  @keyframes aiWheelSpin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) {
-    .ai-avatar img,
-    .vc-a .ava img,
-    .vc-thinking-row .ava img,
-    .message.ai .ai-avatar img,
-    .ia-pill img,
-    .vc-demo-toolbar .vc-pill img,
-    .ai-wheel { animation: none !important; }
-  }
 
   /* ---------- Intuit Assist sparkle (multi-pointed star) ---------- */
   .ia-spark {
@@ -767,18 +734,12 @@
   }
 
   .message.ai {
-    display: flex; gap: 14px; align-items: flex-start;
+    display: block;
   }
-  .message.ai .ai-avatar {
-    width: 30px; height: 30px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .message.ai .ai-avatar svg { width: 18px; height: 18px; }
   .message.ai .bubble {
     color: rgba(255,255,255,0.92);
     font-size: 15px;
     line-height: 1.65;
-    flex: 1;
     padding-top: 4px;
   }
   .message.ai .bubble strong { color: white; font-weight: 600; }
@@ -2917,10 +2878,7 @@
     <!-- Cinematic auto-playing demo: typewriter prompt → thinking → streaming answer → animated chart -->
     <div class="vc-demo" id="vcDemo">
       <div class="vc-demo-toolbar">
-        <span class="vc-pill">
-          <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
-          Analytics AI
-        </span>
+        <span class="vc-pill">Analytics AI</span>
       </div>
       <div class="vc-scene-stage" id="vcStage" aria-live="polite">
         <!-- Scenes are rendered dynamically by the controller below -->
@@ -2952,7 +2910,7 @@
        Shared dazzle: scene catalogue + chart renderers used by
        Variant C (cinematic autoplay)
        ============================================================ */
-    const AVATAR_SVG = '<img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>';
+    const AVATAR_SVG = '';
 
     /* ============================================================
        Dossier scene catalogue (Option C — Rich answer dossier)
@@ -3712,10 +3670,7 @@
       <div class="playground-toolbar">
         <div class="toolbar-dots"><span></span><span></span><span></span></div>
         <div class="playground-title">
-          <span class="ia-pill">
-            <img src="assets/intuit-intelligence-wheel.png" alt="" aria-hidden="true"/>
-            Analytics AI
-          </span>
+          <span class="ia-pill">Analytics AI</span>
           <span id="playgroundTitle">Oat Lord · Live demo</span>
         </div>
         <div style="width: 60px;"></div>
@@ -3724,9 +3679,6 @@
         <div class="chat-pane">
           <div class="chat-messages" id="chatMessages">
             <div class="message ai">
-              <div class="ai-avatar">
-                <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
-              </div>
               <div class="bubble">
                 <p>I'm Analytics AI. I have access to <strong id="datasetName">Oat Lord's</strong> last 6 months of marketing data: campaigns, audience segments, revenue, and automations.</p>
                 <p style="color: rgba(255,255,255,0.6);">Pick a question below or type your own to get started.</p>
@@ -5460,9 +5412,6 @@
     datasetName.textContent = personas[p].dataset;
     chatMessages.innerHTML = `
       <div class="message ai">
-        <div class="ai-avatar">
-          <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
-        </div>
         <div class="bubble">
           <p>I'm Analytics AI. I have access to <strong>${personas[p].dataset}</strong> last 6 months of marketing data: campaigns, audience segments, revenue, and automations.</p>
           <p style="color: rgba(255,255,255,0.6);">Pick a question below or type your own to get started.</p>
@@ -5492,9 +5441,6 @@
     const aiMsg = document.createElement('div');
     aiMsg.className = 'message ai';
     aiMsg.innerHTML = `
-      <div class="ai-avatar">
-        <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
-      </div>
       <div class="bubble"><span class="typing-cursor"></span></div>`;
     chatMessages.appendChild(aiMsg);
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -6022,9 +5968,6 @@
 
     chatMessages.innerHTML = `
       <div class="message ai">
-        <div class="ai-avatar">
-          <img src="assets/intuit-intelligence-wheel.png" alt="Intuit Intelligence"/>
-        </div>
         <div class="bubble">
           <p>Connected to <strong>${escapeHtml(sourceName)}</strong>. I detected <strong>${cols.length} columns</strong> across <strong>${rows.length} rows</strong>, including ${cols.slice(0, 4).map(c => `<code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;">${escapeHtml(c)}</code>`).join(', ')}${cols.length > 4 ? ', and more' : ''}.</p>
           <p style="color:rgba(255,255,255,0.6);">I've prepared <strong>${questions.length} questions</strong> tailored to your dataset. Pick one below, or ask your own.</p>
