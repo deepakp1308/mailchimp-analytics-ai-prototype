@@ -4720,50 +4720,56 @@
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  /* ----- Google Sheets connect (uses CSV export endpoint) ----- */
-  const gsheetUrl = document.getElementById('gsheetUrl');
+  /* ----- Google Sheets connect (uses CSV export endpoint) -----
+     NOTE: The Google Sheets tab/panel was removed in 7c53dcd. This block
+     only wires up the Connect button if the element actually exists in
+     the DOM, so a missing node doesn't abort the rest of the script
+     (which would prevent renderSuggested() from running on init). */
   const gsheetConnect = document.getElementById('gsheetConnect');
-  const gsheetError = document.getElementById('gsheetError');
-  const gsheetPreview = document.getElementById('gsheetPreview');
+  if (gsheetConnect) {
+    const gsheetUrl = document.getElementById('gsheetUrl');
+    const gsheetError = document.getElementById('gsheetError');
+    const gsheetPreview = document.getElementById('gsheetPreview');
 
-  gsheetConnect.addEventListener('click', () => {
-    const url = gsheetUrl.value.trim();
-    if (!url) { showError(gsheetError, 'Please paste a Google Sheets URL first.'); return; }
-    const m = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-    if (!m) { showError(gsheetError, 'That doesn\'t look like a Google Sheets link.'); return; }
-    const id = m[1];
-    const gidMatch = url.match(/[#&]gid=([0-9]+)/);
-    const gid = gidMatch ? gidMatch[1] : '0';
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
+    gsheetConnect.addEventListener('click', () => {
+      const url = gsheetUrl.value.trim();
+      if (!url) { showError(gsheetError, 'Please paste a Google Sheets URL first.'); return; }
+      const m = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (!m) { showError(gsheetError, 'That doesn\'t look like a Google Sheets link.'); return; }
+      const id = m[1];
+      const gidMatch = url.match(/[#&]gid=([0-9]+)/);
+      const gid = gidMatch ? gidMatch[1] : '0';
+      const csvUrl = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
 
-    gsheetConnect.textContent = 'Connecting…';
-    gsheetConnect.disabled = true;
+      gsheetConnect.textContent = 'Connecting…';
+      gsheetConnect.disabled = true;
 
-    fetch(csvUrl)
-      .then(r => {
-        if (!r.ok) throw new Error('Sheet is not publicly accessible (status ' + r.status + ').');
-        return r.text();
-      })
-      .then(csv => {
-        Papa.parse(csv, {
-          header: true, skipEmptyLines: true, dynamicTyping: true,
-          complete: (results) => {
-            const rows = results.data;
-            if (!rows.length) { showError(gsheetError, 'Sheet appears to be empty.'); return; }
-            const cols = Object.keys(rows[0]);
-            renderDataPreview(rows, cols, gsheetPreview, document.getElementById('gsheetTable'), document.getElementById('gsheetMeta'), 'Google Sheet');
-            activateCustomPersona(rows, cols, 'Google Sheet');
-          }
+      fetch(csvUrl)
+        .then(r => {
+          if (!r.ok) throw new Error('Sheet is not publicly accessible (status ' + r.status + ').');
+          return r.text();
+        })
+        .then(csv => {
+          Papa.parse(csv, {
+            header: true, skipEmptyLines: true, dynamicTyping: true,
+            complete: (results) => {
+              const rows = results.data;
+              if (!rows.length) { showError(gsheetError, 'Sheet appears to be empty.'); return; }
+              const cols = Object.keys(rows[0]);
+              renderDataPreview(rows, cols, gsheetPreview, document.getElementById('gsheetTable'), document.getElementById('gsheetMeta'), 'Google Sheet');
+              activateCustomPersona(rows, cols, 'Google Sheet');
+            }
+          });
+        })
+        .catch(err => {
+          showError(gsheetError, err.message + ' Make sure the sheet is set to "Anyone with the link can view".');
+        })
+        .finally(() => {
+          gsheetConnect.textContent = 'Connect';
+          gsheetConnect.disabled = false;
         });
-      })
-      .catch(err => {
-        showError(gsheetError, err.message + ' Make sure the sheet is set to "Anyone with the link can view".');
-      })
-      .finally(() => {
-        gsheetConnect.textContent = 'Connect';
-        gsheetConnect.disabled = false;
-      });
-  });
+    });
+  }
 
   /* ============================================================ */
   /* ============== ANALYSIS ENGINE for uploaded data ============ */
